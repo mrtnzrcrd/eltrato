@@ -1,0 +1,11 @@
+<section data-ng-controller="AnunciosController" data-ng-init="find()">
+	<ul class="anuncios unstyled">
+		<li data-ng-repeat="anuncio in anuncios">
+			<span>{{anuncio.created | date:'medium'}}</span> /
+			<span>{{anuncio.user.name}}</span>
+			<h2><a data-ng-href="#!/anuncios/{{anuncio._id}}">{{anuncio.title}}</a></h2>
+			<div>{{anuncio.content}}</div>
+		</li>
+	</ul>
+	<h1 data-ng-hide="!anuncios || anuncios.length">No anuncios yet. <br> Why don't you <a href="/#!/anuncios/create">Create One</a>?</h1>
+</section>
