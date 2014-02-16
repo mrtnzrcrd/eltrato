@@ -15,12 +15,12 @@ var AnuncioSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    title: {
+    descripcion: {
         type: String,
         default: '',
         trim: true
     },
-    content: {
+    tags: {
         type: String,
         default: '',
         trim: true
@@ -34,9 +34,9 @@ var AnuncioSchema = new Schema({
 /**
  * Validations
  */
-AnuncioSchema.path('title').validate(function(title) {
-    return title.length;
-}, 'Title cannot be blank');
+AnuncioSchema.path('descripcion').validate(function(descripcion) {
+    return descripcion.length;
+}, 'Descripcion cannot be blank');
 
 /**
  * Statics

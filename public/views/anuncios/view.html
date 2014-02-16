@@ -1,7 +1,7 @@
 <section data-ng-controller="AnunciosController" data-ng-init="findOne()">
     <span>{{anuncio.created | date:'medium'}}</span> /
     <span>{{anuncio.user.name}}</span>
-    <h2>{{anuncio.title}}</h2>
+    <h2>{{anuncio.descripcion}}</h2>
     <div data-ng-show="global.user._id == anuncio.user._id">
         <a class="btn" href="/#!/anuncios/{{anuncio._id}}/edit">
         	<i class="glyphicon glyphicon-edit"></i>
@@ -10,5 +10,5 @@
             <i class="glyphicon glyphicon-trash"></i>
         </a>
     </div>
-    <div>{{anuncio.content}}</div>
+    <div>{{anuncio.tags}}</div>
 </section>

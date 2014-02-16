@@ -5,15 +5,15 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
 
     $scope.create = function() {
         var anuncio = new Anuncios({
-            title: this.title,
-            content: this.content
+            descripcion: this.descripcion,
+            tags: this.tags
         });
         anuncio.$save(function(response) {
             $location.path('anuncios/' + response._id);
         });
 
-        this.title = '';
-        this.content = '';
+        this.descripcion = '';
+        this.tags = '';
     };
 
     $scope.remove = function(anuncio) {
