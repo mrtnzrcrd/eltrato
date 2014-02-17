@@ -6,7 +6,8 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
     $scope.create = function() {
         var anuncio = new Anuncios({
             descripcion: this.descripcion,
-            tags: this.tags
+            tags: this.tags,
+            precio: this.precio
         });
         anuncio.$save(function(response) {
             $location.path('anuncios/' + response._id);

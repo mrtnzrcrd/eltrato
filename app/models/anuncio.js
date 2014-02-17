@@ -21,8 +21,13 @@ var AnuncioSchema = new Schema({
         trim: true
     },
     tags: {
-        type: String,
+        type: Array,
         default: '',
+        trim: true
+    },
+    precio: {
+        type: Number,
+        default: 0,
         trim: true
     },
     user: {
