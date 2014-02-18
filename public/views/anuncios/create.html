@@ -1,6 +1,7 @@
 <section data-ng-controller="AnunciosController">
     <div class="page-header" style="margin: 20px 0 20px">
         <h1>Publicar nuevo anuncio</h1>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>{{alert.msg}}</alert>
     </div>
 	<form class="form-horizontal col-md-6" role="form" data-ng-submit="create()">
 		<div class="form-group">
@@ -29,7 +30,7 @@
 	</form>
     <div class="col-md-6">
         <div class="bs-callout bs-callout-warning" style="margin: 0;">
-            <h4>Como publicar correctamente tu articulo (PRUEBA)</h4>
+            <h4>Como publicar correctamente tu anuncio (PRUEBA)</h4>
             <ul>
                 <li>
                     eltrato.net funciona con busqueda de <b>Hastags "#"</b>, así que cuando vayas a poner la descripción de tu articulo,

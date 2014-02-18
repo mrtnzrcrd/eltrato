@@ -3,18 +3,32 @@
 angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$location', 'Global', 'Anuncios', function ($scope, $routeParams, $location, Global, Anuncios) {
     $scope.global = Global;
 
+
+
     $scope.create = function() {
+        console.log(this.descripcion);
+
         var anuncio = new Anuncios({
             descripcion: this.descripcion,
-            tags: this.tags,
             precio: this.precio
         });
+
         anuncio.$save(function(response) {
-            $location.path('anuncios/' + response._id);
+            if (!response.errorTag) {
+                $location.path('#!/anuncios/' + response._id);
+            } else {
+                $scope.alerts = [ { type: 'danger', title: 'Error al insertar el anuncio', msg: response.errorTag }];
+                $scope.model = {precio : response.anuncio.precio};
+                $scope.model = {descripcion : response.anuncio.descripcion};
+            }
         });
 
         this.descripcion = '';
         this.tags = '';
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
     };
 
     $scope.remove = function(anuncio) {
