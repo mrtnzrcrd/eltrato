@@ -30,6 +30,11 @@ var AnuncioSchema = new Schema({
         default: 0,
         trim: true
     },
+    images: {
+        type: Array,
+        default: '',
+        trim: true
+    },
     user: {
         type: Schema.ObjectId,
         ref: 'User'

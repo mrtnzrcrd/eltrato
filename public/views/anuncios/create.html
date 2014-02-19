@@ -1,84 +1,97 @@
 <section data-ng-controller="AnunciosController">
     <div class="page-header" style="margin: 20px 0 20px">
         <h1>Publicar nuevo anuncio</h1>
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>{{alert.msg}}</alert>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>
+            {{alert.msg}}
+        </alert>
     </div>
     <div class="row">
-	<form class="form-horizontal col-md-6" role="form" data-ng-submit="create()">
-		<div class="form-group">
-			<label for="descripcion" class="col-md-2 control-label">Descripción</label>
-			<div class="col-md-10">
-				<textarea data-ng-model="descripcion" id="descripcion" cols="30" rows="10" placeholder="Descripcion" class="form-control" required></textarea>
-			</div>
-		</div>
-        <div class="form-group">
-            <label for="precio" class="col-md-2 control-label">Precio</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" data-ng-model="precio" id="precio" placeholder="Precio">
+        <form class="form-horizontal col-md-6" role="form" data-ng-submit="create()">
+            <div class="form-group">
+                <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+
+                <div class="col-md-10">
+                    <textarea data-ng-model="descripcion" id="descripcion" cols="30" rows="10" placeholder="Descripcion"
+                              class="form-control" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="precio" class="col-md-2 control-label">Precio</label>
+
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="precio" id="precio" placeholder="Precio">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="foto" class="col-md-2 control-label">Fotos</label>
+
+                <div class="col-md-10">
+                    <input upload type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
+                           data-ng-model="foto" id="foto" placeholder="Fotos" multiple ng-disabled="fotoActivo">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+                </div>
+            </div>
+        </form>
+        <div class="col-md-6">
+            <div class="bs-callout bs-callout-warning" style="margin: 0;">
+                <h4>Como publicar correctamente tu anuncio (PRUEBA)</h4>
+                <ul>
+                    <li>
+                        eltrato.net funciona con busqueda de <b>Hastags "#"</b>, así que cuando vayas a poner la
+                        descripción de tu articulo,
+                        tendrás que poner un # en aquellas palabras claves por las que quieres que tu articulo sea
+                        buscado.
+                    </li>
+                    <li>
+                        Un Ejemplo sería el siguiente, si vamos a poner a la venta un coche pondriamos el siguiente
+                        anuncio:
+                        Vendo #Honda #civic #rojo 1.6 #vti en la provincia de #Barcelona. El coche tiene 240000 km, muy
+                        cuidado, siempre en garage etc..
+                    </li>
+                    <li>
+                        Con el ejemplo que tenemos, cualquier persona que busque en nuestro buscador la palabra (No
+                        distinguimos mayusculas de minusculas, así que no influye en la busqueda)
+                        honda, civic, rojo, vti o Barcelona, le aparecera tu anuncio.
+
+                        Esperamos haberte podido ayudar, pero si aún tienes dudas no dudes en ponerte en contacto con
+                        nosotros.
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="form-group">
-            <label for="foto" class="col-md-2 control-label">Fotos</label>
-
-            <div class="col-md-10">
-                <input upload type="file" class="form-control" name="upload" data-ng-change="cambioImagen()" data-ng-model="foto" id="foto" placeholder="Fotos" >
-            </div>
-            <p>FOTO: {{foto}}</p>
-        </div>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<button type="submit" class="btn btn-primary">Publicar</button>
-			</div>
-		</div>
-	</form>
-    <div class="col-md-6">
-        <div class="bs-callout bs-callout-warning" style="margin: 0;">
-            <h4>Como publicar correctamente tu anuncio (PRUEBA)</h4>
-            <ul>
-                <li>
-                    eltrato.net funciona con busqueda de <b>Hastags "#"</b>, así que cuando vayas a poner la descripción de tu articulo,
-                    tendrás que poner un # en aquellas palabras claves por las que quieres que tu articulo sea buscado.
-                </li>
-                <li>
-                    Un Ejemplo sería el siguiente, si vamos a poner a la venta un coche pondriamos el siguiente anuncio:
-                    Vendo #Honda #civic #rojo 1.6 #vti en la provincia de #Barcelona. El coche tiene 240000 km, muy cuidado, siempre en garage etc..
-                </li>
-                <li>
-                    Con el ejemplo que tenemos, cualquier persona que busque en nuestro buscador la palabra (No distinguimos mayusculas de minusculas, así que no influye en la busqueda)
-                    honda, civic, rojo, vti o Barcelona, le aparecera tu anuncio.
-
-                    Esperamos haberte podido ayudar, pero si aún tienes dudas no dudes en ponerte en contacto con nosotros.
-                </li>
-            </ul>
-        </div>
     </div>
-    </div>
-    <img src="{{image}}">
     <div class="row">
-        <div class="col-xs-4 col-md-2 col-md-offset-1">
-            <a href="#" class="thumbnail">
-                <img src="{{foto1}}">
-            </a>
+        <div class="col-md-offset-1">
+            <div class="col-xs-4 col-md-2" data-ng-hide="disponible1">
+                <a href="#" class="thumbnail">
+                    <img src="{{image}}">
+                </a>
+            </div>
+
+            <div class="col-xs-4 col-md-2" data-ng-hide="disponible2">
+                <a href="#" class="thumbnail">
+                    <img src="{{image2}}">
+                </a>
+            </div>
+
+            <div class="col-xs-4 col-md-2" data-ng-hide="disponible3">
+                <a href="#" class="thumbnail">
+                    <img src="{{image3}}">
+                </a>
+            </div>
+            <div class="col-xs-4 col-md-2" data-ng-hide="disponible4">
+                <a href="#" class="thumbnail">
+                    <img src="{{image4}}">
+                </a>
+            </div>
+            <div class="col-xs-4 col-md-2" data-ng-hide="disponible5">
+                <a href="#" class="thumbnail">
+                    <img src="{{image5}}">
+                </a>
+            </div>
         </div>
-        <div class="col-xs-4 col-md-2">
-            <a href="#" class="thumbnail">
-                <img src="{{foto2}}">
-            </a>
-        </div>
-        <div class="col-xs-4 col-md-2">
-            <a href="#" class="thumbnail">
-                <img src="{{foto3}}">
-            </a>
-        </div>
-        <div class="col-xs-4 col-md-2">
-            <a href="#" class="thumbnail">
-                <img src="{{foto4}}">
-            </a>
-        </div>
-        <div class="col-xs-4 col-md-2">
-            <a href="#" class="thumbnail">
-                <img src="{{foto5}}">
-            </a>
-        </div>
-    </div>
 </section>

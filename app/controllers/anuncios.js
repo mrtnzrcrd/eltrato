@@ -46,18 +46,21 @@ exports.create = function (req, res) {
 
     anuncio.tags = tempArrayTags;
 
-    anuncio.save(function (err) {
-        if (err) {
-            return res.send('users/signup', {
-                errors: err.errors,
-                anuncio: anuncio
-            });
-        } else if (tempArrayTags.length === 0) {
-            return res.jsonp({errorTag: 'Tiene que insertar al menos un #Hastag para poder insertar el anuncio', anuncio: anuncio});
-        } else {
-            res.jsonp(anuncio);
-        }
-    });
+    if (tempArrayTags.length === 0) {
+        return res.jsonp({errorTag: 'Tiene que insertar al menos un #Hastag para poder insertar el anuncio', anuncio: anuncio});
+    } else {
+        anuncio.save(function (err) {
+            if (err) {
+                return res.send('users/signup', {
+                    errors: err.errors,
+                    anuncio: anuncio
+                });
+            } else {
+                res.jsonp(anuncio);
+            }
+        });
+    }
+
 };
 
 /**

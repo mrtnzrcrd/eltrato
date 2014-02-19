@@ -7,13 +7,13 @@ window.angular.module('mean.upload', [])
             link: function (scope, elem, attrs) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    scope.image = e.target.result;
-                    scope.$apply();
+                    var image = e.target.result;
+                    scope.$emit("fileSelected", { image: image, files : elem[0].files[0]});
                 }
 
-                elem.on('change', function() {
+                elem.on('change', function () {
                     reader.readAsDataURL(elem[0].files[0]);
                 });
             }
         };
-    }]);
+    }])
