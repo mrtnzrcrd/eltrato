@@ -3,6 +3,7 @@
         <h1>Publicar nuevo anuncio</h1>
         <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>{{alert.msg}}</alert>
     </div>
+    <div class="row">
 	<form class="form-horizontal col-md-6" role="form" data-ng-submit="create()">
 		<div class="form-group">
 			<label for="descripcion" class="col-md-2 control-label">Descripción</label>
@@ -18,9 +19,11 @@
         </div>
         <div class="form-group">
             <label for="foto" class="col-md-2 control-label">Fotos</label>
+
             <div class="col-md-10">
-                <input type="text" class="form-control" data-ng-model="foto" id="foto" placeholder="Fotos">
+                <input upload type="file" class="form-control" name="upload" data-ng-change="cambioImagen()" data-ng-model="foto" id="foto" placeholder="Fotos" >
             </div>
+            <p>FOTO: {{foto}}</p>
         </div>
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
@@ -47,6 +50,35 @@
                     Esperamos haberte podido ayudar, pero si aún tienes dudas no dudes en ponerte en contacto con nosotros.
                 </li>
             </ul>
+        </div>
+    </div>
+    </div>
+    <img src="{{image}}">
+    <div class="row">
+        <div class="col-xs-4 col-md-2 col-md-offset-1">
+            <a href="#" class="thumbnail">
+                <img src="{{foto1}}">
+            </a>
+        </div>
+        <div class="col-xs-4 col-md-2">
+            <a href="#" class="thumbnail">
+                <img src="{{foto2}}">
+            </a>
+        </div>
+        <div class="col-xs-4 col-md-2">
+            <a href="#" class="thumbnail">
+                <img src="{{foto3}}">
+            </a>
+        </div>
+        <div class="col-xs-4 col-md-2">
+            <a href="#" class="thumbnail">
+                <img src="{{foto4}}">
+            </a>
+        </div>
+        <div class="col-xs-4 col-md-2">
+            <a href="#" class="thumbnail">
+                <img src="{{foto5}}">
+            </a>
         </div>
     </div>
 </section>

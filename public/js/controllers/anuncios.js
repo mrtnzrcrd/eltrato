@@ -1,9 +1,12 @@
 'use strict';
 
-angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$location', 'Global', 'Anuncios', function ($scope, $routeParams, $location, Global, Anuncios) {
+angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$location', 'Global', 'Anuncios',
+    function ($scope, $routeParams, $location, Global, Anuncios) {
     $scope.global = Global;
 
-
+    $scope.cambioImagen = function(){
+        alert("OK");
+    };
 
     $scope.create = function() {
         console.log(this.descripcion);
