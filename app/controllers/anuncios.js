@@ -175,13 +175,14 @@ exports.all = function (req, res) {
 exports.find = function (req, res) {
     console.log("{ 'query': '" + req.params.q + "' }");
     var tagsParams =  req.params.q;
-    tagsParams = tags.split(" ");
+    tagsParams = tagsParams.split(" ");
     Anuncio.find({tags: { $in : tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, mensaje) {
         if (err) {
             res.render('error', {
                 status: 500
             });
         } else {
+            console.log('Resultado: ' + mensaje);
             res.jsonp(mensaje);
         }
     });
