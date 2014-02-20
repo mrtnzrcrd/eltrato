@@ -20,6 +20,8 @@ module.exports = function(app) {
     app.put('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.update);
     app.del('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.destroy);
 
+    app.get('/anuncios/:q', anuncios.find);
+
     // Finish with setting up the anuncioId param
     app.param('anuncioId', anuncios.anuncio);
 

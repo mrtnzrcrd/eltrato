@@ -171,3 +171,18 @@ exports.all = function (req, res) {
         }
     });
 };
+
+exports.find = function (req, res) {
+    console.log("{ 'query': '" + req.params.q + "' }");
+    var tagsParams =  req.params.q;
+    tagsParams = tags.split(" ");
+    Anuncio.find({tags: { $in : tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, mensaje) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            res.jsonp(mensaje);
+        }
+    });
+};

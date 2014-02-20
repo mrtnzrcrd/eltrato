@@ -113,6 +113,7 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         };
 
         $scope.buscar = function () {
+
             Anuncios.query(function (anuncios) {
                 $scope.anuncios = anuncios;
             });
