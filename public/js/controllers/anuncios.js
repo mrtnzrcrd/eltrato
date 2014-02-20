@@ -12,32 +12,28 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         $scope.disponible4 = true;
         $scope.disponible5 = true;
 
-        $scope.cambioImagen = function () {
-            alert("OK");
-        };
-
         $scope.$on("fileSelected", function (event, args) {
             $scope.$apply(function () {
                 if (contador != 6) {
                     if (contador === 1) {
                         $scope.image = args.image;
-                        images.push(args.files);
+                        images.push(args.files.name);
                         $scope.disponible1 = false;
                     } else if (contador === 2) {
                         $scope.image2 = args.image;
-                        images.push(args.files);
+                        images.push(args.files.name);
                         $scope.disponible2 = false;
                     } else if (contador === 3) {
                         $scope.image3 = args.image;
-                        images.push(args.files);
+                        images.push(args.files.name);
                         $scope.disponible3 = false;
                     } else if (contador === 4) {
                         $scope.image4 = args.image;
-                        images.push(args.files);
+                        images.push(args.files.name);
                         $scope.disponible4 = false;
                     } else if (contador === 5) {
                         $scope.image5 = args.image;
-                        images.push(args.files);
+                        images.push(args.files.name);
                         $scope.disponible5 = false;
                         $scope.fotoActivo = true;
                     }
@@ -47,7 +43,6 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         });
 
         $scope.create = function () {
-            console.log(this.descripcion);
 
             var anuncio = new Anuncios({
                 descripcion: this.descripcion,
@@ -57,10 +52,10 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
 
             anuncio.$save(function (response) {
                 if (!response.errorTag) {
-                    $location.path('#!/anuncios/' + response._id);
+                    $location.path('anuncios/' + response._id);
                 } else {
                     $scope.alerts = [
-                        { type: 'danger', title: 'Error al insertar el anuncio', msg: response.errorTag }
+                        { type: 'danger', title: response.title, msg: response.errorTag }
                     ];
                     $scope.model = {precio: response.anuncio.precio};
                     $scope.model = {descripcion: response.anuncio.descripcion};

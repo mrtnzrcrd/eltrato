@@ -46,8 +46,57 @@ exports.create = function (req, res) {
 
     anuncio.tags = tempArrayTags;
 
-    if (tempArrayTags.length === 0) {
-        return res.jsonp({errorTag: 'Tiene que insertar al menos un #Hastag para poder insertar el anuncio', anuncio: anuncio});
+    console.log('Descripcion: ' + anuncio.descripcion);
+    console.log('Precio: ' + anuncio.precio);
+
+    console.log('Fotos: ' + anuncio.images.length);
+
+    if (anuncio.descripcion === '' && anuncio.precio === 0 && anuncio.images.length === 0) {
+        return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
+            errorTag: 'Tienes que rellenar los campos descripción, precio y añadir como minimo una imagen para poder ' +
+                'insertar tu anuncio, gracias.'});
+    } else if (tempArrayTags.length === 0 && anuncio.precio === 0 && anuncio.images.length === 0) {
+        return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
+            errorTag: 'Tienes que rellenar el campo descripción con al menos un #hastag, rellenar el campo precio y ' +
+                'añadir como minimo una imagen para poder insertar tu anuncio, gracias',
+            anuncio: anuncio});
+    } else if (anuncio.precio === 0 && anuncio.images.length === 0) {
+        return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
+            errorTag: 'Tienes que rellenar el campo precio y ' +
+                'añadir como minimo una imagen para poder insertar tu anuncio, gracias',
+            anuncio: anuncio});
+    } else if (anuncio.precio === 0 && anuncio.descripcion === '') {
+        return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
+            errorTag: 'Tienes que rellenar los campos descripción y ' +
+                'precio para poder insertar tu anuncio, gracias',
+            anuncio: anuncio});
+    } else if (anuncio.descripcion === '' && anuncio.images.length === 0) {
+        return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
+            errorTag: 'Tienes que rellenar el campo descripción y ' +
+                'añadir como minimo una imagen para poder insertar tu anuncio, gracias',
+            anuncio: anuncio});
+    } else if (tempArrayTags.length === 0 && anuncio.images.length === 0) {
+        return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
+            errorTag: 'Tienes que rellenar el campo descripción con al menos un #hastag y ' +
+                'añadir como minimo una imagen para poder insertar tu anuncio, gracias',
+            anuncio: anuncio});
+    } else if (tempArrayTags.length === 0 && anuncio.precio === 0) {
+        return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
+            errorTag: 'Tienes que rellenar el campo descripción con al menos un #hastag y ' +
+                'el campo precio para poder insertar tu anuncio, gracias',
+            anuncio: anuncio});
+    } else if (anuncio.images.length === 0) {
+        return res.jsonp({title: 'Se ha producido el siguiente error:',
+            errorTag: 'Tienes que añadir como minimo una imagen para poder insertar tu anuncio, gracias',
+            anuncio: anuncio});
+    } else if (tempArrayTags.length === 0) {
+        return res.jsonp({title: 'Se ha producido el siguiente error:',
+            errorTag: 'Tiene que insertar al menos un #Hastag para poder insertar el anuncio',
+            anuncio: anuncio});
+    } else if (anuncio.precio === 0) {
+        return res.jsonp({title: 'Se ha producido el siguiente error:',
+            errorTag: 'Tienes que introducir un precio para poder insertar tu anuncio',
+            anuncio: anuncio});
     } else {
         anuncio.save(function (err) {
             if (err) {
