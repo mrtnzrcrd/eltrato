@@ -18,9 +18,9 @@
         </form>
     </div>
     <div class="col-sm-4 col-md-4" data-ng-show="global.authenticated">
-        <form class="navbar-form navbar-left" role="search" name="search-form">
+        <form class="navbar-form navbar-left" role="search" name="search-form" data-ng-submit="buscar()" >
             <div class="input-group">
-                <input type="text" class="form-control" value="">
+                <input data-ng-model="q" type="text" class="form-control" value="">
                 <div class="input-group-btn">
                     <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
                 </div>

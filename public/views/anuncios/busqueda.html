@@ -1,0 +1,29 @@
+<section data-ng-controller="AnunciosController" data-ng-init="buscar()">
+    <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios">
+        <div class="thumbnail">
+            <div class="caption">
+                <p>
+                <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
+                <span class="label label-danger pull-right" >{{anuncio.user.name}}</span>
+                </p>
+                <p>
+                    <img src="http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif" class="img-responsive" data-src="holder.js/300x200" alt="...">
+                </p>
+                <p>{{anuncio.user.name}}</p>
+                <p>{{anuncio.descripcion}}</p>
+                <p>
+                    <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
+                </p>
+                <p>
+                    <a href="#" class="btn btn-primary" role="button">
+                        Button
+                    </a>
+                    <a href="#" class="btn btn-default" role="button">
+                        Button
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <h1 data-ng-hide="!anuncios || anuncios.length">No se han encontrado anuncios. <br> Quiere publicar tu anuncio? <a href="/#!/anuncios/create">Crear uno nuevo</a></h1>
+</section>

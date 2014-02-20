@@ -111,4 +111,10 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
                 $scope.anuncio = anuncio;
             });
         };
+
+        $scope.buscar = function () {
+            Anuncios.query(function (anuncios) {
+                $scope.anuncios = anuncios;
+            });
+        };
     }]);
