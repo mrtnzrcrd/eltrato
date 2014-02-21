@@ -5,3 +5,10 @@
 ul.anuncios li:not(:last-child) {
     border-bottom:1px solid #ccc
 }
+
+.imagenAnuncio {
+    height: 20em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}

@@ -3,11 +3,15 @@
         <div class="thumbnail">
             <div class="caption">
                 <p>
-                <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
-                <span class="label label-danger pull-right" >{{anuncio.user.name}}</span>
+                    <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
+                    <a href="#" class="btn btn-danger pull-right btn-xs">
+                        {{anuncio.user.name}}
+                    </a>
                 </p>
                 <p>
-                    <img src="http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif" class="img-responsive" data-src="holder.js/300x200" alt="...">
+                    <img src="http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif"
+                         class="imagenAnuncio img-responsive" alt="..   ."
+                         style="background-image: url(http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif);">
                 </p>
                 <p>{{anuncio.descripcion}}</p>
                 <p>
