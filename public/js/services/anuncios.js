@@ -9,4 +9,8 @@ angular.module('mean.anuncios').factory('Anuncios', ['$resource', function($reso
             method: 'PUT'
         }
     });
+
+    return $resource('busqueda/:q', {}, {
+        query: {method:'GET', params:{q:'@q'}, isArray:true}
+    });
 }]);

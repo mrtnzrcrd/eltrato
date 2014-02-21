@@ -176,14 +176,14 @@ exports.find = function (req, res) {
     console.log("{ 'query': '" + req.params.q + "' }");
     var tagsParams =  req.params.q;
     tagsParams = tagsParams.split(" ");
-    Anuncio.find({tags: { $in : tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, mensaje) {
+    Anuncio.query({tags: { $in : tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
             res.render('error', {
                 status: 500
             });
         } else {
-            console.log('Resultado: ' + mensaje);
-            res.jsonp(mensaje);
+            console.log('Resultado: ' + anuncio);
+            res.jsonp(anuncio);
         }
     });
 };

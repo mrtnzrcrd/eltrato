@@ -16,14 +16,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$http',
         ];
 
         $scope.buscar = function () {
-            console.log("$scope.q: " + $scope.q);
             var query = ($scope.q + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-            console.log("query: " + query);
-
-            $http.get('/busAnuncios/' + query).success(function (data) {
-
-            });
+            $location.path('busqueda/' + query);
         };
-
         $scope.isCollapsed = false;
     }]);
