@@ -1,36 +1,38 @@
 <section data-ng-controller="AnunciosController" data-ng-init="buscar()">
-    <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios">
-        <div class="thumbnail">
+    <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios"  >
+        <div class="thumbnail imagenAnuncio" style="background-image: url(http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif);">
             <div class="caption">
-                <p>
-                    <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
-                    <a href="#" class="btn btn-danger pull-right btn-xs">
-                        {{anuncio.user.name}}
-                    </a>
-                </p>
-                <p>
-                    <img src="http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif"
-                         class="imagenAnuncio img-responsive" alt="..   ."
-                         style="background-image: url(http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif);">
-                </p>
-                <p>{{anuncio.descripcion}}</p>
-                <p>
-                    <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
-                </p>
-                <p>
-                    <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                    </a>
-                    <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                    </a>
-                    <a href="#" class="btn btn-primary" role="button" title="Llamar">
-                        <span class="glyphicon glyphicon-earphone"></span>
-                    </a>
-                    <a href="#" class="btn btn-danger" role="button" title="Denunciar">
-                        <span class="glyphicon glyphicon-thumbs-down"></span>
-                    </a>
-                </p>
+                <div style="height: 13em;">
+                    <p>
+                        <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
+                        <a href="#" class="btn btn-danger pull-right btn-xs">
+                            {{anuncio.user.name}}
+                        </a>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
+                    </p>
+                    <p>
+                        <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter" class="btn btn-default">
+                            <span class="glyphicon glyphicon-comment"></span>
+                        </button>
+                        <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                        </a>
+                        <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                        </a>
+                        <a href="#" class="btn btn-primary" role="button" title="Llamar">
+                            <span class="glyphicon glyphicon-earphone"></span>
+                        </a>
+                        <a href="#" class="btn btn-danger" role="button" title="Denunciar">
+                            <span class="glyphicon glyphicon-thumbs-down"></span>
+                        </a>
+                    </p>
+                </div>
+
             </div>
         </div>
     </div>
