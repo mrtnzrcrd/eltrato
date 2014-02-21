@@ -16,8 +16,10 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$http',
         ];
 
         $scope.buscar = function () {
+            console.log("$scope.q: " + $scope.q);
             var query = ($scope.q + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
             $location.path('busqueda/' + query);
         };
+
         $scope.isCollapsed = false;
     }]);

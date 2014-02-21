@@ -1,8 +1,40 @@
 'use strict';
 
-angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$location', 'Global', 'Anuncios',
-    function ($scope, $routeParams, $location, Global, Anuncios) {
+angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'Anuncios', 'geolocation',
+    function ($scope, $routeParams, $rootScope, $location, Global, Anuncios, geolocation) {
         $scope.global = Global;
+
+        // geoLocation
+        $scope.alerts = [
+            { type: 'info',
+                title: 'Disfruta al maximo de elTrato.net',
+                msg: 'Para poder disfrutar al máximo de elTrato.net necesitamos que permitas la geolocalización en tu navegador.' +
+                    'Las ventajas seran maximas, automaticamente calcularemos los productos que están cerca de ti y lo mejor de todo' +
+                    'es que solo lo tendrás que hacer una vez' }
+        ];
+
+        geolocation.getLocation().then(function (data) {
+            $scope.alerts = [
+                { type: 'success',
+                    title: 'Muchisimas gracias!',
+                    msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
+                        'elTrato.net. Disfrutalo' }
+            ];
+        });
+
+        $scope.$on('error', function (event, args) {
+            console.log(args.title);
+            $scope.alerts = [
+                { type: args.type, msg: args.geolocationMsg, title: args.title }
+            ];
+        });
+
+        $scope.closeAlert = function (index) {
+            $scope.alerts.splice(index, 1);
+        };
+
+        // geoLocation
+
         var images = new Array();
         var contador = 1;
         $scope.fotoActivo = false;
@@ -113,7 +145,6 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         };
 
         $scope.buscar = function () {
-
             Anuncios.query(function (anuncios) {
                 $scope.anuncios = anuncios;
             });

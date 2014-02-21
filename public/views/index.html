@@ -3,12 +3,4 @@
     <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>
         {{alert.msg}}
     </alert>
-    <div class="row" ng-show="showResult()">
-        Latitude: {{lat}} <br />
-        Longitude: {{lng}} <br />
-        Accuracy: {{accuracy}}
-    </div>
-    <div class="row" ng-show="!showResult()">
-        Error : {{error}}
-    </div>
 </section>
