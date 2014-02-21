@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'Anuncios', 'geolocation',
-    function ($scope, $routeParams, $rootScope, $location, Global, Anuncios, geolocation) {
+angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'Anuncios', 'Buscar', 'geolocation',
+    function ($scope, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation) {
         $scope.global = Global;
 
         // geoLocation
@@ -145,7 +145,9 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         };
 
         $scope.buscar = function () {
-            Anuncios.query(function (anuncios) {
+            Buscar.query({
+                q: $routeParams.q
+            }, function (anuncios) {
                 $scope.anuncios = anuncios;
             });
         };

@@ -17,7 +17,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$http',
 
         $scope.buscar = function () {
             console.log("$scope.q: " + $scope.q);
-            var query = ($scope.q + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+           // var query = ($scope.q + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+            var query = $scope.q.replace(/\s/g, "+");;
             $location.path('busqueda/' + query);
         };
 

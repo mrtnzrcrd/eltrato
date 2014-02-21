@@ -175,8 +175,9 @@ exports.all = function (req, res) {
 exports.find = function (req, res) {
     console.log("{ 'query': '" + req.params.q + "' }");
     var tagsParams =  req.params.q;
-    tagsParams = tagsParams.split(" ");
-    Anuncio.query({tags: { $in : tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+    console.log("tagParams: " + tagsParams);
+    tagsParams = tagsParams.split("+");
+    Anuncio.find({tags: { $in : tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
             res.render('error', {
                 status: 500

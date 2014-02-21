@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-    db: 'mongodb://localhost/elTrato',
+    db: 'mongodb://root:root123@ds033709.mongolab.com:33709/eltrato',
     app: {
-        name: 'elTrato.net - Development'
+        name: 'eltrato.net - Development'
     },
     facebook: {
         clientID: 'APP_ID',

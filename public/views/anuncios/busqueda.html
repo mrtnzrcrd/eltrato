@@ -9,17 +9,22 @@
                 <p>
                     <img src="http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif" class="img-responsive" data-src="holder.js/300x200" alt="...">
                 </p>
-                <p>{{anuncio.user.name}}</p>
                 <p>{{anuncio.descripcion}}</p>
                 <p>
                     <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
                 </p>
                 <p>
-                    <a href="#" class="btn btn-primary" role="button">
-                        Button
+                    <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
+                        <span class="glyphicon glyphicon-star-empty"></span>
                     </a>
-                    <a href="#" class="btn btn-default" role="button">
-                        Button
+                    <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </a>
+                    <a href="#" class="btn btn-primary" role="button" title="Llamar">
+                        <span class="glyphicon glyphicon-earphone"></span>
+                    </a>
+                    <a href="#" class="btn btn-danger" role="button" title="Denunciar">
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
                     </a>
                 </p>
             </div>
