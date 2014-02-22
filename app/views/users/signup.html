@@ -1,13 +1,7 @@
 {% extends 'auth.html' %}
 
 {% block auth %}
-<section data-ng-controller="IndexController" >
-    <p data-ng-repeat="alert in alerts">Alert: {{alert.title}}{{alert.type}{{alert.msg}</p>
-    <alert data-ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
-        <h4>{{alert.title}}</h4>
-        {{alert.msg}}
-    </alert>
-    <h3>{{prueba}}</h3>
+<section data-ng-controller="SignupController" >
     <form class="signin form-horizontal" action="/users" method="post">
         <div class="form-group">
             <label class="col-md-4 control-label" for="name">Full Name</label>
@@ -48,5 +42,11 @@
             </div>
         </div>
     </form>
+    <section id="map" >
+        <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
+    </section>
+    <div  ui-map="myMap" ui-options="mapOptions" class="map-canvas"
+          ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"
+            ></div>
 </section>
 {% endblock %}

@@ -17,10 +17,14 @@ angular.module('mean.system').controller('IndexController', ['$scope', '$rootSco
                 { type: 'success',
                     title: 'Muchisimas gracias!',
                     msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
-                        'elTrato.net. Disfrutalo' }
+                        'elTrato.net. Disfrutalo',
+                lat: data.coords.latitude}
             ];
 
             console.log('Enviado desde Index. Latitude: ' + data.coords.latitude + ' Longitude: ' + data.coords.longitude);
+            $scope.lat = data.coords.latitude;
+            $scope.lng = data.coords.longitude;
+            console.log('Latitude in $scope: ' + $scope.lat);
         });
 
         $scope.$on('error', function (event, args) {
