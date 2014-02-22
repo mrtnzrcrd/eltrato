@@ -39,4 +39,10 @@ footer p {
     padding:5px 0 12px 10px
 }
 
+/* google maps */
 .map-canvas { height: 400px; }
+
+/* upload */
+.my-drop-zone { border: dotted 3px lightgray; }
+.ng-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }

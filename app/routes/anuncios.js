@@ -22,7 +22,7 @@ module.exports = function(app) {
 
     app.get('/busqueda/:q', anuncios.find);
 
-    app.post('upload', anuncios.upload);
+    app.post('/upload', anuncios.upload);
 
     // Finish with setting up the anuncioId param
     app.param('anuncioId', anuncios.anuncio);
