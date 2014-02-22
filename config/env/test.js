@@ -4,7 +4,7 @@ module.exports = {
     db: 'mongodb://localhost/eltrato-test',
     port: 3001,
     app: {
-        name: 'MEAN - A Modern Stack - Test'
+        name: 'elTrato - Test'
     },
     facebook: {
         clientID: 'APP_ID',

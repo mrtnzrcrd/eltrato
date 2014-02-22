@@ -1,7 +1,7 @@
 'use strict';
 
 //Anuncios service used for anuncios REST endpoint
-angular.module('mean.anuncios').factory('Anuncios', ['$resource', function($resource) {
+angular.module('elTrato.anuncios').factory('Anuncios', ['$resource', function($resource) {
     return $resource('anuncios/:anuncioId', {
         anuncioId: '@_id'
     }, {
@@ -11,13 +11,13 @@ angular.module('mean.anuncios').factory('Anuncios', ['$resource', function($reso
     });
 }]);
 
-angular.module('mean.anuncios').factory('Buscar', ['$resource', function($resource) {
+angular.module('elTrato.anuncios').factory('Buscar', ['$resource', function($resource) {
     return $resource('busqueda/:q', {}, {
         query: {method:'GET', params:{q:'@q'}, isArray:true}
     });
 }]);
 
-angular.module('mean.anuncios').factory('$fileUploader', [ '$compile', '$rootScope', '$http', '$window', function ($compile, $rootScope, $http, $window) {
+angular.module('elTrato.anuncios').factory('$fileUploader', [ '$compile', '$rootScope', '$http', '$window', function ($compile, $rootScope, $http, $window) {
     'use strict';
 
     function Uploader(params) {
