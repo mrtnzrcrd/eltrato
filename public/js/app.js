@@ -5,4 +5,4 @@ angular.module('mean', ['ngCookies', 'ngResource', 'ngRoute', 'ui.bootstrap', 'u
 
 angular.module('mean.system', ['geolocation']);
 angular.module('mean.anuncios', []);
-angular.module('mean.signup', ['ui.map']);
+angular.module('mean.signup', ['ui.map', "ui.event"]);
