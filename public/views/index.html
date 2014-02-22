@@ -1,6 +1,22 @@
 <section data-ng-controller="IndexController">
-	<h1>This is the home view</h1>
     <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>
         {{alert.msg}}
     </alert>
+    <div class="col-xs-12 parent">
+        <div class="col-xs-6 col-centered">
+            <h1 style="text-align: center;">elTrato</h1>
+        </div>
+        <div class="col-xs-8 col-centered">
+            <form class="navbar-form" role="search" name="search-form" data-ng-submit="buscar()">
+                <div class="input-group">
+                    <input data-ng-model="q" type="text" class="form-control input-lg" value="">
+
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-primary btn-lg"><span
+                                class="glyphicon glyphicon-search"></span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </section>

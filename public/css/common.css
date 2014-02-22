@@ -20,6 +20,21 @@ footer {
     box-shadow:0 8px 6px 6px black
 }
 
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.parent {
+    display:table;
+}
+
+.child {
+    display:table-cell;
+    vertical-align:middle;
+    text-align:center;
+}
+
 footer p {
     padding:5px 0 12px 10px
 }

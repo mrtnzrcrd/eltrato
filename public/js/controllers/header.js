@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.system').controller('HeaderController', ['$scope', '$http', '$location', 'Global',
-    function ($scope, $http, $location, Global) {
+angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', '$location', 'Global',
+    function ($scope, $rootScope, $location, Global) {
         $scope.global = Global;
 
         $scope.menu = [
@@ -21,6 +21,14 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$http',
             var query = $scope.q.replace(/\s/g, "+");;
             $location.path('busqueda/' + query);
         };
+
+        $rootScope.location = $location;
+
+        if ($rootScope.location.$$absUrl === "http://localhost:3000/#!/") {
+            $scope.index = true;
+        } else {
+            $scope.index = false;
+        }
 
         $scope.isCollapsed = false;
     }]);

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.system').controller('IndexController', ['$scope', '$rootScope', 'Global', 'geolocation',
-    function ($scope, $rootScope, Global, geolocation) {
+angular.module('mean.system').controller('IndexController', ['$scope', '$rootScope', '$location', 'Global', 'geolocation',
+    function ($scope, $rootScope, $location, Global, geolocation) {
         $scope.global = Global;
 
         $scope.alerts = [
@@ -19,6 +19,8 @@ angular.module('mean.system').controller('IndexController', ['$scope', '$rootSco
                     msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
                         'elTrato.net. Disfrutalo' }
             ];
+
+            console.log('Enviado desde Index. Latitude: ' + data.coords.latitude + ' Longitude: ' + data.coords.longitude);
         });
 
         $scope.$on('error', function (event, args) {
@@ -30,6 +32,13 @@ angular.module('mean.system').controller('IndexController', ['$scope', '$rootSco
 
         $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
+        };
+
+        $scope.buscar = function () {
+            console.log("$scope.q: " + $scope.q);
+            // var query = ($scope.q + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+            var query = $scope.q.replace(/\s/g, "+");;
+            $location.path('busqueda/' + query);
         };
 
 

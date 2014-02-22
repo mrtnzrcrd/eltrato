@@ -20,6 +20,9 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
                     msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
                         'elTrato.net. Disfrutalo' }
             ];
+
+            console.log('Enviado desde Anuncios. Latitude: ' + data.coords.latitude + ' Longitude: ' + data.coords.longitude);
+
         });
 
         $scope.$on('error', function (event, args) {
