@@ -240,8 +240,9 @@ exports.upload = function (req, res) {
         // removing footer '\r\n'--boundary--\r\n' = (boundary.length + 8)
         body = body.slice(0, body.length - (boundary.length + 8))
         console.log('final file size: ' + body.length);
-        fs.writeFileSync('uploads/' + filename, body, 'binary');
+        fs.writeFileSync('public/img/uploads/' + filename, body, 'binary');
         console.log('done');
-        res.redirect('back');
+
+        res.json({answer:"File transfer completed"});
     })
 };

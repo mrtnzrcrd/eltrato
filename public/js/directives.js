@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 window.angular.module('mean.upload2', [])
     .directive('upload', [function () {
         return {
@@ -17,7 +17,7 @@ window.angular.module('mean.upload2', [])
             }
         };
     }])
-
+*/
 
 // It is attached to an element that catches the event drop file
 angular.module('mean.anuncios').directive('ngFileDrop', [ '$fileUploader', function ($fileUploader) {

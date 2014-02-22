@@ -1,6 +1,6 @@
 <section data-ng-controller="AnunciosController" data-ng-init="buscar()">
     <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios"  >
-        <div class="thumbnail imagenAnuncio" style="background-image: url(http://noticias.cibercuba.com/files/noticias.cibercuba.com/sin-imagen_resize_53.gif);">
+        <div class="thumbnail imagenAnuncio" style="background-image: url({{anuncio.images[0]}});">
             <div class="caption">
                 <div style="height: 13em;">
                     <p>

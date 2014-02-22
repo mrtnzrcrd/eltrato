@@ -39,7 +39,7 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
 
 
 
-/*
+
         var images = new Array();
         var contador = 1;
         $scope.fotoActivo = false;
@@ -49,38 +49,37 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         $scope.disponible4 = true;
         $scope.disponible5 = true;
 
-        $scope.$on("fileSelected", function (event, args) {
-            console.log("args" + args);
-            $scope.imagenes = args.files;
+        function nuevaImagen(image){
+            console.log("Nueva imagen: " + image);
             $scope.$apply(function () {
                 if (contador != 6) {
                     if (contador === 1) {
-                        $scope.image = args.image;
-                        images.push(args.files.name);
+                        $scope.image = image;
+                        images.push(image);
                         $scope.disponible1 = false;
                     } else if (contador === 2) {
-                        $scope.image2 = args.image;
-                        images.push(args.files.name);
+                        $scope.image2 = image;
+                        images.push(image);
                         $scope.disponible2 = false;
                     } else if (contador === 3) {
-                        $scope.image3 = args.image;
-                        images.push(args.files.name);
+                        $scope.image3 = image;
+                        images.push(image);
                         $scope.disponible3 = false;
                     } else if (contador === 4) {
-                        $scope.image4 = args.image;
-                        images.push(args.files.name);
+                        $scope.image4 = image;
+                        images.push(image);
                         $scope.disponible4 = false;
                     } else if (contador === 5) {
-                        $scope.image5 = args.image;
-                        images.push(args.files.name);
+                        $scope.image5 = image;
+                        images.push(image);
                         $scope.disponible5 = false;
                         $scope.fotoActivo = true;
                     }
                     contador++;
                 }
             });
-        });
-*/
+        }
+
         $scope.create = function () {
 
             var anuncio = new Anuncios({
@@ -177,42 +176,44 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         // REGISTER HANDLERS
 
         uploader.bind('afteraddingfile', function (event, item) {
-            console.info('After adding a file', item);
+            // console.info('After adding a file', item);
         });
 
         uploader.bind('afteraddingall', function (event, items) {
-            console.info('After adding all files', items);
+           //    console.info('After adding all files', items);
         });
 
         uploader.bind('beforeupload', function (event, item) {
-            console.info('Before upload', item);
+            //   console.info('Before upload', item);
         });
 
         uploader.bind('progress', function (event, item, progress) {
-            console.info('Progress: ' + progress, item);
+           // console.info('Progress: ' + progress, item);
         });
 
         uploader.bind('success', function (event, xhr, item, response) {
-            console.info('Success', xhr, item, response);
+           // console.info('Success', xhr, item, response);
         });
 
         uploader.bind('cancel', function (event, xhr, item) {
-            console.info('Cancel', xhr, item);
+           // console.info('Cancel', xhr, item);
         });
 
         uploader.bind('error', function (event, xhr, item, response) {
-            console.info('Error', xhr, item, response);
+          //  console.info('Error', xhr, item, response);
         });
 
         uploader.bind('complete', function (event, xhr, item, response) {
-            console.info('Complete', xhr, item, response);
+           // console.info('Complete', xhr, item, response);
+            console.info('NOMBRE IMAGEN: '+ item.file.name);
+            nuevaImagen("/img/uploads/"+ item.file.name);
         });
 
         uploader.bind('progressall', function (event, progress) {
-            console.info('Total progress: ' + progress);
+           // console.info('Total progress: ' + progress);
         });
 
         uploader.bind('completeall', function (event, items) {
-            console.info('Complete all', items);
+           // console.info('Complete all', items);
         });
     }]);

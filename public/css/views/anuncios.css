@@ -11,4 +11,5 @@ ul.anuncios li:not(:last-child) {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    background-image: url(/img/sin-imagen_resize_53.gif);
 }
