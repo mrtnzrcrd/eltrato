@@ -1,5 +1,6 @@
 <section data-ng-controller="IndexController">
-    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+        <h4>{{alert.title}}</h4>
         {{alert.msg}}
     </alert>
     <div class="col-xs-12 parent">

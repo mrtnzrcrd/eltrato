@@ -4,13 +4,18 @@
 
 'use strict';
 
-function onGoogleReady() {
-    angular.bootstrap(document.getElementById("map"), ['ui-map']);
-}
-
 angular.module('mean.signup').controller('SignupController', ['$scope', 'Global', 'geolocation',
     function ($scope, Global, geolocation) {
         $scope.global = Global;
+
+        $scope.mapOptions = {
+            center: new google.maps.LatLng(35.784, -78.670),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        console.log("center: " + $scope.mapOptions.center);
+        console.log("zoom: " + $scope.mapOptions.zoom);
+        console.log("ROADMAP: " + $scope.mapOptions.mapTypeId);
 
         geolocation.getLocation().then(function (data) {
             console.log('Enviado desde Signup. Latitude: ' + data.coords.latitude + ' Longitude: ' + data.coords.longitude);
@@ -23,6 +28,10 @@ angular.module('mean.signup').controller('SignupController', ['$scope', 'Global'
                 zoom: 15,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
+            console.log("center: " + $scope.mapOptions.center);
+            console.log("zoom: " + $scope.mapOptions.zoom);
+            console.log("ROADMAP: " + $scope.mapOptions.mapTypeId);
+
         });
 
 

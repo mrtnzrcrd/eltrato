@@ -26,8 +26,12 @@
                 <label for="foto" class="col-md-2 control-label">Fotos</label>
 
                 <div class="col-md-10">
-                    <input upload type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
+                    <input type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
                            data-ng-model="foto" id="foto" placeholder="Fotos" multiple ng-disabled="fotoActivo">
+
+                    <div class="row">
+                        <code ng-repeat="objeto in imagenes">{{objeto}}</code>
+                    </div>
                 </div>
             </div>
             <div class="col-xs-12 col-md-offset-2">
@@ -92,6 +96,7 @@
             </div>
         </div>
     </div>
+
     <!--<div class="row">
         <div class="col-md-offset-1">
             <div class="col-xs-4 col-md-2" data-ng-hide="disponible1">

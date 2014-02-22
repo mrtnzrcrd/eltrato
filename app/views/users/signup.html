@@ -42,11 +42,6 @@
             </div>
         </div>
     </form>
-    <section id="map" >
-        <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
-    </section>
-    <div  ui-map="myMap" ui-options="mapOptions" class="map-canvas"
-          ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"
-            ></div>
+    <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
 </section>
 {% endblock %}

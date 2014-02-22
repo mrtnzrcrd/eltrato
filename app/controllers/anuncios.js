@@ -188,3 +188,7 @@ exports.find = function (req, res) {
         }
     });
 };
+
+exports.upload = function(req, res) {
+    console.log(req);
+};

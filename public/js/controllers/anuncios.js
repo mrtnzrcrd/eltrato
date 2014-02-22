@@ -36,8 +36,9 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
             $scope.alerts.splice(index, 1);
         };
 
-        // geoLocation
 
+
+/*
         var images = new Array();
         var contador = 1;
         $scope.fotoActivo = false;
@@ -48,6 +49,8 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         $scope.disponible5 = true;
 
         $scope.$on("fileSelected", function (event, args) {
+            console.log("args" + args);
+            $scope.imagenes = args.files;
             $scope.$apply(function () {
                 if (contador != 6) {
                     if (contador === 1) {
@@ -76,7 +79,7 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
                 }
             });
         });
-
+*/
         $scope.create = function () {
 
             var anuncio = new Anuncios({
