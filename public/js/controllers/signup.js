@@ -8,8 +8,16 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', '$htt
     function ($scope, $http, Global, geolocation) {
         $scope.global = Global;
 
+        var latitude = "0";
+        var longitude = "0";
+
         $scope.mapa = true;
         $scope.radioAct = true;
+        $scope.inputGeo = true;
+
+        $scope.options = {
+            value: ''
+        };
 
         $scope.lat = "0";
         $scope.lng = "0";
@@ -26,8 +34,11 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', '$htt
         };
 
         geolocation.getLocation().then(function (data) {
-            $scope.lat = data.coords.latitude;
             $scope.lng = data.coords.longitude;
+            $scope.lat = data.coords.latitude;
+
+            longitude = data.coords.longitude;
+            latitude = data.coords.latitude;
 
             $scope.accuracy = data.coords.accuracy;
 
@@ -39,6 +50,8 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', '$htt
             console.log('Latitude in $scope: ' + $scope.lat);
 
             $scope.mapa = true;
+            $scope.inputGeo = false;
+            $scope.radioGo = false;
 
         });
 
@@ -58,9 +71,24 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', '$htt
                         geoLocation.push(item.geometry.location.lat);
                     });
 
+                    $scope.lng = geoLocation[0];
+                    $scope.lat = geoLocation[1];
+
                     return addresses;
                 });
         };
+
+        $scope.newValue = function (value) {
+            if (value === 'option2') {
+                $scope.inputGeo = true;
+            } else if (value === 'option1') {
+                $scope.inputGeo = false;
+                $scope.lng = longitude;
+                $scope.lat = latitude;
+            }
+        }
+
+        console.log('Enviado desde Signup. Latitude: ' + $scope.lat + ' Longitude: ' + $scope.lng);
 
         $scope.$on('error', function (event, args) {
             console.log(args.title);
@@ -70,6 +98,7 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', '$htt
 
             $scope.mapa = false;
             $scope.radioAct = false;
+            $scope.radioGo = true;
         });
 
         $scope.buscar = function () {

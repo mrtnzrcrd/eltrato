@@ -4,10 +4,10 @@
 <section data-ng-controller="SignupController">
     <form class="signin form-horizontal" action="/users" method="post">
         <div class="form-group">
-            <label class="col-md-4 control-label" for="name">Full Name</label>
+            <label class="col-md-4 control-label" for="name">Tu nombre: </label>
 
             <div class="col-md-8">
-                <input id="name" class="form-control" type="text" name="name" placeholder="Full Name"
+                <input id="name" class="form-control" type="text" name="name" placeholder="Nombre completo"
                        value="{{user.name}}"/>
             </div>
         </div>
@@ -20,18 +20,18 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label" for="username">Username</label>
+            <label class="col-md-4 control-label" for="username">Nombre de usuario</label>
 
             <div class="col-md-8">
-                <input id="username" class="form-control" type="text" name="username" placeholder="Username"
+                <input id="username" class="form-control" type="text" name="username" placeholder="Nombre de usuario"
                        value="{{user.username}}"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label" for="password">Password</label>
+            <label class="col-md-4 control-label" for="password">Contraseña</label>
 
             <div class="col-md-8">
-                <input id="password" class="form-control" type="password" name="password" placeholder="Password"/>
+                <input id="password" class="form-control" type="password" name="password" placeholder="Contraseña"/>
             </div>
         </div>
         <div class="form-group" ng-if="mapa==true">
@@ -45,16 +45,16 @@
             <label class="col-md-4 control-label"></label>
             <div class="col-md-8">
                 <label class="radio-inline" ng-if="radioAct==true">
-                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1" ng-change='newValue(options.value)' checked>
                     Utilizar ubicación actual
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>
+                    <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2" ng-checked="radioGo" ng-change='newValue(options.value)' required>
                     Utilizar otra ubicación
                 </label>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group"ng-if="inputGeo==true">
             <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
             <div class="col-md-8">
                 <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
