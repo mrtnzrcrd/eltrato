@@ -10,6 +10,14 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
         $scope.isCollapsed2 = true;
         $scope.isCollapsed3 = true;
 
+        $scope.cambiarTab = function (event) {
+           event.preventDefault();
+            var objectActive = angular.element(document.querySelector(".tab-pane.active"));
+            objectActive.removeClass("active");
+            var idTab = event.currentTarget.attributes.href.nodeValue;
+            var objectTab = angular.element(document.querySelector(idTab));
+            objectTab.addClass("active");
+        };
 
         /*
         $scope.find = function () {
