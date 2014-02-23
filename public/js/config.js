@@ -20,8 +20,14 @@ angular.module('elTrato').config(['$routeProvider',
         when('/busqueda/:q', {
             templateUrl: 'views/anuncios/busqueda.html'
         }).
+        when('/cuenta', {
+            templateUrl: 'views/usuarios/cuenta.html'
+        }).
         when('/gestion', {
             templateUrl: 'views/usuarios/gestion.html'
+        }).
+        when('/mensajes', {
+            templateUrl: 'views/usuarios/mensajes.html'
         }).
         when('/', {
             templateUrl: 'views/index.html'
