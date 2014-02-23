@@ -1,6 +1,6 @@
 'use strict';
 /*
-window.angular.module('mean.upload2', [])
+window.angular.module('elTrato.upload2', [])
     .directive('upload', [function () {
         return {
             restrict: 'A',
@@ -20,7 +20,7 @@ window.angular.module('mean.upload2', [])
 */
 
 // It is attached to an element that catches the event drop file
-angular.module('mean.anuncios').directive('ngFileDrop', [ '$fileUploader', function ($fileUploader) {
+angular.module('elTrato.anuncios').directive('ngFileDrop', [ '$fileUploader', function ($fileUploader) {
     'use strict';
 
     return {
@@ -54,7 +54,7 @@ angular.module('mean.anuncios').directive('ngFileDrop', [ '$fileUploader', funct
     };
 }])
 // It is attached to an element which will be assigned to a class "ng-file-over" or ng-file-over="className"
-angular.module('mean.anuncios').directive('ngFileOver', function () {
+angular.module('elTrato.anuncios').directive('ngFileOver', function () {
     'use strict';
 
     return {
@@ -69,7 +69,7 @@ angular.module('mean.anuncios').directive('ngFileOver', function () {
     };
 });
 // It is attached to <input type="file"> element like <ng-file-select="options">
-angular.module('mean.anuncios').directive('ngFileSelect', [ '$fileUploader', function ($fileUploader) {
+angular.module('elTrato.anuncios').directive('ngFileSelect', [ '$fileUploader', function ($fileUploader) {
     'use strict';
 
     return {

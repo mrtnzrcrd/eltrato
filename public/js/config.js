@@ -1,7 +1,7 @@
 'use strict';
 
 //Setting up route
-angular.module('mean').config(['$routeProvider',
+angular.module('elTrato').config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
         // Anuncios
@@ -20,6 +20,9 @@ angular.module('mean').config(['$routeProvider',
         when('/busqueda/:q', {
             templateUrl: 'views/anuncios/busqueda.html'
         }).
+        when('/perfil', {
+            templateUrl: 'views/usuarios/perfil.html'
+        }).
         when('/', {
             templateUrl: 'views/index.html'
         }).
@@ -30,7 +33,7 @@ angular.module('mean').config(['$routeProvider',
 ]);
 
 //Setting HTML5 Location Mode
-angular.module('mean').config(['$locationProvider',
+angular.module('elTrato').config(['$locationProvider',
     function($locationProvider) {
         $locationProvider.hashPrefix('!');
     }

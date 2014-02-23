@@ -1,8 +1,9 @@
 'use strict';
 
-angular.module('mean', ['ngCookies', 'ngResource', 'ngRoute', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.anuncios',
-    'geolocation', 'mean.signup']);
+angular.module('elTrato', ['ngCookies', 'ngResource', 'ngRoute', 'ui.bootstrap', 'ui.route', 'elTrato.system', 'elTrato.anuncios',
+    'geolocation', 'elTrato.signup', 'elTrato.usuarios']);
 
-angular.module('mean.system', ['geolocation']);
-angular.module('mean.anuncios', ['ui.map', 'ui.event']);
-angular.module('mean.signup', ['ui.map', 'ui.event']);
+angular.module('elTrato.system', ['geolocation']);
+angular.module('elTrato.anuncios', ['ui.map', 'ui.event']);
+angular.module('elTrato.signup', ['ui.map', 'ui.event']);
+angular.module('elTrato.usuarios', []);

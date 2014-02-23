@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', '$location', 'Global',
+angular.module('elTrato.system').controller('HeaderController', ['$scope', '$rootScope', '$location', 'Global',
     function ($scope, $rootScope, $location, Global) {
         $scope.global = Global;
 

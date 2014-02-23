@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader',
+angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader',
     function ($scope, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
         $scope.global = Global;
 

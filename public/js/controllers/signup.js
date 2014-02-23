@@ -4,8 +4,8 @@
 
 'use strict';
 
-angular.module('mean.signup').controller('SignupController', ['$scope', '$http', 'Global', 'geolocation',
-    function ($scope, $http, Global, geolocation) {
+angular.module('elTrato.signup').controller('SignupController', ['$scope', 'Global', 'geolocation',
+    function ($scope, Global, geolocation) {
         $scope.global = Global;
 
         $scope.mapa = true;
