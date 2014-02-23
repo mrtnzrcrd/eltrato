@@ -4,8 +4,8 @@
 
 'use strict';
 
-angular.module('elTrato.signup').controller('SignupController', ['$scope', 'Global', 'geolocation',
-    function ($scope, Global, geolocation) {
+angular.module('elTrato.signup').controller('SignupController', ['$scope', '$http', 'Global', 'geolocation',
+    function ($scope, $http, Global, geolocation) {
         $scope.global = Global;
 
         $scope.mapa = true;
@@ -74,7 +74,6 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', 'Glob
 
         $scope.buscar = function () {
             console.log("$scope.q: " + $scope.q);
-            // var query = ($scope.q + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
             var query = $scope.q.replace(/\s/g, "+");;
             $location.path('busqueda/' + query);
         };
