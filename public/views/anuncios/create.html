@@ -26,6 +26,8 @@
                 <label for="foto" class="col-md-2 control-label">Fotos</label>
 
                 <div class="col-md-10">
+                    <input type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
+                           data-ng-model="foto" id="foto" placeholder="Fotos" multiple ng-disabled="fotoActivo">
 
                         <h3>Select files</h3>
 
@@ -80,7 +82,6 @@
                 </div>
             </div>
         </form>
-
         <div class="col-md-6">
             <div class="bs-callout bs-callout-warning" style="margin: 0;">
                 <h4>Como publicar correctamente tu anuncio (PRUEBA)</h4>
@@ -180,7 +181,6 @@
             </div>
 
         </div>
-
     </div>
 
     <!--<div class="row">

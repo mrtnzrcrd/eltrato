@@ -35,6 +35,9 @@ var AnuncioSchema = new Schema({
         default: '',
         trim: true
     },
+    locs: {
+        type: Array
+    },
     user: {
         type: Schema.ObjectId,
         ref: 'User'

@@ -4,6 +4,21 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
     function ($scope, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
         $scope.global = Global;
 
+        $scope.global = Global;
+
+        $scope.lat = "0";
+        $scope.lng = "0";
+        $scope.accuracy = "0";
+        $scope.error = "";
+        $scope.model = { myMap: undefined };
+        $scope.myMarkers = [];
+
+        $scope.mapOptions = {
+            center: new google.maps.LatLng($scope.lat, $scope.lng),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
         // geoLocation
         $scope.alerts = [
             { type: 'info',
@@ -21,7 +36,14 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
                         'elTrato.net. Disfrutalo' }
             ];
 
-            console.log('Enviado desde Anuncios. Latitude: ' + data.coords.latitude + ' Longitude: ' + data.coords.longitude);
+            $scope.lat = data.coords.latitude;
+            $scope.lng = data.coords.longitude;
+
+            $scope.accuracy = data.coords.accuracy;
+
+            var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+            $scope.model.myMap.setCenter(latlng);
+            $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
 
         });
 
@@ -35,10 +57,6 @@ angular.module('mean.anuncios').controller('AnunciosController', ['$scope', '$ro
         $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
-
-
-
-
 
         var images = new Array();
         var contador = 1;

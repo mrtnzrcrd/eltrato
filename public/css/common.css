@@ -40,7 +40,7 @@ footer p {
 }
 
 /* google maps */
-.map-canvas { height: 400px; }
+.map-canvas { height: 150px; }
 
 /* upload */
 .my-drop-zone { border: dotted 3px lightgray; }

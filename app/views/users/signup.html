@@ -1,7 +1,7 @@
 {% extends 'auth.html' %}
 
 {% block auth %}
-<section data-ng-controller="SignupController" >
+<section data-ng-controller="SignupController">
     <form class="signin form-horizontal" action="/users" method="post">
         <div class="form-group">
             <label class="col-md-4 control-label" for="name">Full Name</label>
@@ -34,13 +34,38 @@
                 <input id="password" class="form-control" type="password" name="password" placeholder="Password"/>
             </div>
         </div>
-        <div class="form-group" data-ng-hide="inputGeo">
-            <label class="col-md-4 control-label" for="password">geolocalizacion</label>
+        <div class="form-group" ng-if="mapa==true">
+            <label class="col-md-4 control-label" for="geolocalizacion">Tu ubicación actual</label>
 
             <div class="col-md-8">
-                <input id="geo" class="form-control" type="password" name="password" placeholder="Password"/>
+                <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <label class="radio-inline" ng-if="radioAct==true">
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >
+                    Utilizar ubicación actual
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>
+                    Utilizar otra ubicación
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
+            <div class="col-md-8">
+                <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
+                for address in getLocationViaGoogle($viewValue) | filter:$viewValue" typeahead-loading="loadingLocations"
+                       class="form-control">
+                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+            </div>
+        </div>
+        <input type="hidden" ng-value="lat" id="inputLat" name="lat">
+        <input type="hidden" ng-value="lng" id="inputLng" name="lng">
+
         <div class="form-group">
             <div class="col-md-offset-4 col-md-8">
                 <button class="btn btn-primary" type="submit">Sign up</button>
@@ -49,6 +74,5 @@
             </div>
         </div>
     </form>
-    <div data-ng-hide="mapa" ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
 </section>
 {% endblock %}

@@ -54,7 +54,8 @@ exports.session = function(req, res) {
 exports.create = function(req, res, next) {
     var user = new User(req.body);
     var message = null;
-
+    user.locs.push(req.body.lng);
+    user.locs.push(req.body.lat);
     user.provider = 'local';
     user.save(function(err) {
         if (err) {
