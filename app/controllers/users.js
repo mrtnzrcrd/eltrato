@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    validator = require('validator');
 
 /**
  * Auth callback
@@ -56,16 +57,23 @@ exports.create = function(req, res, next) {
     var message = null;
     user.locs.push(req.body.lng);
     user.locs.push(req.body.lat);
+
+    console.log(user.email);
+
+    var email = validator.isEmail(user.email);
+
+    console.log(email);
+
     user.provider = 'local';
     user.save(function(err) {
         if (err) {
             switch (err.code) {
                 case 11000:
                 case 11001:
-                    message = 'Username already exists';
+                    message = 'El nombre de usuario ya existe. ';
                     break;
                 default:
-                    message = 'Please fill all the required fields';
+                    message = 'Por favor, rellena todos los campos.';
             }
 
             return res.render('users/signup', {

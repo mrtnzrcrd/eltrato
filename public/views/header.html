@@ -3,7 +3,8 @@
         <li>
             <a class="navbar-brand" href="/">elTrato.net</a>
         </li>
-        <li data-ng-repeat="item in menu" data-ng-show="global.user" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}">
+        <li data-ng-repeat="item in menu" data-ng-show="global.user" ui-route="/{{item.link}}"
+            ng-class="{active: $uiRoute}">
             <a href="#!/{{item.link}}">{{item.title}}</a>
         </li>
     </ul>
@@ -11,18 +12,22 @@
         <form class="navbar-form navbar-left" role="search" name="search-form" data-ng-submit="buscar()">
             <div class="input-group">
                 <input data-ng-model="q" type="text" class="form-control" value="">
+
                 <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>
+                    </button>
                 </div>
             </div>
         </form>
     </div>
     <div class="col-sm-4 col-md-4" data-ng-show="global.authenticated">
-        <form class="navbar-form navbar-left" role="search" name="search-form" data-ng-submit="buscar()" >
+        <form class="navbar-form navbar-left" role="search" name="search-form" data-ng-submit="buscar()">
             <div class="input-group">
                 <input data-ng-model="q" type="text" class="form-control" value="">
+
                 <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>
+                    </button>
                 </div>
             </div>
         </form>
@@ -35,16 +40,21 @@
         </li>
     </ul>
     <ul class="navbar-nav nav pull-right" data-ng-show="global.authenticated">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				{{global.user.name}} <b class="caret"></b>
-			</a>
-            <ul class="dropdown-menu">
-                <li><a href="#!/cuenta">Cuenta</a></li>
-                <li><a href="#!/gestion">Gestion</a></li>
-                <li><a href="#!/mensajes">Mensajes</a></li>
-                <li><a href="/signout">Signout</a></li>
-            </ul>
+        <li>
+            <div class="btn-group navbar-btn" style="margin-right: 10px;">
+                <button class="btn btn-primary">
+                    {{global.user.username}}
+                </button>
+                <button data-toggle="dropdown " class="btn btn-primary dropdown-toggle"><span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="#!/cuenta"><span class="glyphicon glyphicon-user"></span> Cuenta </a></li>
+                    <li><a href="#!/gestion"><span class="glyphicon glyphicon-tasks"></span> Gestion</a></li>
+                    <li><a href="#!/mensajes"><span class="glyphicon glyphicon-inbox"></span> Mensajes</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/signout"> <span class="glyphicon glyphicon-off"></span> Signout</a></li>
+                </ul>
+            </div>
         </li>
     </ul>
 </div>
