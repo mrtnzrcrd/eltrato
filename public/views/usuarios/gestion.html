@@ -1,0 +1,60 @@
+<section data-ng-controller="GestionController">
+<div class="row" data-spy="scroll" data-target=".navbar-example">
+
+<div class="col-md-3">
+    <div class="bs-docs-sidebar hidden-print affix-top">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#">Cuenta</a></li>
+            <li><a href="#">Tratos</a></li>
+            <li><a href="#">Favoritos</a></li>
+            <li><a href="#">Mensajes</a></li>
+            <li><a href="#">Contra-ofertas</a></li> //Seccion con enviadas/recibidas
+            <li><a href="#">Lista negra</a></li>
+        </ul>
+    </div>
+</div>
+<div class="col-md-9" data-spy="scroll" >
+<!-- Overview ================================================== -->
+<div class="bs-docs-section">
+    <h1 class="page-header">Cuenta <small>Modifica tu perfil</small></h1>
+
+        <div class=" col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Nombre de usuario:</h3>
+                </div>
+                <div class="panel-body">
+                    {{global.user.username}}
+                </div>
+            </div>
+        </div>
+        <div class=" col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Nombre:</h3>
+                </div>
+                <div class="panel-body">
+                    {{global.user.name}}
+                </div>
+            </div>
+        </div>
+    <div class=" col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Correo electronico:</h3>
+            </div>
+            <div class="panel-body">
+                {{global.user.email}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Transitions================================================== -->
+<div class="bs-docs-section">
+    <h1 class="page-header">Tratos <small>Crea, edita, borra</small></h1>
+</div>
+
+</div>
+</div>
+
+</section>

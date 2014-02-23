@@ -1,10 +1,15 @@
 'use strict';
 
-angular.module('elTrato.usuarios').controller('UsuariosController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation',
+angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation',
     function ($scope, $routeParams, $rootScope, $location, Global, geolocation) {
         $scope.global = Global;
 
         $scope.nombre = Global.user.name;
+
+        $scope.isCollapsed1 = true;
+        $scope.isCollapsed2 = true;
+        $scope.isCollapsed3 = true;
+
 
         /*
         $scope.find = function () {
