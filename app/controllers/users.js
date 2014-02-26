@@ -55,8 +55,15 @@ exports.session = function(req, res) {
 exports.create = function(req, res, next) {
     var user = new User(req.body);
     var message = null;
-    user.locs.push(req.body.lng);
-    user.locs.push(req.body.lat);
+    var longitude = parseFloat(req.body.lng);
+    var latitude = parseFloat(req.body.lat);
+
+    console.log('Con parseFloat --> longitude: ' + longitude + ' latitude: ' + latitude);
+    console.log('Sin parseFloat --> longitude: ' + req.body.lng + ' latitude: ' + req.body.lat);
+
+
+    user.locs.push(longitude);
+    user.locs.push(latitude);
 
     console.log(user.email);
 
