@@ -13,12 +13,16 @@ var mongoose = require('mongoose'),
  * Find anuncio by id
  */
 exports.anuncio = function (req, res, next, id) {
+    if (req.params.anuncioId === "create") {
+        return res.redirect('/#!/anuncios/create');
+    } else {
     Anuncio.load(id, function (err, anuncio) {
         if (err) return next(err);
         if (!anuncio) return next(new Error('Failed to load anuncio ' + id));
         req.anuncio = anuncio;
         next();
     });
+    }
 };
 
 /**
@@ -29,6 +33,7 @@ exports.create = function (req, res) {
     anuncio.user = req.user;
 
     // Metodo para coger todos los #Hastags y guardarlos en una array
+
     var tempArrayTags = new Array();
     var descripcion = anuncio.descripcion.split(" ");
     var descripcion2 = anuncio.descripcion.split(" ");
