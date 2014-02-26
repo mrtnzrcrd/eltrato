@@ -132,6 +132,34 @@
 
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <label>
+                            <input type="checkbox" ng-click="isCollapsed = !isCollapsed"> Deseas recibir contraofertas,
+                            otros articulos como forma de pago o truques de otros usuarios interesados en tu venta?
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" collapse="isCollapsed">
+                <label popover="{{info}}" popover-trigger="mouseenter" class="col-md-4 control-label">Que te interesa?
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                </label>
+                <div class="col-md-6">
+
+                    <div class="input-group">
+                        <input value="" type="text" class="form-control"
+                               ng-model="itemName" id="interes" placeholder="Iphone 5s, ps3, bici..">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" data-ng-click="addItem()"><span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <span class="help-block">Inserta de uno en uno los articulos</span>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-primary">Publicar</button>
                 </div>
@@ -163,6 +191,11 @@
                     </li>
                 </ul>
             </div>
+            <table>
+                <tr ng-repeat="item in items" class="item-unchecked">
+                    <td><b>name:</b> {{item.name}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 

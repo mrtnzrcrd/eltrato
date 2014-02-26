@@ -142,9 +142,6 @@ angular.module('elTrato.anuncios').factory('$fileUploader', [ '$compile', '$root
             var item = this.queue[ index ];
             item.isUploading && item.cancel();
             this.queue.splice(index, 1);
-            if (this.queue.length === 0) {
-                $scope.foto = false;
-            }
             item._destroy();
             this.progress = this._getTotalProgress();
         },

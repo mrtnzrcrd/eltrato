@@ -4,21 +4,19 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
     function ($scope, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
         $scope.global = Global;
 
-        $scope.global = Global;
+        // Variable para mostrar opciones contraoferta...
+        $scope.isCollapsed = true;
 
+        // Texto para popover
+        $scope.info = "Al aceptar recibir contraofertas, otros articulos o realizar un trueque te damos la opción de que nos " +
+            "digas que te gustaría recibir, de esta manera, agilizamos muchisimo mas el trato que puedas realizar";
+        // Fin texto popover
+
+        // apartado geoLocation
         $scope.lat = "0";
         $scope.lng = "0";
         $scope.accuracy = "0";
         $scope.error = "";
-
-        // geoLocation
-        $scope.alerts = [
-            { type: 'info',
-                title: 'Disfruta al maximo de elTrato.net',
-                msg: 'Para poder disfrutar al máximo de elTrato.net necesitamos que permitas la geolocalización en tu navegador.' +
-                    'Las ventajas seran maximas, automaticamente calcularemos los productos que están cerca de ti y lo mejor de todo' +
-                    'es que solo lo tendrás que hacer una vez' }
-        ];
 
         geolocation.getLocation().then(function (data) {
             $scope.alerts = [
@@ -41,11 +39,23 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 { type: args.type, msg: args.geolocationMsg, title: args.title }
             ];
         });
+        // End geoLocation
+
+        // apartado Alertas
+        $scope.alerts = [
+            { type: 'info',
+                title: 'Disfruta al maximo de elTrato.net',
+                msg: 'Para poder disfrutar al máximo de elTrato.net necesitamos que permitas la geolocalización en tu navegador.' +
+                    'Las ventajas seran maximas, automaticamente calcularemos los productos que están cerca de ti y lo mejor de todo' +
+                    'es que solo lo tendrás que hacer una vez' }
+        ];
 
         $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
         };
+        // End Alertas
 
+        // Añadir imagenes en array para bd
         var images = new Array();
         var contador = 1;
         $scope.fotoActivo = false;
@@ -85,7 +95,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 }
             });
         }
+        // end push array
 
+        // Create new trato
         $scope.create = function () {
 
             var anuncio = new Anuncios({
@@ -109,11 +121,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             this.descripcion = '';
             this.tags = '';
         };
+        // end new trato
 
-        $scope.closeAlert = function (index) {
-            $scope.alerts.splice(index, 1);
-        };
-
+        // delete trato
         $scope.remove = function (anuncio) {
             if (anuncio) {
                 anuncio.$remove();
@@ -129,7 +139,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $location.path('anuncios');
             }
         };
+        // end delete
 
+        //update trato
         $scope.update = function () {
             var anuncio = $scope.anuncio;
             if (!anuncio.updated) {
@@ -141,13 +153,17 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $location.path('anuncios/' + anuncio._id);
             });
         };
+        //end update
 
+        //show all tratos
         $scope.find = function () {
             Anuncios.query(function (anuncios) {
                 $scope.anuncios = anuncios;
             });
         };
+        // end show all
 
+        //findOne
         $scope.findOne = function () {
             Anuncios.get({
                 anuncioId: $routeParams.anuncioId
@@ -155,7 +171,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $scope.anuncio = anuncio;
             });
         };
+        //end findOne
 
+        //Search tratos
         $scope.buscar = function () {
             Buscar.query({
                 q: $routeParams.q
@@ -163,6 +181,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $scope.anuncios = anuncios;
             });
         };
+        //end search
 
         // Creates a uploader
         var uploader = $scope.uploader = $fileUploader.create({
@@ -223,4 +242,21 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         uploader.bind('completeall', function (event, items) {
            // console.info('Complete all', items);
         });
+
+        // Item List Arrays
+        $scope.items = [];
+
+        // Add a Item to the list
+        $scope.addItem = function () {
+
+            $scope.items.push({
+                name: $scope.itemName
+            });
+
+            // Clear input fields after push
+            $scope.itemName = "";
+
+            return false;
+        };
+
     }]);
