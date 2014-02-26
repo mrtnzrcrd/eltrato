@@ -152,7 +152,7 @@
                         <input value="" type="text" class="form-control"
                                ng-model="itemName" id="interes" placeholder="Iphone 5s, ps3, bici..">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary" data-ng-click="addItem()"><span class="glyphicon glyphicon-plus"></span>
+                            <button type="button" class="btn btn-primary" data-ng-click="addItem()"><span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
             </div>
         </form>
         <div class="col-md-6">
-            <div class="bs-callout bs-callout-warning" style="margin: 0;">
+            <div class="bs-callout bs-callout-warning" style="margin: 0; margin-bottom: 56px;">
                 <h4>Como publicar correctamente tu trato (PRUEBA)</h4>
                 <ul>
                     <li>
@@ -191,11 +191,19 @@
                     </li>
                 </ul>
             </div>
-            <table>
-                <tr ng-repeat="item in items" class="item-unchecked">
-                    <td><b>name:</b> {{item.name}}</td>
-                </tr>
-            </table>
+            <div class="col-lg-offset-1 col-md-6" ng-if="itemList">
+                <ul class="list-group">
+                    <li style="background-color: #428bca; border-color: #357ebd; color: #ffffff"
+                        class="list-group-item list-group-item-success">
+                        Te interesa:
+                    </li>
+                    <li class="list-group-item" ng-repeat="item in items">
+                        {{item.name}} <button  style="float: right" class="btn btn-danger btn-xs" data-ng-click="delItem($index)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 

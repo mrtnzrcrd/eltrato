@@ -65,7 +65,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         $scope.disponible4 = true;
         $scope.disponible5 = true;
 
-        function nuevaImagen(image){
+        function nuevaImagen(image) {
             console.log("Nueva imagen: " + image);
             $scope.$apply(function () {
                 if (contador != 6) {
@@ -95,6 +95,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 }
             });
         }
+
         // end push array
 
         // Create new trato
@@ -192,7 +193,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // ADDING FILTERS
 
         // Images only
-        uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+        uploader.filters.push(function (item /*{File|HTMLInputElement}*/) {
             var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
             type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
             $scope.foto = true;
@@ -206,7 +207,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         });
 
         uploader.bind('afteraddingall', function (event, items) {
-           //    console.info('After adding all files', items);
+            //    console.info('After adding all files', items);
         });
 
         uploader.bind('beforeupload', function (event, item) {
@@ -214,33 +215,33 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         });
 
         uploader.bind('progress', function (event, item, progress) {
-           // console.info('Progress: ' + progress, item);
+            // console.info('Progress: ' + progress, item);
         });
 
         uploader.bind('success', function (event, xhr, item, response) {
-           // console.info('Success', xhr, item, response);
+            // console.info('Success', xhr, item, response);
         });
 
         uploader.bind('cancel', function (event, xhr, item) {
-           // console.info('Cancel', xhr, item);
+            // console.info('Cancel', xhr, item);
         });
 
         uploader.bind('error', function (event, xhr, item, response) {
-          //  console.info('Error', xhr, item, response);
+            //  console.info('Error', xhr, item, response);
         });
 
         uploader.bind('complete', function (event, xhr, item, response) {
-           // console.info('Complete', xhr, item, response);
-            console.info('NOMBRE IMAGEN: '+ item.file.name);
-            nuevaImagen("/img/uploads/"+ item.file.name);
+            // console.info('Complete', xhr, item, response);
+            console.info('NOMBRE IMAGEN: ' + item.file.name);
+            nuevaImagen("/img/uploads/" + item.file.name);
         });
 
         uploader.bind('progressall', function (event, progress) {
-           // console.info('Total progress: ' + progress);
+            // console.info('Total progress: ' + progress);
         });
 
         uploader.bind('completeall', function (event, items) {
-           // console.info('Complete all', items);
+            // console.info('Complete all', items);
         });
 
         // Item List Arrays
@@ -249,14 +250,28 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // Add a Item to the list
         $scope.addItem = function () {
 
-            $scope.items.push({
-                name: $scope.itemName
-            });
+            if (typeof $scope.itemName != 'undefined') {
+                if ($scope.itemName != "") {
+                    $scope.itemList = true;
+                    $scope.items.push({
+                        name: $scope.itemName
+                    });
+                    // Clear input fields after push
+                    $scope.itemName = "";
 
-            // Clear input fields after push
-            $scope.itemName = "";
-
-            return false;
+                    return false;
+                }
+            }
         };
+
+        // Remove a Item to the list
+
+        $scope.delItem = function (index) {
+            $scope.items.splice(index, 1);
+
+            if ($scope.items.length === 0) {
+                $scope.itemList = false;
+            }
+        }
 
     }]);
