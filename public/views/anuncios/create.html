@@ -7,6 +7,7 @@
     </div>
     <div class="row">
         <form name="form" class="form-horizontal col-md-6" role="form" data-ng-submit="create()">
+            <!-- Descripción -->
             <div class="form-group">
                 <label for="descripcion" class="col-md-2 control-label">Descripción</label>
 
@@ -15,6 +16,9 @@
                               class="form-control" required></textarea>
                 </div>
             </div>
+            <!-- Fin Descripción -->
+
+            <!-- Precio -->
             <div class="form-group">
                 <label for="precio" class="col-md-2 control-label">Precio</label>
 
@@ -23,6 +27,9 @@
                            placeholder="Precio" required>
                 </div>
             </div>
+            <!-- Fin Precio -->
+
+            <!-- Fotos -->
             <div class="form-group">
                 <label for="foto" class="col-md-2 control-label">Fotos</label>
 
@@ -131,6 +138,47 @@
                 </div>
 
             </div>
+            <!-- Fin Fotos -->
+
+            <!-- geoLocalización -->
+            <div class="form-group" ng-if="mapa">
+                <label class="col-md-2 control-label" for="geolocalizacion"></label>
+
+                <div class="col-md-10">
+                    <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <label class="radio-inline" ng-if="radioAct==true">
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1" ng-change='newValue(options.value)' checked>
+                        Ubicación actual
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2" ng-change='newValue(options.value)'>
+                        Predeterminada
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optionsRadios" id="optionsRadios3" ng-model="options.value" value="option3" ng-checked="radioGo" ng-change='newValue(options.value)' required>
+                        Otra Ubicación
+                    </label>
+                </div>
+            </div>
+            <div class="form-group"ng-if="inputGeo==true">
+                <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
+                <div class="col-md-8">
+                    <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
+                for address in getLocationViaGoogle($viewValue) | filter:$viewValue" typeahead-loading="loadingLocations"
+                           class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                </div>
+            </div>
+            <input type="hidden" ng-value="lat" id="inputLat" name="lat">
+            <input type="hidden" ng-value="lng" id="inputLng" name="lng">
+            <!-- Fin geoLocalización -->
+
+            <!-- Contraoferta -->
             <div class="form-group">
                 <div class="checkbox">
                     <label class="col-md-2 control-label"></label>
@@ -159,6 +207,8 @@
                     <span class="help-block">Inserta de uno en uno los articulos</span>
                 </div>
             </div>
+            <!-- Fin Contraoferta -->
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-primary">Publicar</button>

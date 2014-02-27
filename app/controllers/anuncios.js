@@ -166,8 +166,9 @@ exports.show = function (req, res) {
 /**
  * List of Anuncios
  */
+
 exports.all = function (req, res) {
-    Anuncio.find().sort('-created').populate('user', 'name username').exec(function (err, anuncios) {
+    Anuncio.find({locs : { $near : [global.lngUser, global.latUser], $maxDistance : 10}}).populate('user', 'name username').exec(function (err, anuncios) {
         if (err) {
             res.render('error', {
                 status: 500

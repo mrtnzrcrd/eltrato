@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader',
-    function ($scope, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
+angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '$http', '$routeParams', '$rootScope', '$location',
+    'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader',
+    function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
         $scope.global = Global;
 
         // Variable para mostrar opciones contraoferta...
@@ -13,10 +14,34 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // Fin texto popover
 
         // apartado geoLocation
+        $scope.options = {
+            value: ''
+        };
+
+        //ubicación usuario
+
+        $scope.lngUser = window.user.locs[0];
+        $scope.latUser = window.user.locs[1];
+
+        var longitude;
+        var latitude;
+
         $scope.lat = "0";
         $scope.lng = "0";
         $scope.accuracy = "0";
         $scope.error = "";
+
+        // google Maps
+        $scope.model = { myMap: undefined };
+        $scope.myMarkers = [];
+
+        $scope.mapa = true;
+        $scope.mapOptions = {
+            center: new google.maps.LatLng($scope.lat, $scope.lng),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        };
 
         geolocation.getLocation().then(function (data) {
             $scope.alerts = [
@@ -26,11 +51,18 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                         'elTrato.net. Disfrutalo' }
             ];
 
-            $scope.lat = data.coords.latitude;
             $scope.lng = data.coords.longitude;
+            $scope.lat = data.coords.latitude;
+
+            longitude = data.coords.longitude;
+            latitude = data.coords.latitude;
 
             $scope.accuracy = data.coords.accuracy;
 
+            var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+            $scope.model.myMap.setCenter(latlng);
+            $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+            $scope.radioAct = true;
         });
 
         $scope.$on('error', function (event, args) {
@@ -38,8 +70,64 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             $scope.alerts = [
                 { type: args.type, msg: args.geolocationMsg, title: args.title }
             ];
+
+            $scope.radioAct = false;
         });
         // End geoLocation
+
+        // Busqueda por google
+
+        $scope.getLocationViaGoogle = function (val) {
+            return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+                params: {
+                    address: val,
+                    sensor: false,
+                    components: 'country:ES'
+                }
+            }).then(function (res) {
+                    var addresses = [];
+                    var geoLocation = [];
+                    angular.forEach(res.data.results, function (item) {
+                        addresses.push(item.formatted_address);
+                        geoLocation.push(item.geometry.location.lng);
+                        geoLocation.push(item.geometry.location.lat);
+                    });
+
+                    $scope.lng = geoLocation[0];
+                    $scope.lat = geoLocation[1];
+
+                    return addresses;
+                });
+        };
+
+        //Fin busqueda por google
+
+        // Filtrar la geolocalización elegida por el usuario
+
+        $scope.newValue = function (value) {
+            if (value === 'option2') {
+                $scope.lng = window.user.locs[0];
+                $scope.lat = window.user.locs[1];
+
+                var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+                $scope.model.myMap.setCenter(latlng);
+                $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+                $scope.inputGeo = false;
+            } else if (value === 'option3') {
+                $scope.inputGeo = true;
+            } else if (value === 'option1') {
+                $scope.inputGeo = false;
+                $scope.lng = longitude;
+                $scope.lat = latitude;
+
+                var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+                $scope.model.myMap.setCenter(latlng);
+                $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+                $scope.inputGeo = false;
+            }
+        }
+
+        //Fin Filtrar la geolocalización elegida por el usuario
 
         // apartado Alertas
         $scope.alerts = [
@@ -101,10 +189,15 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // Create new trato
         $scope.create = function () {
 
+            var locs = new Array();
+            locs.push($scope.lng);
+            locs.push($scope.lat);
+
             var anuncio = new Anuncios({
                 descripcion: this.descripcion,
                 precio: this.precio,
-                images: images
+                images: images,
+                locs: locs
             });
 
             anuncio.$save(function (response) {
