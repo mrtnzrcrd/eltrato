@@ -259,7 +259,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                     // Clear input fields after push
                     $scope.itemName = "";
 
-                    return false;
+                    event.preventDefault();
                 }
             }
         };
