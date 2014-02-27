@@ -96,6 +96,10 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                     $scope.lng = geoLocation[0];
                     $scope.lat = geoLocation[1];
 
+                    var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+                    $scope.model.myMap.setCenter(latlng);
+                    $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+
                     return addresses;
                 });
         };
