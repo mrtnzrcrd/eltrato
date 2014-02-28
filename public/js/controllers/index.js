@@ -13,7 +13,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             $scope.search = false;
             var query = $scope.lng + '+' + $scope.lat;
             console.log(query);
-            $http.post('/geo', {query : query}).success( function (response) {
+            $http.post('/geo', {query: query}).success(function (response) {
                 $scope.anuncios = response;
                 $scope.yesAd = true;
                 $scope.alertOk = false;
@@ -31,28 +31,26 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
 
             geolocation.getLocation().then(function (data) {
-                $scope.$apply(function () {
-                    $scope.alerts = [
-                        { type: 'success',
-                            title: 'Muchisimas gracias!',
-                            msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
-                                'elTrato.net. Disfrutalo',
-                            lat: data.coords.latitude}
-                    ];
+                $scope.alerts = [
+                    { type: 'success',
+                        title: 'Muchisimas gracias!',
+                        msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
+                            'elTrato.net. Disfrutalo',
+                        lat: data.coords.latitude}
+                ];
 
 
-                    console.log('Enviado desde Index. Latitude: ' + data.coords.latitude + ' Longitude: ' + data.coords.longitude);
-                    $rootScope.lat = data.coords.latitude;
-                    $rootScope.lng = data.coords.longitude;
-                    var query = $scope.lng + '+' + $scope.lat;
-                    console.log(query);
-                    $http.post('/geo', {query : query}).success( function (response) {
-                        $scope.anuncios = response;
-                        $scope.search = false;
-                        $scope.yesAd = true;
-                        $scope.alertOk = false;
-                        $scope.loading = false;
-                    });
+                console.log('Enviado desde Index. Latitude: ' + data.coords.latitude + ' Longitude: ' + data.coords.longitude);
+                $rootScope.lat = data.coords.latitude;
+                $rootScope.lng = data.coords.longitude;
+                var query = $scope.lng + '+' + $scope.lat;
+                console.log(query);
+                $http.post('/geo', {query: query}).success(function (response) {
+                    $scope.anuncios = response;
+                    $scope.search = false;
+                    $scope.yesAd = true;
+                    $scope.alertOk = false;
+                    $scope.loading = false;
                 });
             });
         }
