@@ -196,6 +196,24 @@ exports.find = function (req, res) {
     });
 };
 
+exports.geoLocation = function (req, res) {
+    console.log("{ 'Geo': '" + req.body.query + "' }");
+    var loc =  req.body.query;
+    console.log("Geo: " + loc);
+    loc = loc.split("+");
+    Anuncio.find({locs : { $near : loc, $maxDistance : 10}}).populate('user', 'name username').exec(function (err, anuncio) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            console.log('Resultado: ' + anuncio);
+            res.jsonp(anuncio);
+        }
+    });
+};
+
+
 exports.upload = function (req, res) {
     var body = '';
     var header = '';
