@@ -1,9 +1,16 @@
 <section data-ng-controller="IndexController">
-    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+
+    <alert ng-if="alertOk" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
         <h4>{{alert.title}}</h4>
         {{alert.msg}}
     </alert>
-    <div class="col-xs-12 parent">
+    <div class="col-md-12">
+        <img class="imgLoading" src="../img/icons/ajax-loader.gif" ng-if="loading">
+        <h4 class="textLoading" ng-if="loading">
+            <span class="label label-info">Esperando ubicación</span>
+        </h4>
+    </div>
+    <div class="col-xs-12 parent" ng-if="search">
         <div class="col-xs-6 col-centered">
             <h1 style="text-align: center;">elTrato</h1>
         </div>
@@ -18,6 +25,45 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="col-xs-12 parent" ng-if="yesAd">
+        <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios"  >
+            <div class="thumbnail imagenAnuncio" style="background-image: url({{anuncio.images[0]}});">
+                <div class="caption">
+                    <div style="height: 13em;">
+                        <p>
+                            <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
+                            <a href="#" class="btn btn-danger pull-right btn-xs">
+                                {{anuncio.user.name}}
+                            </a>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
+                        </p>
+                        <p>
+                            <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter" class="btn btn-default">
+                                <span class="glyphicon glyphicon-comment"></span>
+                            </button>
+                            <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            </a>
+                            <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </a>
+                            <a href="#" class="btn btn-primary" role="button" title="Llamar">
+                                <span class="glyphicon glyphicon-earphone"></span>
+                            </a>
+                            <a href="#" class="btn btn-danger" role="button" title="Denunciar">
+                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                            </a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </section>
