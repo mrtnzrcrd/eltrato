@@ -22,6 +22,8 @@ module.exports = function(app) {
 
     app.get('/busqueda/:q', anuncios.find);
 
+    app.post('/geo', anuncios.geoLocation);
+
     app.post('/upload', anuncios.upload);
 
     // Finish with setting up the anuncioId param
