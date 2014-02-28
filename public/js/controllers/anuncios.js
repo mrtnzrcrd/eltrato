@@ -20,9 +20,6 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         //ubicación usuario
 
-        $scope.lngUser = window.user.locs[0];
-        $scope.latUser = window.user.locs[1];
-
         var longitude;
         var latitude;
 
@@ -43,27 +40,41 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             disableDefaultUI: true
         };
 
-        geolocation.getLocation().then(function (data) {
-            $scope.alerts = [
-                { type: 'success',
-                    title: 'Muchisimas gracias!',
-                    msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
-                        'elTrato.net. Disfrutalo' }
-            ];
 
-            $scope.lng = data.coords.longitude;
-            $scope.lat = data.coords.latitude;
+        if ($rootScope.lng) {
+            $scope.lng = $rootScope.lng;
+            $scope.lat = $rootScope.lat;
 
-            longitude = data.coords.longitude;
-            latitude = data.coords.latitude;
-
-            $scope.accuracy = data.coords.accuracy;
+            longitude = $rootScope.lng;
+            latitude = $rootScope.lat;
 
             var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
             $scope.model.myMap.setCenter(latlng);
             $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
             $scope.radioAct = true;
-        });
+        } else {
+            geolocation.getLocation().then(function (data) {
+                $scope.alerts = [
+                    { type: 'success',
+                        title: 'Muchisimas gracias!',
+                        msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
+                            'elTrato.net. Disfrutalo' }
+                ];
+
+                $rootScope.lat = data.coords.latitude;
+                $rootScope.lng = data.coords.longitude;
+
+                longitude = data.coords.longitude;
+                latitude = data.coords.latitude;
+
+                $scope.accuracy = data.coords.accuracy;
+
+                var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+                $scope.model.myMap.setCenter(latlng);
+                $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+                $scope.radioAct = true;
+            });
+        }
 
         $scope.$on('error', function (event, args) {
             console.log(args.title);
