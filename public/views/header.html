@@ -41,6 +41,11 @@
     </ul>
     <ul class="navbar-nav nav pull-right" data-ng-show="global.authenticated">
         <li>
+            <div class="btn-group navbar-btn">
+                <a class="btn btn-primary" href="anuncios/create">
+                    <span tooltip-placement="bottom" tooltip="Crear nuevo trato" class="glyphicon glyphicon-plus"></span>
+                </a>
+            </div>
             <div class="btn-group navbar-btn" style="margin-right: 10px;">
                 <button class="btn btn-primary">
                     {{global.user.username}}
