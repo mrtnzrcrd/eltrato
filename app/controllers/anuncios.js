@@ -267,6 +267,7 @@ exports.upload = function (req, res) {
         fs.writeFileSync('public/img/uploads/' + filename, body, 'binary');
         console.log('done');
 
+        res.header("Access-Control-Allow-Origin", "*");
         res.json({answer:"File transfer completed"});
     })
 };
