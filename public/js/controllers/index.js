@@ -80,16 +80,16 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
          $scope.error = "";
 
          $scope.showPosition = function (position) {
-         $scope.lat = position.coords.latitude;
-         $scope.lng = position.coords.longitude;
-         $scope.accuracy = position.coords.accuracy;
-         $scope.alerts = [
-         { type: 'success',
-         title: 'Muchisimas gracias!',
-         msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
-         'elTrato.net. Disfrutalo' }
-         ];
-         $scope.$apply();
+             $scope.lat = position.coords.latitude;
+             $scope.lng = position.coords.longitude;
+             $scope.accuracy = position.coords.accuracy;
+             $scope.alerts = [
+             { type: 'success',
+             title: 'Muchisimas gracias!',
+             msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
+             'elTrato.net. Disfrutalo' }
+             ];
+             $scope.$apply();
          }
 
          $scope.showResult = function () {

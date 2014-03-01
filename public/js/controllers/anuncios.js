@@ -40,9 +40,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             disableDefaultUI: true
         };
 
-
-        if ($rootScope.lng) {
-            $scope.lng = $rootScope.lng;
+            /*$scope.lng = $rootScope.lng;
             $scope.lat = $rootScope.lat;
 
             longitude = $rootScope.lng;
@@ -51,30 +49,36 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
             $scope.model.myMap.setCenter(latlng);
             $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
-            $scope.radioAct = true;
-        } else {
-            geolocation.getLocation().then(function (data) {
+
+            $scope.radioAct = true;*/
+
+        geolocation.getLocation().then(function (data) {
+
+            if (!$rootScope.lng) {
                 $scope.alerts = [
                     { type: 'success',
                         title: 'Muchisimas gracias!',
                         msg: 'Gracias por activar la geolocalización. Ya puedes disfrutar de todas las ventajas que te ofrece ' +
                             'elTrato.net. Disfrutalo' }
                 ];
+            }
 
-                $rootScope.lat = data.coords.latitude;
-                $rootScope.lng = data.coords.longitude;
+            $rootScope.lat = data.coords.latitude;
+            $rootScope.lng = data.coords.longitude;
 
-                longitude = data.coords.longitude;
-                latitude = data.coords.latitude;
+            $scope.lng = $rootScope.lng
+            $scope.lat = $rootScope.lat
 
-                $scope.accuracy = data.coords.accuracy;
+            longitude = data.coords.longitude;
+            latitude = data.coords.latitude;
 
-                var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
-                $scope.model.myMap.setCenter(latlng);
-                $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
-                $scope.radioAct = true;
-            });
-        }
+            $scope.accuracy = data.coords.accuracy;
+
+            var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+            $scope.model.myMap.setCenter(latlng);
+            $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+            $scope.radioAct = true;
+        });
 
         $scope.$on('error', function (event, args) {
             console.log(args.title);
@@ -145,13 +149,15 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         //Fin Filtrar la geolocalización elegida por el usuario
 
         // apartado Alertas
-        $scope.alerts = [
-            { type: 'info',
-                title: 'Disfruta al maximo de elTrato.net',
-                msg: 'Para poder disfrutar al máximo de elTrato.net necesitamos que permitas la geolocalización en tu navegador.' +
-                    'Las ventajas seran maximas, automaticamente calcularemos los productos que están cerca de ti y lo mejor de todo' +
-                    'es que solo lo tendrás que hacer una vez' }
-        ];
+        if (!$rootScope.lng) {
+            $scope.alerts = [
+                { type: 'info',
+                    title: 'Disfruta al maximo de elTrato.net',
+                    msg: 'Para poder disfrutar al máximo de elTrato.net necesitamos que permitas la geolocalización en tu navegador.' +
+                        'Las ventajas seran maximas, automaticamente calcularemos los productos que están cerca de ti y lo mejor de todo' +
+                        'es que solo lo tendrás que hacer una vez' }
+            ];
+        }
 
         $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
