@@ -25,8 +25,8 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         var longitude;
         var latitude;
 
-        $scope.lat = "0";
-        $scope.lng = "0";
+        $scope.lat = window.user.locs[1];
+        $scope.lng = window.user.locs[0];
         $scope.accuracy = "0";
         $scope.error = "";
 
@@ -220,6 +220,11 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         // end push array
 
+        $scope.publicar =function(){
+            uploader.uploadAll();
+
+        }
+
         // Create new trato
         $scope.create = function () {
 
@@ -314,14 +319,14 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // Creates a uploader
         var uploader = $scope.uploader = $fileUploader.create({
             scope: $scope,
-            url: 'http://localhost:3000/upload'
+            url: '/upload'
         });
 
         // ADDING FILTERS
 
         // Images only
         uploader.filters.push(function (item /*{File|HTMLInputElement}*/) {
-            var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+            var type = uploader.isHTML5? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
             type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
             $scope.foto = true;
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
@@ -361,7 +366,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             // console.info('Complete', xhr, item, response);
             console.info('NOMBRE IMAGEN: ' + item.file.name);
             nuevaImagen("/img/uploads/" + item.file.name);
+        console.log("imagen subida");
         });
+
 
         uploader.bind('progressall', function (event, progress) {
             // console.info('Total progress: ' + progress);
@@ -369,6 +376,8 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         uploader.bind('completeall', function (event, items) {
             // console.info('Complete all', items);
+            console.log("imagenes subidas");
+            $scope.create();
         });
 
         // Item List Arrays
