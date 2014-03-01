@@ -152,11 +152,11 @@
                 <label class="col-md-2 control-label"></label>
                 <div class="col-md-10">
                     <label class="radio-inline" ng-if="radioAct==true">
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1" ng-change='newValue(options.value)' checked>
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1" ng-change='newValue(options.value)' ng-checked="geoRadio">
                         Ubicación actual
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2" ng-change='newValue(options.value)'>
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2" ng-change='newValue(options.value)' ng-checked="predeterminadaRadio">
                         Predeterminada
                     </label>
                     <label class="radio-inline">

@@ -8,6 +8,8 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // Variable para mostrar opciones contraoferta...
         $scope.isCollapsed = true;
 
+        $scope.predeterminadaRadio = true;
+
         // Texto para popover
         $scope.info = "Al aceptar recibir contraofertas, otros articulos o realizar un trueque te damos la opción de que nos " +
             "digas que te gustaría recibir, de esta manera, agilizamos muchisimo mas el trato que puedas realizar";
@@ -52,7 +54,18 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
             $scope.radioAct = true;*/
 
+        /*if (!$rootScope.lng) {
+            $scope.lng = window.user.locs[0];
+            $scope.lat = window.user.locs[1];
+
+            var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+            $scope.model.myMap.setCenter(latlng);
+            $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+        }*/
+
         geolocation.getLocation().then(function (data) {
+
+            $scope.geoRadio = true;
 
             if (!$rootScope.lng) {
                 $scope.alerts = [
