@@ -17,6 +17,9 @@ module.exports = function(app) {
     app.get('/anuncios', anuncios.all);
     app.post('/anuncios', authorization.requiresLogin, anuncios.create);
     app.get('/anuncios/:anuncioId', anuncios.show);
+
+    app.get('/misanuncios/:usuarioId', anuncios.mis);
+
     app.put('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.update);
     app.del('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.destroy);
 

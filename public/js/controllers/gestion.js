@@ -1,23 +1,42 @@
 'use strict';
 
-angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation',
-    function ($scope, $routeParams, $rootScope, $location, Global, geolocation) {
+angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation', 'misAnuncios',
+    function ($scope, $routeParams, $rootScope, $location, Global, geolocation, misAnuncios) {
         $scope.global = Global;
 
         $scope.nombre = Global.user.name;
-
+        $scope.selection = "cuenta";
         $scope.isCollapsed1 = true;
         $scope.isCollapsed2 = true;
         $scope.isCollapsed3 = true;
 
         $scope.cambiarTab = function (event) {
            event.preventDefault();
-            var objectActive = angular.element(document.querySelector(".tab-pane.active"));
-            objectActive.removeClass("active");
-            var idTab = event.currentTarget.attributes.href.nodeValue;
-            var objectTab = angular.element(document.querySelector(idTab));
-            objectTab.addClass("active");
+                var idTab = event.currentTarget.attributes.href.nodeValue;
+                $scope.selection = idTab;
+            switch(idTab)
+            {
+                case "tratos":
+                    console.log("tratos");
+                    console.log(Global.user._id);
+                    misAnuncios.query2({
+                        usuarioId: Global.user._id
+                    }, function (anuncio) {
+
+                        $scope.anuncios = anuncio;
+                    });
+                    break;
+                case "mensajes":
+                    console.log("mensajes");
+                    break
+                case "favoritos":
+                    console.log("favoritos");
+                    break;
+                default:
+                    console.log("");
+            }
         };
+
 
         /*
         $scope.find = function () {

@@ -6,64 +6,104 @@
         <div class="col-md-3">
             <div class="bs-docs-sidebar hidden-print affix-top">
                 <ul data-ng-model="myTab" class="nav nav-pills nav-stacked nav-tabs">
-                    <li><a href="#cuenta" class="active" data-toggle="tab" data-ng-click="cambiarTab($event)" >Cuenta</a></li>
-                    <li><a href="#tratos" data-toggle="tab" data-ng-click="cambiarTab($event)" >Tratos</a></li>
-                    <li><a href="#favoritos" data-toggle="tab" data-ng-click="cambiarTab($event)" >Favoritos</a></li>
-                    <li><a href="#mensajes" data-toggle="tab" data-ng-click="cambiarTab($event)" >Mensajes</a></li>
+                    <li><a href="cuenta" class="active" data-toggle="tab" data-ng-click="cambiarTab($event)" >Cuenta</a></li>
+                    <li><a href="tratos" data-toggle="tab" data-ng-click="cambiarTab($event)" >Tratos</a></li>
+                    <li><a href="favoritos" data-toggle="tab" data-ng-click="cambiarTab($event)" >Favoritos</a></li>
+                    <li><a href="mensajes" data-toggle="tab" data-ng-click="cambiarTab($event)" >Mensajes</a></li>
                     <li><a href="#" data-toggle="tab" data-ng-click="cambiarTab($event)" >Contra-ofertas</a></li> //Seccion con enviadas/recibidas
                     <li><a href="#" data-toggle="tab" data-ng-click="cambiarTab($event)" >Lista negra</a></li>
                 </ul>
             </div>
         </div>
+
         <div class="col-md-9" >
-            <div class="tab-content">
-        <!-- Overview ================================================== -->
-        <div class="tab-pane active" id="cuenta" >
-            <h1>Cuenta <small>Modifica tu perfil</small></h1>
+            <div class="animate-switch-container" ng-switch on="selection">
 
-                <div class=" col-md-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Nombre de usuario:</h3>
-                        </div>
-                        <div class="panel-body">
-                            {{global.user.username}}
-                        </div>
-                    </div>
-                </div>
-                <div class=" col-md-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Nombre:</h3>
-                        </div>
-                        <div class="panel-body">
-                            {{global.user.name}}
-                        </div>
-                    </div>
-                </div>
-            <div class=" col-md-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Correo electronico:</h3>
-                    </div>
-                    <div class="panel-body">
-                        {{global.user.email}}
-                    </div>
-                </div>
-            </div>
-        </div>
-            <div class="tab-pane" id="tratos" >
-                <h1>Tratos <small>Crea, edita, borra</small></h1>
-            </div>
+                <div class="animate-switch" ng-switch-when="tratos"  >
+                    <h1>Tratos <small>Crea, edita, borra</small></h1>
+                    <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios"  >
+                        <div class="thumbnail imagenAnuncio" style="background-image: url({{anuncio.images[0]}});">
+                            <div class="caption">
+                                <div style="height: 13em;">
+                                    <p>
+                                        <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
+                                        <a href="#" class="btn btn-danger pull-right btn-xs">
+                                            {{anuncio.user.name}}
+                                        </a>
+                                    </p>
+                                </div>
+                                <div>
+                                    <p>
+                                        <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
+                                    </p>
+                                    <p>
+                                        <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-comment"></span>
+                                        </button>
+                                        <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
+                                            <span class="glyphicon glyphicon-star-empty"></span>
+                                        </a>
+                                        <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
+                                            <span class="glyphicon glyphicon-envelope"></span>
+                                        </a>
+                                        <a href="#" class="btn btn-primary" role="button" title="Llamar">
+                                            <span class="glyphicon glyphicon-earphone"></span>
+                                        </a>
+                                        <a href="#" class="btn btn-danger" role="button" title="Denunciar">
+                                            <span class="glyphicon glyphicon-thumbs-down"></span>
+                                        </a>
+                                    </p>
+                                </div>
 
-                <div class="tab-pane" id="favoritos" >
+                            </div>
+                        </div>
+                    </div>
+                    <h1 data-ng-hide="!anuncios || anuncios.length">No se han encontrado anuncios. <br> Quiere publicar tu anuncio? <a href="/#!/anuncios/create">Crear uno nuevo</a></h1>
+
+                </div>
+
+                <div class="animate-switch" ng-switch-when="favoritos" >
                     <h1>Favoritos <small>Estos me interesan</small></h1>
                 </div>
 
-                <div class="tab-pane" id="mensajes" >
+                <div class="animate-switch" ng-switch-when="mensajes"  >
                     <h1>Mensajes <small>Vamos a hablar+</small></h1>
                 </div>
 
+                <div class="animate-switch" ng-switch-default >
+                    <h1>Cuenta <small>Modifica tu perfil</small></h1>
+
+                    <div class=" col-md-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Nombre de usuario:</h3>
+                            </div>
+                            <div class="panel-body">
+                                {{global.user.username}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Nombre:</h3>
+                            </div>
+                            <div class="panel-body">
+                                {{global.user.name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Correo electronico:</h3>
+                            </div>
+                            <div class="panel-body">
+                                {{global.user.email}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

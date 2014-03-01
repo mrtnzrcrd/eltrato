@@ -16,7 +16,18 @@ angular.module('elTrato.anuncios').factory('Buscar', ['$resource', function($res
         query: {method:'GET', params:{q:'@q'}, isArray:true}
     });
 }]);
-
+/*
+// Pruebas servicios
+angular.module('elTrato.gestion').factory('Anuncios', ['$resource', function($resource) {
+    return {
+        favoritos: function(){
+            return $resource('busqueda/:q', {}, {
+                query: {method:'GET', params:{q:'@q'}, isArray:true}
+            });
+        },
+    }
+}]);
+*/
 angular.module('elTrato.anuncios').factory('$fileUploader', [ '$compile', '$rootScope', '$http', '$window', function ( $compile, $rootScope, $http, $window) {
     'use strict';
 

@@ -179,6 +179,21 @@ exports.all = function (req, res) {
     });
 };
 
+exports.mis = function (req, res) {
+    var usuarioId =  req.params.usuarioId;
+    console.log("{ 'query': '" + req.params.usuarioId + "' }");
+    Anuncio.find({user: usuarioId}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            console.log('Resultado: ' + anuncio);
+            res.jsonp(anuncio);
+        }
+    });
+};
+
 exports.find = function (req, res) {
     console.log("{ 'query': '" + req.params.q + "' }");
     var tagsParams =  req.params.q;
@@ -266,10 +281,6 @@ exports.upload = function (req, res) {
         console.log('final file size: ' + body.length);
         fs.writeFileSync('public/img/uploads/' + filename, body, 'binary');
         console.log('done');
-
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'POST');
-        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
 
         res.json({answer:"File transfer completed"});
     })
