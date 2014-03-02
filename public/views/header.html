@@ -1,11 +1,12 @@
 <div class="" data-ng-controller="HeaderController">
     <ul class="navbar-nav nav">
         <li>
-            <a class="navbar-brand" href="#!/">elTrato.net</a>
+            <a data-ng-show="!global.authenticated" class="navbar-brand" href="/">elTrato.net</a>
+            <a data-ng-show="global.authenticated" class="navbar-brand" href="#!/">elTrato.net</a>
         </li>
     </ul>
     <div class="col-sm-4 col-md-4 col-lg-offset-3">
-        <form class="navbar-form navbar-left" role="search" name="search-form" data-ng-submit="buscar()">
+        <form class="navbar-form navbar-left" data-ng-show="global.authenticated" role="search" name="search-form" data-ng-submit="buscar()">
             <div class="input-group">
                 <input data-ng-model="q" type="text" class="form-control" value="">
 
@@ -17,10 +18,10 @@
         </form>
     </div>
     <ul class="navbar-nav nav pull-right" data-ng-hide="global.authenticated">
-        <li><a href="signup">Signup</a>
+        <li><a href="signup">Regístrate</a>
         </li>
         <li class="divider-vertical"></li>
-        <li><a href="signin">Signin</a>
+        <li><a href="signin">Acceder</a>
         </li>
     </ul>
     <ul class="navbar-nav nav pull-right" data-ng-show="global.authenticated">
