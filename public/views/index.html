@@ -16,6 +16,13 @@
         </div>
         <div class="col-xs-8 col-centered">
             <form class="navbar-form" role="search" name="search-form" data-ng-submit="buscar()">
+                <div class="col-centered col-md-6" style="margin-bottom: 10px;">
+                    <input id="placeCenter" type="text" ng-model="asyncSelected" placeholder="Donde buscamos?" typeahead="address
+                for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
+                           typeahead-loading="loadingLocations"
+                           class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                </div>
                 <div class="input-group">
                     <input data-ng-model="q" type="text" class="form-control input-lg" value="">
 
@@ -24,16 +31,18 @@
                                 class="glyphicon glyphicon-search"></span></button>
                     </div>
                 </div>
+                <input type="hidden" ng-value="lat" id="inputLat" name="lat">
+                <input type="hidden" ng-value="lng" id="inputLng" name="lng">
             </form>
         </div>
     </div>
     <div class="col-xs-12 parent" ng-if="yesAd">
-        <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios"  >
+        <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios">
             <div class="thumbnail imagenAnuncio" style="background-image: url({{anuncio.images[0]}});">
                 <div class="caption">
                     <div style="height: 13em;">
                         <p>
-                            <span class="label label-default pull-left" >{{anuncio.created | date:'medium'}}</span>
+                            <span class="label label-default pull-left">{{anuncio.created | date:'medium'}}</span>
                             <a href="#" class="btn btn-danger pull-right btn-xs">
                                 {{anuncio.user.name}}
                             </a>
@@ -43,8 +52,10 @@
                         <p>
                             <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
                         </p>
+
                         <p>
-                            <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter" class="btn btn-default">
+                            <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter"
+                                    class="btn btn-default">
                                 <span class="glyphicon glyphicon-comment"></span>
                             </button>
                             <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
