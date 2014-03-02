@@ -108,3 +108,7 @@ footer p {
     opacity: 1;
     top: 0;
 }
+
+#placeCenter::-webkit-input-placeholder {
+    text-align: center;
+}
