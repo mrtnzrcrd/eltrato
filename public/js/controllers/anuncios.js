@@ -5,6 +5,12 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
     function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
         $scope.global = Global;
 
+        $scope.caution = function() {
+            if (!window.user) {
+                $location.path('#!/');
+            }
+        }
+
         // Variable para mostrar opciones contraoferta...
         $scope.isCollapsed = true;
 
@@ -25,43 +31,25 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         var longitude;
         var latitude;
 
-        $scope.lat = window.user.locs[1];
-        $scope.lng = window.user.locs[0];
-        $scope.accuracy = "0";
-        $scope.error = "";
-
-        // google Maps
-        $scope.model = { myMap: undefined };
-        $scope.myMarkers = [];
-
-        $scope.mapa = true;
-        $scope.mapOptions = {
-            center: new google.maps.LatLng($scope.lat, $scope.lng),
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            disableDefaultUI: true
-        };
-
-            /*$scope.lng = $rootScope.lng;
-            $scope.lat = $rootScope.lat;
-
-            longitude = $rootScope.lng;
-            latitude = $rootScope.lat;
-
-            var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
-            $scope.model.myMap.setCenter(latlng);
-            $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
-
-            $scope.radioAct = true;*/
-
-        /*if (!$rootScope.lng) {
-            $scope.lng = window.user.locs[0];
+        if (window.user) {
             $scope.lat = window.user.locs[1];
+            $scope.lng = window.user.locs[0];
 
-            var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
-            $scope.model.myMap.setCenter(latlng);
-            $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
-        }*/
+            $scope.accuracy = "0";
+            $scope.error = "";
+
+            // google Maps
+            $scope.model = { myMap: undefined };
+            $scope.myMarkers = [];
+
+            $scope.mapa = true;
+            $scope.mapOptions = {
+                center: new google.maps.LatLng($scope.lat, $scope.lng),
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: true
+            };
+        }
 
         geolocation.getLocation().then(function (data) {
 
@@ -91,6 +79,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             $scope.model.myMap.setCenter(latlng);
             $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
             $scope.radioAct = true;
+            $scope.predeterminadaRadio = false;
+            $scope.radioGo = false;
+            $scope.geoRadio = true;
         });
 
         $scope.$on('error', function (event, args) {
@@ -222,7 +213,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         $scope.publicar =function(){
             uploader.uploadAll();
-
+            $scope.process = true;
         }
 
         // Create new trato
@@ -366,9 +357,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             // console.info('Complete', xhr, item, response);
             console.info('NOMBRE IMAGEN: ' + item.file.name);
             nuevaImagen("/img/uploads/" + item.file.name);
-        console.log("imagen subida");
         });
-
 
         uploader.bind('progressall', function (event, progress) {
             // console.info('Total progress: ' + progress);
