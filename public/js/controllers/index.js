@@ -9,9 +9,6 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
         $scope.alertOk = true;
         $scope.loading = false;
 
-        console.log($rootScope.lng);
-        console.log(window.user);
-
         if (window.user != null) {
             $scope.search = false;
             var query = window.user.locs[0] + '+' + window.user.locs[1];
@@ -125,10 +122,41 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             $scope.alerts.splice(index, 1);
         };
 
+        $rootScope.$on('searcHeader', function (event, args) {
+            $http.post('/searchGeo', {params: {search: args.search, geo: args.geo}}).success(function (response) {
+                $scope.anuncios = response;
+                $scope.search = false;
+                $scope.yesAd = true;
+                $scope.alertOk = false;
+                $scope.loading = false;
+            });
+        });
+
         $scope.buscar = function () {
-            console.log("$scope.q: " + $scope.q);
-            // var query = ($scope.q + '').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-            var query = $scope.q.replace(/\s/g, "+");
-            $location.path('busqueda/' + query);
+            console.log('longitude: ' + $scope.lng + ' LAtitude: ' + $scope.lat);
+            console.log("$scope.q: " + this.q);
+            if (this.q) {
+                var query = this.q.replace(/\s/g, "+");
+            }
+            var query2 = $scope.lng + '+' + $scope.lat;
+            if ($scope.lng && this.q) {
+                $http.post('/searchGeo', {params: {search: query, geo: query2}}).success(function (response) {
+                    $scope.anuncios = response;
+                    $scope.search = false;
+                    $scope.yesAd = true;
+                    $scope.alertOk = false;
+                    $scope.loading = false;
+                });
+            } else if ($scope.lng && !this.q) {
+                $http.post('/geo', {query: query2}).success(function (response) {
+                    $scope.anuncios = response;
+                    $scope.search = false;
+                    $scope.yesAd = true;
+                    $scope.alertOk = false;
+                    $scope.loading = false;
+                });
+            } else if (this.q && !$scope.lng) {
+                $location.path('busqueda/' + query);
+            }
         };
     }]);
