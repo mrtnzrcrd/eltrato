@@ -15,7 +15,7 @@ var hasAuthorization = function(req, res, next) {
 module.exports = function(app) {
 
     app.get('/anuncios', anuncios.all);
-    app.post('/anuncios', authorization.requiresLogin, anuncios.create);
+    app.post('/anuncios', authorization.requiresLogin, hasAuthorization, anuncios.create);
     app.get('/anuncios/:anuncioId', anuncios.show);
 
     app.get('/misanuncios/:usuarioId', anuncios.mis);
@@ -26,6 +26,7 @@ module.exports = function(app) {
     app.get('/busqueda/:q', anuncios.find);
 
     app.post('/geo', anuncios.geoLocation);
+    app.post('/searchGeo', anuncios.findGeo);
 
     app.post('/upload', anuncios.upload);
 
