@@ -1,11 +1,11 @@
 <div class="" data-ng-controller="HeaderController">
     <ul class="navbar-nav nav">
         <li>
-            <a data-ng-show="!global.authenticated" class="navbar-brand" href="/">elTrato.net</a>
-            <a data-ng-show="global.authenticated" class="navbar-brand" href="#!/">elTrato.net</a>
+            <a ng-if="index" class="navbar-brand" href="/">elTrato.net</a>
+            <a ng-if="elTrato" class="navbar-brand" href="#!/">elTrato.net</a>
         </li>
     </ul>
-    <div class="col-sm-4 col-md-4 col-lg-offset-3">
+    <div class="col-sm-4 col-md-4 col-centered">
         <form class="navbar-form navbar-left" data-ng-show="global.authenticated" role="search" name="search-form" data-ng-submit="buscar()">
             <div class="input-group">
                 <input data-ng-model="q" type="text" class="form-control" value="">
