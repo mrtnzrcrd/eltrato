@@ -18,20 +18,28 @@ exports.authCallback = function(req, res) {
  * Show login form
  */
 exports.signin = function(req, res) {
-    res.render('users/signin', {
-        title: 'Signin',
-        message: req.flash('error')
-    });
+    if (req.user) {
+        res.redirect('/');
+    } else {
+        res.render('users/signin', {
+            title: 'Signin',
+            message: req.flash('error')
+        });
+    }
 };
 
 /**
  * Show sign up form
  */
 exports.signup = function(req, res) {
-    res.render('users/signup', {
-        title: 'Sign up',
-        user: new User()
-    });
+    if (req.user) {
+        res.redirect('/');
+    } else {
+        res.render('users/signup', {
+            title: 'Sign up',
+            user: new User()
+        });
+    }
 };
 
 /**
