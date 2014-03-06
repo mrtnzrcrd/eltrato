@@ -1,13 +1,65 @@
 'use strict';
 
-angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation',
-    function ($scope, $http, $rootScope, $location, Global, geolocation) {
+angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation', 'Geocoder',
+    function ($scope, $http, $rootScope, $location, Global, geolocation, Geocoder) {
         $scope.global = Global;
 
         $scope.search = true;
         $scope.yesAd = false;
         $scope.alertOk = true;
         $scope.loading = false;
+        $scope.kilometros = 0;
+
+        $scope.distance = function (data) {
+            console.log(data);
+            console.log($scope.address);
+            $scope.kilometros = data;
+
+            if ($scope.lng) {
+                var latlng = $scope.lng + '+' + $scope.lat;
+            } else {
+                var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+            }
+
+            var distance = data;
+
+            $http.post('/searchDistance', {params: {distance: distance, geo: latlng}}).success(function (response) {
+                Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                    $scope.address = data.address;
+                })
+                $scope.anuncios = response;
+                $scope.search = false;
+                $scope.yesAd = true;
+                $scope.alertOk = false;
+                $scope.loading = false;
+            });
+        }
+
+        $scope.localizacion = function () {
+            $scope.address = this.address;
+            console.log($scope.address + ' ' + $scope.kilometros + ' ' + $scope.lng + '+' + $scope.lat);
+            console.log($scope.address);
+
+            if ($scope.lng) {
+                var latlng = $scope.lng + '+' + $scope.lat;
+            } else {
+                var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+            }
+
+            var distance = $scope.kilometros;
+
+            $http.post('/searchDistance', {params: {distance: distance, geo: latlng}}).success(function (response) {
+                Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                    $scope.address = data.address;
+                })
+                $scope.anuncios = response;
+                $scope.search = false;
+                $scope.yesAd = true;
+                $scope.alertOk = false;
+                $scope.loading = false;
+            });
+
+        }
 
         if (window.user != null) {
             $scope.search = false;
@@ -31,6 +83,9 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 var query = $scope.lng + '+' + $scope.lat;
                 console.log(query);
                 $http.post('/geo', {query: query}).success(function (response) {
+                    Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                        $scope.address = data.address;
+                    })
                     $scope.anuncios = response;
                     $scope.search = false;
                     $scope.yesAd = true;
@@ -39,6 +94,9 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 });
             });
             $http.post('/geo', {query: query}).success(function (response) {
+                Geocoder.addressForLatLng(window.user.locs[1], window.user.locs[0]).then(function(data){
+                    $scope.address = data.address;
+                })
                 $scope.anuncios = response;
                 $scope.yesAd = true;
                 $scope.alertOk = false;
@@ -48,6 +106,9 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             var query = $scope.lng + '+' + $scope.lat;
             console.log(query);
             $http.post('/geo', {query: query}).success(function (response) {
+                Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                    $scope.address = data.address;
+                })
                 $scope.anuncios = response;
                 $scope.yesAd = true;
                 $scope.alertOk = false;
@@ -75,6 +136,10 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $rootScope.lng = data.coords.longitude;
 
                 $rootScope.$broadcast('geo');
+
+                Geocoder.addressForLatLng(data.coords.latitude, data.coords.longitude).then(function(data2){
+                    $scope.address = data2.address;
+                })
 
                 var query = $scope.lng + '+' + $scope.lat;
                 console.log(query);
@@ -112,7 +177,6 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
         };
 
         $scope.$on('error', function (event, args) {
-            console.log(args.title);
             $scope.alerts = [
                 { type: args.type, msg: args.geolocationMsg, title: args.title }
             ];
@@ -141,6 +205,9 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             var query2 = $scope.lng + '+' + $scope.lat;
             if ($scope.lng && this.q) {
                 $http.post('/searchGeo', {params: {search: query, geo: query2}}).success(function (response) {
+                    Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                        $scope.address = data.address;
+                    })
                     $scope.anuncios = response;
                     $scope.search = false;
                     $scope.yesAd = true;
@@ -149,6 +216,9 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 });
             } else if ($scope.lng && !this.q) {
                 $http.post('/geo', {query: query2}).success(function (response) {
+                    Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                        $scope.address = data.address;
+                    })
                     $scope.anuncios = response;
                     $scope.search = false;
                     $scope.yesAd = true;
