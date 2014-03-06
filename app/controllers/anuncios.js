@@ -211,6 +211,46 @@ exports.find = function (req, res) {
     });
 };
 
+exports.findGeo = function (req, res) {
+    var tagsParams =  req.body.params.search;
+    console.log("tagParams: " + tagsParams);
+    tagsParams = tagsParams.split("+");
+    var loc =  req.body.params.geo;
+    console.log("Geo: " + loc);
+    loc = loc.split("+");
+    Anuncio.find({locs : { $near : loc, $maxDistance : 10}, tags: { $in : tagsParams }}).populate('user', 'name username').exec(function (err, anuncio) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            console.log('Resultado: ' + anuncio);
+            res.jsonp(anuncio);
+        }
+    });
+};
+
+exports.findDistance = function (req, res) {
+    var distance =  req.body.params.distance;
+    distance = parseInt(distance);
+    if (distance === 0) {
+        distance = 1;
+    }
+    var loc =  req.body.params.geo;
+    console.log("Geo: " + loc);
+    loc = loc.split("+");
+    Anuncio.find({locs : { $near : loc, $maxDistance : distance/111.12}}).populate('user', 'name username').exec(function (err, anuncio) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            console.log('Resultado: ' + anuncio);
+            res.jsonp(anuncio);
+        }
+    });
+};
+
 exports.geoLocation = function (req, res) {
     console.log("{ 'Geo': '" + req.body.query + "' }");
     var loc =  req.body.query;
@@ -285,3 +325,6 @@ exports.upload = function (req, res) {
         res.json({answer:"File transfer completed"});
     })
 };
+
+// db.anuncios.find({locs : {$near : [ 1.9138029, 41.418776199999996 ], $maxDistance : 119/111.12 }}).pretty()
+// Consulta con km ej: 119 km;
