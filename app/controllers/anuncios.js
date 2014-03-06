@@ -16,12 +16,12 @@ exports.anuncio = function (req, res, next, id) {
     if (req.params.anuncioId === "create") {
         return res.redirect('/#!/anuncios/create');
     } else {
-    Anuncio.load(id, function (err, anuncio) {
-        if (err) return next(err);
-        if (!anuncio) return next(new Error('Failed to load anuncio ' + id));
-        req.anuncio = anuncio;
-        next();
-    });
+        Anuncio.load(id, function (err, anuncio) {
+            if (err) return next(err);
+            if (!anuncio) return next(new Error('Failed to load anuncio ' + id));
+            req.anuncio = anuncio;
+            next();
+        });
     }
 };
 
@@ -168,7 +168,7 @@ exports.show = function (req, res) {
  */
 
 exports.all = function (req, res) {
-    Anuncio.find({locs : { $near : [global.lngUser, global.latUser], $maxDistance : 10}}).populate('user', 'name username').exec(function (err, anuncios) {
+    Anuncio.find({locs: { $near: [global.lngUser, global.latUser], $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncios) {
         if (err) {
             res.render('error', {
                 status: 500
@@ -180,7 +180,7 @@ exports.all = function (req, res) {
 };
 
 exports.mis = function (req, res) {
-    var usuarioId =  req.params.usuarioId;
+    var usuarioId = req.params.usuarioId;
     console.log("{ 'query': '" + req.params.usuarioId + "' }");
     Anuncio.find({user: usuarioId}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
@@ -196,10 +196,10 @@ exports.mis = function (req, res) {
 
 exports.find = function (req, res) {
     console.log("{ 'query': '" + req.params.q + "' }");
-    var tagsParams =  req.params.q;
+    var tagsParams = req.params.q;
     console.log("tagParams: " + tagsParams);
     tagsParams = tagsParams.split("+");
-    Anuncio.find({tags: { $in : tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+    Anuncio.find({user: {$ne: req.user._id}, tags: { $in: tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
             res.render('error', {
                 status: 500
@@ -212,13 +212,13 @@ exports.find = function (req, res) {
 };
 
 exports.findGeo = function (req, res) {
-    var tagsParams =  req.body.params.search;
+    var tagsParams = req.body.params.search;
     console.log("tagParams: " + tagsParams);
     tagsParams = tagsParams.split("+");
-    var loc =  req.body.params.geo;
+    var loc = req.body.params.geo;
     console.log("Geo: " + loc);
     loc = loc.split("+");
-    Anuncio.find({locs : { $near : loc, $maxDistance : 10}, tags: { $in : tagsParams }}).populate('user', 'name username').exec(function (err, anuncio) {
+    Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: 10}, tags: { $in: tagsParams }}).populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
             res.render('error', {
                 status: 500
@@ -231,15 +231,16 @@ exports.findGeo = function (req, res) {
 };
 
 exports.findDistance = function (req, res) {
-    var distance =  req.body.params.distance;
+    console.log(req.user._id);
+    var distance = req.body.params.distance;
     distance = parseInt(distance);
     if (distance === 0) {
         distance = 1;
     }
-    var loc =  req.body.params.geo;
+    var loc = req.body.params.geo;
     console.log("Geo: " + loc);
     loc = loc.split("+");
-    Anuncio.find({locs : { $near : loc, $maxDistance : distance/111.12}}).populate('user', 'name username').exec(function (err, anuncio) {
+    Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}}).populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
             res.render('error', {
                 status: 500
@@ -253,10 +254,10 @@ exports.findDistance = function (req, res) {
 
 exports.geoLocation = function (req, res) {
     console.log("{ 'Geo': '" + req.body.query + "' }");
-    var loc =  req.body.query;
+    var loc = req.body.query;
     console.log("Geo: " + loc);
     loc = loc.split("+");
-    Anuncio.find({locs : { $near : loc, $maxDistance : 10}}).populate('user', 'name username').exec(function (err, anuncio) {
+    Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
             res.render('error', {
                 status: 500
@@ -282,15 +283,15 @@ exports.upload = function (req, res) {
     console.log('boundary: ' + boundary);
     console.log('content-length: ' + content_length);
 
-    req.on('data', function(raw) {
+    req.on('data', function (raw) {
         console.log('received data length: ' + raw.length);
         var i = 0;
         while (i < raw.length)
             if (headerFlag) {
-                var chars = raw.slice(i, i+4).toString();
+                var chars = raw.slice(i, i + 4).toString();
                 if (chars === '\r\n\r\n') {
                     headerFlag = false;
-                    header = raw.slice(0, i+4).toString();
+                    header = raw.slice(0, i + 4).toString();
                     console.log('header length: ' + header.length);
                     console.log('header: ');
                     console.log(header);
@@ -315,14 +316,14 @@ exports.upload = function (req, res) {
             }
     });
 
-    req.on('end', function() {
+    req.on('end', function () {
         // removing footer '\r\n'--boundary--\r\n' = (boundary.length + 8)
         body = body.slice(0, body.length - (boundary.length + 8))
         console.log('final file size: ' + body.length);
         fs.writeFileSync('public/img/uploads/' + filename, body, 'binary');
         console.log('done');
 
-        res.json({answer:"File transfer completed"});
+        res.json({answer: "File transfer completed"});
     })
 };
 

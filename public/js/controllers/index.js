@@ -24,9 +24,15 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             var distance = data;
 
             $http.post('/searchDistance', {params: {distance: distance, geo: latlng}}).success(function (response) {
-                Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
-                    $scope.address = data.address;
-                })
+                if ($scope.lng) {
+                    Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                        $scope.address = data.address;
+                    })
+                } else {
+                    Geocoder.addressForLatLng(window.user.locs[1], window.user.locs[0]).then(function(data){
+                        $scope.address = data.address;
+                    })
+                }
                 $scope.anuncios = response;
                 $scope.search = false;
                 $scope.yesAd = true;
@@ -49,9 +55,16 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             var distance = $scope.kilometros;
 
             $http.post('/searchDistance', {params: {distance: distance, geo: latlng}}).success(function (response) {
-                Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
-                    $scope.address = data.address;
-                })
+                if ($scope.lng) {
+                    Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function(data){
+                        $scope.address = data.address;
+                    })
+                } else {
+                    Geocoder.addressForLatLng(window.user.locs[1], window.user.locs[0]).then(function(data){
+                        $scope.address = data.address;
+                    })
+                }
+
                 $scope.anuncios = response;
                 $scope.search = false;
                 $scope.yesAd = true;
