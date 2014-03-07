@@ -109,7 +109,7 @@ footer p {
     top: 0;
 }
 
-#placeCenter::-webkit-input-placeholder {
+.placeCenter::-webkit-input-placeholder {
     text-align: center;
 }
 

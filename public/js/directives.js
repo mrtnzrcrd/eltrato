@@ -85,3 +85,14 @@ angular.module('elTrato.anuncios').directive('ngFileSelect', [ '$fileUploader', 
         }
     };
 }]);
+
+angular.module('elTrato.system').directive('myInput', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element) {
+            element.bind('click', function (event) {
+                event.stopPropagation();
+            });
+        }
+    };
+});

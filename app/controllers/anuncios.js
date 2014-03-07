@@ -230,26 +230,80 @@ exports.findGeo = function (req, res) {
     });
 };
 
-exports.findDistance = function (req, res) {
-    console.log(req.user._id);
+exports.findDistancePrice = function (req, res) {
     var distance = req.body.params.distance;
     distance = parseInt(distance);
+    var desde = req.body.params.desde;
+    var hasta = req.body.params.hasta;
+
+    if (desde && hasta) {
+        desde = parseInt(desde);
+        hasta = parseInt(hasta);
+
+        var provisionalDesde = parseInt(desde);
+        var provisionalHasta = parseInt(hasta);
+
+        if (desde > hasta) {
+            hasta = provisionalDesde;
+            desde = provisionalHasta
+        }
+    }
+
     if (distance === 0) {
         distance = 1;
     }
+
     var loc = req.body.params.geo;
-    console.log("Geo: " + loc);
     loc = loc.split("+");
-    Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}}).populate('user', 'name username').exec(function (err, anuncio) {
-        if (err) {
-            res.render('error', {
-                status: 500
+
+    if (desde && hasta) {
+        Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde, $lte: hasta}})
+            .populate('user', 'name username').exec(function (err, anuncio) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    console.log('Resultado: ' + anuncio);
+                    res.jsonp(anuncio);
+                }
             });
-        } else {
-            console.log('Resultado: ' + anuncio);
-            res.jsonp(anuncio);
-        }
-    });
+    } else if (desde && !hasta) {
+        Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde}})
+            .populate('user', 'name username').exec(function (err, anuncio) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    console.log('Resultado: ' + anuncio);
+                    res.jsonp(anuncio);
+                }
+            });
+    } else if (!desde && hasta) {
+        Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $lte: hasta}})
+            .populate('user', 'name username').exec(function (err, anuncio) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    console.log('Resultado: ' + anuncio);
+                    res.jsonp(anuncio);
+                }
+            });
+    } else if (!desde && !hasta) {
+        Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}}).populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                console.log('Resultado: ' + anuncio);
+                res.jsonp(anuncio);
+            }
+        });
+    }
 };
 
 exports.geoLocation = function (req, res) {
@@ -268,7 +322,6 @@ exports.geoLocation = function (req, res) {
         }
     });
 };
-
 
 exports.upload = function (req, res) {
     var body = '';
