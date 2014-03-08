@@ -36,8 +36,11 @@ exports.create = function (req, res) {
 
     var tempArrayTags = new Array();
     var tempArrayLower = new Array();
+    var newArrayDescription = new Array();
+
     var descripcion = anuncio.descripcion.split(" ");
     var descripcion2 = anuncio.descripcion.split(" ");
+    var newDescripcion = '';
     var contador = 0;
     for (var i = 0; i < descripcion.length; i++) {
         var tag = descripcion[i];
@@ -48,9 +51,14 @@ exports.create = function (req, res) {
             descripcion2.splice(tag, 1);
             contador++;
         }
-    }
-    // Fin del metodo para guargar #Hastags
 
+        tag.replace("#", "");
+        newArrayDescription.push(tag);
+    }
+    newDescripcion = newArrayDescription.join(" ");
+
+    anuncio.descripcion = newDescripcion;
+    // Fin del metodo para guargar #Hastags
     anuncio.tags = tempArrayTags;
 
     for (var i = 0; i < tempArrayTags.length; i++) {
