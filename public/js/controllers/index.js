@@ -11,27 +11,39 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
         $scope.kilometros = 0;
 
-        $scope.distance = function (data) {
-            $scope.kilometros = data;
-
-            if ($scope.lng) {
-                var latlng = $scope.lng + '+' + $scope.lat;
-            } else {
-                var latlng = window.user.locs[0] + '+' + window.user.locs[1];
-            }
-
-            var distance = data;
-
-            $http.post('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
-                $scope.anuncios = response;
-                $scope.search = false;
-                $scope.yesAd = true;
-                $scope.alertOk = false;
-                $scope.loading = false;
-                $scope.results = $scope.anuncios.length;
-            });
+        // Guardado de nuevos tags
+        $scope.newTag = function (tags) {
+            $scope.tags = tags.replace(/\s/g, "+");
         }
 
+        // Apartado buscador tags
+        $scope.formTags = function () {
+            if (this.tags) {
+                $scope.tags = this.tags;
+                var inputTags = this.tags.replace(/\s/g, "+");
+
+                if ($scope.lng) {
+                    var latlng = $scope.lng + '+' + $scope.lat;
+                } else {
+                    var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+                }
+
+                var distance = $scope.kilometros;
+
+                $http.post('/searchDistancePrice', {params: {tags: inputTags, distance: distance, geo: latlng}})
+                    .success(function (response) {
+                        $scope.anuncios = response;
+                        $scope.search = false;
+                        $scope.yesAd = true;
+                        $scope.alertOk = false;
+                        $scope.loading = false;
+                        $scope.results = $scope.anuncios.length;
+                    });
+            }
+
+        }
+
+        // Apartado buscador ubicación
         $scope.localizacion = function () {
             $scope.address = this.address;
 
@@ -43,16 +55,65 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
             var distance = $scope.kilometros;
 
-            $http.post('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
-                $scope.anuncios = response;
-                $scope.search = false;
-                $scope.yesAd = true;
-                $scope.alertOk = false;
-                $scope.loading = false;
-            });
-
+            if ($scope.tags) {
+                var inputTags = $scope.tags;
+                $http.post('/searchDistancePrice', {params: {tags: inputTags, distance: distance, geo: latlng}}).success(function (response) {
+                    $scope.anuncios = response;
+                    $scope.search = false;
+                    $scope.yesAd = true;
+                    $scope.alertOk = false;
+                    $scope.loading = false;
+                    $scope.results = $scope.anuncios.length;
+                });
+            } else {
+                $http.post('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
+                    $scope.anuncios = response;
+                    $scope.search = false;
+                    $scope.yesAd = true;
+                    $scope.alertOk = false;
+                    $scope.loading = false;
+                    $scope.results = $scope.anuncios.length;
+                });
+            }
         }
 
+        // Apartado buscador distancia
+        $scope.distance = function (data) {
+            $scope.kilometros = data;
+
+            if ($scope.lng) {
+                var latlng = $scope.lng + '+' + $scope.lat;
+            } else {
+                var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+            }
+
+            console.log($scope.address);
+
+            var distance = data;
+
+            if ($scope.tags) {
+                var inputTags = $scope.tags;
+                $http.post('/searchDistancePrice', {params: {tags: inputTags, distance: distance, geo: latlng}}).success(function (response) {
+                    $scope.anuncios = response;
+                    $scope.search = false;
+                    $scope.yesAd = true;
+                    $scope.alertOk = false;
+                    $scope.loading = false;
+                    $scope.results = $scope.anuncios.length;
+                });
+            } else {
+                $http.post('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
+                    $scope.anuncios = response;
+                    $scope.search = false;
+                    $scope.yesAd = true;
+                    $scope.alertOk = false;
+                    $scope.loading = false;
+                    $scope.results = $scope.anuncios.length;
+                });
+            }
+        }
+
+        //Apartado buscador precio
         $scope.price = function () {
             if (this.desde || this.hasta) {
                 var desde = this.desde;
@@ -66,14 +127,28 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
                 var distance = $scope.kilometros;
 
-                $http.post('/searchDistancePrice', {params: {distance: distance, geo: latlng, desde: desde, hasta: hasta}})
-                    .success(function (response) {
-                        $scope.anuncios = response;
-                        $scope.search = false;
-                        $scope.yesAd = true;
-                        $scope.alertOk = false;
-                        $scope.loading = false;
-                    });
+                if ($scope.tags) {
+                    var inputTags = $scope.tags;
+                    $http.post('/searchDistancePrice', {params: {tags: inputTags, distance: distance, geo: latlng,
+                        desde: desde, hasta: hasta}}).success(function (response) {
+                            $scope.anuncios = response;
+                            $scope.search = false;
+                            $scope.yesAd = true;
+                            $scope.alertOk = false;
+                            $scope.loading = false;
+                            $scope.results = $scope.anuncios.length;
+                        });
+                } else {
+                    $http.post('/searchDistancePrice', {params: {distance: distance, geo: latlng, desde: desde, hasta: hasta}})
+                        .success(function (response) {
+                            $scope.anuncios = response;
+                            $scope.search = false;
+                            $scope.yesAd = true;
+                            $scope.alertOk = false;
+                            $scope.loading = false;
+                            $scope.results = $scope.anuncios.length;
+                        });
+                }
             }
         }
 
