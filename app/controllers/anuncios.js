@@ -46,6 +46,7 @@ exports.create = function (req, res) {
         var tag = descripcion[i];
         var hastag = tag.charAt(0);
         if (hastag == '#') {
+            tag = tag.replace(".", "");
             tag = tag.substring(1, tag.length);
             tempArrayTags[contador] = tag;
             descripcion2.splice(tag, 1);
