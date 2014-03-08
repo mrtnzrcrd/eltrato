@@ -273,109 +273,217 @@ exports.findDistancePrice = function (req, res) {
     var loc = req.body.params.geo;
     loc = loc.split("+");
 
-    if (desde && hasta) {
-        if (!tags) {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde, $lte: hasta}})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
-        } else {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde, $lte: hasta}, tagsLower: { $in: tagsParams }})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
+    if (req.user) {
+        if (desde && hasta) {
+            if (!tags) {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde, $lte: hasta}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde, $lte: hasta}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
+        } else if (desde && !hasta) {
+            if (!tags) {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
+        } else if (!desde && hasta) {
+            if (!tags) {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $lte: hasta}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $lte: hasta}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
+        } else if (!desde && !hasta) {
+            if (!tags) {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
         }
-    } else if (desde && !hasta) {
-        if (!tags) {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde}})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
-        } else {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde}, tagsLower: { $in: tagsParams }})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
-        }
-    } else if (!desde && hasta) {
-        if (!tags) {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $lte: hasta}})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
-        } else {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $lte: hasta}, tagsLower: { $in: tagsParams }})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
-        }
-    } else if (!desde && !hasta) {
-        if (!tags) {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
-        } else {
-            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, tagsLower: { $in: tagsParams }})
-                .populate('user', 'name username').exec(function (err, anuncio) {
-                    if (err) {
-                        res.render('error', {
-                            status: 500
-                        });
-                    } else {
-                        console.log('Resultado: ' + anuncio);
-                        res.jsonp(anuncio);
-                    }
-                });
+    } else {
+        if (desde && hasta) {
+            if (!tags) {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde, $lte: hasta}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde, $lte: hasta}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
+        } else if (desde && !hasta) {
+            if (!tags) {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $gte: desde}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
+        } else if (!desde && hasta) {
+            if (!tags) {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $lte: hasta}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, precio: { $lte: hasta}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
+        } else if (!desde && !hasta) {
+            if (!tags) {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            } else {
+                Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, tagsLower: { $in: tagsParams }})
+                    .populate('user', 'name username').exec(function (err, anuncio) {
+                        if (err) {
+                            res.render('error', {
+                                status: 500
+                            });
+                        } else {
+                            console.log('Resultado: ' + anuncio);
+                            res.jsonp(anuncio);
+                        }
+                    });
+            }
         }
     }
 };
@@ -385,16 +493,29 @@ exports.geoLocation = function (req, res) {
     var loc = req.body.query;
     console.log("Geo: " + loc);
     loc = loc.split("+");
-    Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncio) {
-        if (err) {
-            res.render('error', {
-                status: 500
-            });
-        } else {
-            console.log('Resultado: ' + anuncio);
-            res.jsonp(anuncio);
-        }
-    });
+    if (req.user) {
+        Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                console.log('Resultado: ' + anuncio);
+                res.jsonp(anuncio);
+            }
+        });
+    } else {
+        Anuncio.find({locs: { $near: loc, $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                console.log('Resultado: ' + anuncio);
+                res.jsonp(anuncio);
+            }
+        });
+    }
 };
 
 exports.upload = function (req, res) {
