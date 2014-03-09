@@ -28,6 +28,15 @@ exports.anuncio = function (req, res, next, id) {
 /**
  * Create a anuncio
  */
+
+function escapeRegExpTags(str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\<\>\!\?\.\;\\\^\$\|]/g, "");
+}
+
+function escapeRegExpDescription(str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\<\>\\\^\$\|]/g, "");
+}
+
 exports.create = function (req, res) {
     var anuncio = new Anuncio(req.body);
     anuncio.user = req.user;
@@ -46,7 +55,7 @@ exports.create = function (req, res) {
         var tag = descripcion[i];
         var hastag = tag.charAt(0);
         if (hastag == '#') {
-            tag = tag.replace(".", "");
+            tag = escapeRegExpTags(tag);
             tag = tag.substring(1, tag.length);
             tempArrayTags[contador] = tag;
             descripcion2.splice(tag, 1);
@@ -54,8 +63,10 @@ exports.create = function (req, res) {
         }
 
         tag.replace("#", "");
+        tag = escapeRegExpDescription(tag);
         newArrayDescription.push(tag);
     }
+
     newDescripcion = newArrayDescription.join(" ");
 
     anuncio.descripcion = newDescripcion;
