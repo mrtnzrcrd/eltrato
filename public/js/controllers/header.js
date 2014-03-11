@@ -7,23 +7,16 @@ angular.module('elTrato.system').controller('HeaderController', ['$scope', '$roo
         $scope.elTrato = true;
 
         if (window.user) {
-            $scope.lng = window.user.locs[0];
-            $scope.lat = window.user.locs[1];
 
-            $scope.$on('geo', function () {
-                $scope.lng = $rootScope.lng;
-                $scope.lat = $rootScope.lat;
-                console.log('Cuando se activa la geo: ' + $scope.lng + ' ' + $scope.lat);
-            });
-
-            console.log('antes de mirar ubicacion: ' + $scope.lng + ' ' + $scope.lat);
+            // Guardado de nuevos tags
+            $scope.newTag = function (tags) {
+                $rootScope.tagsHeader = tags.replace(/\s/g, "+");
+            }
 
             $scope.buscar = function () {
-                if ($scope.q) {
-                    var query = $scope.q.replace(/\s/g, "+");
-                    var query2 = $scope.lng + '+' + $scope.lat;
-                    //$location.path('busqueda/' + query);
-                    var parameters = {search : query, geo : query2};
+                if ($scope.tagsHeader) {
+                    var query = $rootScope.tagsHeader;
+                    var parameters = {tags : query};
                     $rootScope.$broadcast('searcHeader', parameters);
                 }
             };

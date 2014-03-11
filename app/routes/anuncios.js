@@ -25,9 +25,8 @@ module.exports = function(app) {
 
     app.get('/busqueda/:q', anuncios.find);
 
-    app.post('/geo', anuncios.geoLocation);
-    app.post('/searchGeo', anuncios.findGeo);
-    app.post('/searchDistancePrice', anuncios.findDistancePrice);
+    app.get('/searchGeo', anuncios.findGeo);
+    app.get('/searchDistancePrice', anuncios.findDistancePrice);
 
     app.post('/upload', anuncios.upload);
 

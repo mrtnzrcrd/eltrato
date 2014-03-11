@@ -42,11 +42,11 @@
             <div class="container-fluid">
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="navbar-collapse">
-                    <div class="col-md-4" style="margin-left: -30px;">
+                    <div class="col-md-4" style="margin-left: -30px;"  ng-if="!global.authenticated">
                         <form class="navbar-form navbar-left" role="search" ng-submit="formTags()">
                             <div class="input-group">
-                                <input value="" type="text" class="form-control" ng-change="newTag(tags)"
-                                       ng-value="tags" ng-model="tags" placeholder="Realiza tu busqueda..">
+                                <input value="" type="text" class="form-control" ng-change="newTag(tagsHeader)"
+                                       ng-value="tagsHeader" ng-model="tagsHeader" placeholder="Realiza tu busqueda..">
 
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn btn-primary"><span
@@ -56,12 +56,12 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-4" style="margin-left: -30px;">
+                    <div class="col-md-4">
                         <form class="navbar-form navbar-left" role="search" ng-submit="localizacion()">
                             <div class="input-group">
                                 <input type="text" ng-value="address" ng-model="address" typeahead="address
                 for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
-                                       typeahead-loading="loadingLocations"
+                                       typeahead-loading="loadingLocations" placeholder="Filtra por ubicación..."
                                        class="form-control">
 
                                 <div class="input-group-btn">
@@ -76,10 +76,10 @@
                         <li>
                             <div class="col-md-12">
                                 <input style="margin-top: 10px;" type="range" data-ng-model="kilometros"
-                                       tooltip="Buscar en {{kilometros}} km" min="0" max="100" step="20"
+                                       tooltip="Buscar en {{kilometros}} km" min="0" max="140" step="20"
                                        ng-value="kilometros" data-ng-change="distance(kilometros)"/>
 
-                                <p style="text-align: center;">En {{kilometros}} km</p>
+                                <p ng-if="!pais" style="text-align: center;">En {{kilometros}} km</p>
                             </div>
                         </li>
                         <li class="dropdown">

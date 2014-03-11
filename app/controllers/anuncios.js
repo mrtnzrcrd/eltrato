@@ -60,9 +60,8 @@ exports.create = function (req, res) {
             tempArrayTags[contador] = tag;
             descripcion2.splice(tag, 1);
             contador++;
+            tag.replace("#", "");
         }
-
-        tag.replace("#", "");
         tag = escapeRegExpDescription(tag);
         newArrayDescription.push(tag);
     }
@@ -234,36 +233,92 @@ exports.find = function (req, res) {
 };
 
 exports.findGeo = function (req, res) {
-    var tags = req.body.params.search;
+    var distance = 20;
+
+    var tags = req.query.search;
     var tagsParams = new Array();
 
-    tagsParams = tags.split("+");
-    for (var i = 0; i < tags.length; i++) {
-        tagsParams.push(tags[i].toLowerCase());
-    }
+    var loc = req.query.geo;
 
-    var loc = req.body.params.geo;
-    loc = loc.split("+");
-    Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: 10}, tagsLower: { $in: tagsParams }}).populate('user', 'name username').exec(function (err, anuncio) {
-        if (err) {
-            res.render('error', {
-                status: 500
+    if (tags && loc) {
+        tagsParams = tags.split("+");
+        loc = loc.split("+");
+        for (var i = 0; i < tags.length; i++) {
+            tagsParams.push(tags[i].toLowerCase());
+        }
+        if (req.user) {
+            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}, tagsLower: { $in: tagsParams }}).populate('user', 'name username').exec(function (err, anuncio) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    console.log('Resultado: ' + anuncio);
+                    res.jsonp(anuncio);
+                }
             });
         } else {
-            console.log('Resultado: ' + anuncio);
-            res.jsonp(anuncio);
+            Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}, tagsLower: { $in: tagsParams }}).populate('user', 'name username').exec(function (err, anuncio) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    console.log('Resultado: ' + anuncio);
+                    res.jsonp(anuncio);
+                }
+            });
         }
-    });
+
+    } else if (tags && !loc) {
+        tagsParams = tags.split("+");
+        Anuncio.find({tagsLower: { $in: tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                console.log('Resultado: ' + anuncio);
+                res.jsonp(anuncio);
+            }
+        });
+    } else if (!tags && loc) {
+        loc = loc.split("+");
+        if (req.user) {
+            Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: distance / 111.12}}).populate('user', 'name username').exec(function (err, anuncio) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    console.log('Resultado: ' + anuncio);
+                    res.jsonp(anuncio);
+                }
+            });
+        } else {
+            Anuncio.find({locs: { $near: loc, $maxDistance: distance / 111.12}}).populate('user', 'name username').exec(function (err, anuncio) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    console.log('Resultado: ' + anuncio);
+                    res.jsonp(anuncio);
+                }
+            });
+        }
+
+    }
 };
 
 exports.findDistancePrice = function (req, res) {
-    var distance = req.body.params.distance;
+    var distance = req.query.distance;
     distance = parseInt(distance);
 
-    var desde = req.body.params.desde;
-    var hasta = req.body.params.hasta;
+    var desde = req.query.desde;
+    var hasta = req.query.hasta;
 
-    var tags = req.body.params.tags;
+    var tags = req.query.tags;
     var tagsParams = new Array();
 
     if (tags) {
@@ -290,7 +345,7 @@ exports.findDistancePrice = function (req, res) {
         distance = 1;
     }
 
-    var loc = req.body.params.geo;
+    var loc = req.query.geo;
     loc = loc.split("+");
 
     if (req.user) {
@@ -505,36 +560,6 @@ exports.findDistancePrice = function (req, res) {
                     });
             }
         }
-    }
-};
-
-exports.geoLocation = function (req, res) {
-    console.log("{ 'Geo': '" + req.body.query + "' }");
-    var loc = req.body.query;
-    console.log("Geo: " + loc);
-    loc = loc.split("+");
-    if (req.user) {
-        Anuncio.find({user: {$ne: req.user._id}, locs: { $near: loc, $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncio) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                console.log('Resultado: ' + anuncio);
-                res.jsonp(anuncio);
-            }
-        });
-    } else {
-        Anuncio.find({locs: { $near: loc, $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncio) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                console.log('Resultado: ' + anuncio);
-                res.jsonp(anuncio);
-            }
-        });
     }
 };
 

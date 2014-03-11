@@ -16,7 +16,8 @@
             <form class="navbar-form navbar-left" data-ng-show="global.authenticated" role="search" name="search-form"
                   data-ng-submit="buscar()">
                 <div class="input-group">
-                    <input data-ng-model="q" type="text" class="form-control" value="">
+                    <input data-ng-model="tagsHeader" type="text" class="form-control" value="" ng-change="newTag(tagsHeader)"
+                           ng-value="tagsHeader" placeholder="Realiza tu busqueda...">
 
                     <div class="input-group-btn">
                         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>
