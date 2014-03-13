@@ -1,192 +1,226 @@
 <section data-ng-controller="IndexController">
 
-    <alert ng-if="alertOk" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
-        <h4>{{alert.title}}</h4>
-        {{alert.msg}}
-    </alert>
-    <div class="col-md-12">
-        <img class="imgLoading" src="../img/icons/ajax-loader.gif" ng-if="loading">
-        <h4 class="textLoading" ng-if="loading">
-            <span class="label label-info">Esperando ubicación</span>
-        </h4>
+<alert ng-if="alertOk" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+    <h4>{{alert.title}}</h4>
+    {{alert.msg}}
+</alert>
+<div class="col-md-12">
+    <img class="imgLoading" src="../img/icons/ajax-loader.gif" ng-if="loading">
+    <h4 class="textLoading" ng-if="loading">
+        <span class="label label-info">Esperando ubicación</span>
+    </h4>
+</div>
+<div class="col-xs-12 parent" ng-if="search">
+    <div class="col-xs-6 col-centered">
+        <h1 style="text-align: center;">elTrato</h1>
     </div>
-    <div class="col-xs-12 parent" ng-if="search">
-        <div class="col-xs-6 col-centered">
-            <h1 style="text-align: center;">elTrato</h1>
-        </div>
-        <div class="col-xs-8 col-centered">
-            <form class="navbar-form" role="search" name="search-form" data-ng-submit="buscar()">
-                <div class="col-centered col-md-6" style="margin-bottom: 10px;">
-                    <input class="placeCenter form-control" type="text" ng-model="asyncSelected" placeholder="Donde buscamos?"
-                           typeahead="address
+    <div class="col-xs-8 col-centered">
+        <form class="navbar-form" role="search" name="search-form" data-ng-submit="buscar()">
+            <div class="col-centered col-md-6" style="margin-bottom: 10px;">
+                <input class="placeCenter form-control" type="text" ng-model="asyncSelected"
+                       placeholder="Donde buscamos?"
+                       typeahead="address
                 for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
-                           typeahead-loading="loadingLocations"
-                           class="form-control">
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                </div>
-                <div class="input-group">
-                    <input data-ng-model="q" type="text" class="form-control input-lg" value="">
-
-                    <div class="input-group-btn">
-                        <button type="submit" class="btn btn-primary btn-lg"><span
-                                class="glyphicon glyphicon-search"></span></button>
-                    </div>
-                </div>
-                <input type="hidden" ng-value="lat" id="inputLat" name="lat">
-                <input type="hidden" ng-value="lng" id="inputLng" name="lng">
-            </form>
-        </div>
-    </div>
-    <div class="col-xs-12 parent" ng-if="yesAd">
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="navbar-collapse">
-                    <div class="col-md-4" style="margin-left: -30px;"  ng-if="!global.authenticated">
-                        <form class="navbar-form navbar-left" role="search" ng-submit="formTags()">
-                            <div class="input-group">
-                                <input value="" type="text" class="form-control" ng-change="newTag(tagsHeader)"
-                                       ng-value="tagsHeader" ng-model="tagsHeader" placeholder="Realiza tu busqueda..">
-
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-primary"><span
-                                            class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-4">
-                        <form class="navbar-form navbar-left" role="search" ng-submit="localizacion()">
-                            <div class="input-group">
-                                <input type="text" ng-value="address" ng-model="address" typeahead="address
-                for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
-                                       typeahead-loading="loadingLocations" placeholder="Filtra por ubicación..."
-                                       class="form-control">
-
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-primary"><span
-                                            class="glyphicon glyphicon-map-marker"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <div class="col-md-12">
-                                <input style="margin-top: 10px;" type="range" data-ng-model="kilometros"
-                                       tooltip="Buscar en {{kilometros}} km" min="0" max="140" step="20"
-                                       ng-value="kilometros" data-ng-change="distance(kilometros)"/>
-
-                                <p ng-if="!pais" style="text-align: center;">En {{kilometros}} km</p>
-                            </div>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Precio<b
-                                    class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <form class="navbar-form navbar-left" role="search" ng-submit="price()">
-                                    <li>
-                                        <div style="text-align: center; margin-bottom: 7px;">
-                                            <input type="number" ng-model="desde"
-                                                   class="placeCenter form-control"
-                                                   placeholder="Desde"
-                                                   my-input>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div style="text-align: center;">
-                                            <input type="number" ng-model="hasta"
-                                                   class="placeCenter form-control"
-                                                   placeholder="Hasta"
-                                                   my-input>
-                                        </div>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <div style="text-align: center">
-                                            <button type="submit" class="btn btn-primary">Buscar</button>
-                                        </div>
-                                    </li>
-                                </form>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Más<b
-                                    class="caret"></b></a>
-                            <ul class="dropdown-menu" style="right: 0; left: auto; width: 400px;">
-                                <form class="navbar-form navbar-left" role="search" ng-submit="price()">
-                                    <li>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-                                                Mostrar solo usuarios que acepten contraofertas o trueques
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div style="text-align: center;">
-                                            <input type="number" ng-model="hasta"
-                                                   class="placeCenter form-control"
-                                                   placeholder="Hasta"
-                                                   my-input>
-                                        </div>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <div style="text-align: center">
-                                            <button type="submit" class="btn btn-primary">Buscar</button>
-                                        </div>
-                                    </li>
-                                </form>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
+                       typeahead-loading="loadingLocations"
+                       class="form-control">
+                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
             </div>
-            <!-- /.container-fluid -->
-        </nav>
+            <div class="input-group">
+                <input data-ng-model="q" type="text" class="form-control input-lg" value="">
+
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-primary btn-lg"><span
+                            class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+            <input type="hidden" ng-value="lat" id="inputLat" name="lat">
+            <input type="hidden" ng-value="lng" id="inputLng" name="lng">
+        </form>
+    </div>
+</div>
+<div class="col-xs-12 parent" ng-if="yesAd">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="navbar-collapse">
+                <div class="col-md-4" style="margin-left: -30px;" ng-if="!global.authenticated">
+                    <form class="navbar-form navbar-left" role="search" ng-submit="formTags()">
+                        <div class="input-group">
+                            <input value="" type="text" class="form-control" ng-change="newTag(tagsHeader)"
+                                   ng-value="tagsHeader" ng-model="tagsHeader" placeholder="Realiza tu busqueda..">
+
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-primary"><span
+                                        class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form class="navbar-form navbar-left" role="search" ng-submit="localizacion()">
+                        <div class="input-group">
+                            <input type="text" ng-value="address" ng-model="address" typeahead="address
+                for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
+                                   typeahead-loading="loadingLocations" placeholder="Filtra por ubicación..."
+                                   class="form-control">
+
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-primary"><span
+                                        class="glyphicon glyphicon-map-marker"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <div class="col-md-12">
+                            <input style="margin-top: 10px;" type="range" data-ng-model="kilometros"
+                                   tooltip="Buscar en {{kilometros}} km" min="0" max="140" step="20"
+                                   ng-value="kilometros" data-ng-change="distance(kilometros)"/>
+
+                            <p ng-if="!pais" style="text-align: center; margin-top: 5px;">En {{kilometros}} km</p>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Precio<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <form class="navbar-form navbar-left" role="search" ng-submit="price()">
+                                <li>
+                                    <div style="text-align: center; margin-bottom: 7px;">
+                                        <input type="number" ng-model="desde"
+                                               class="placeCenter form-control"
+                                               placeholder="Desde"
+                                               my-input>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="text-align: center;">
+                                        <input type="number" ng-model="hasta"
+                                               class="placeCenter form-control"
+                                               placeholder="Hasta"
+                                               my-input>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div style="text-align: center">
+                                        <button type="submit" class="btn btn-primary">Buscar</button>
+                                    </div>
+                                </li>
+                            </form>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Más<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu" style="right: 0; left: auto; width: 400px;">
+                            <form class="navbar-form navbar-left" role="search" ng-submit="price()">
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios1"
+                                                   value="option1">
+                                            Mostrar solo usuarios que acepten contraofertas o trueques
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="text-align: center;">
+                                        <input type="number" ng-model="hasta"
+                                               class="placeCenter form-control"
+                                               placeholder="Hasta"
+                                               my-input>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div style="text-align: center">
+                                        <button type="submit" class="btn btn-primary">Buscar</button>
+                                    </div>
+                                </li>
+                            </form>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div class="col-md-12 col-lg-offset-3">
         <p>Encontrados {{results}} tratos</p>
-        <div class="col-sm-6 col-md-4" data-ng-repeat="anuncio in anuncios">
-            <div class="thumbnail imagenAnuncio" style="background-image: url({{anuncio.images[0]}});">
-                <div class="caption">
-                    <div style="height: 13em;">
-                        <p>
-                            <span class="label label-default pull-left">{{anuncio.created | date:'medium'}}</span>
-                            <a href="#" class="btn btn-danger pull-right btn-xs">
-                                {{anuncio.user.name}}
-                            </a>
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            <span data-ng-repeat="tag in anuncio.tags" class="label label-warning" style="margin: 2px;">{{tag}}</span>
-                        </p>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Lo más buscado</div>
 
-                        <p>
-                            <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter"
-                                    class="btn btn-default">
-                                <span class="glyphicon glyphicon-comment"></span>
-                            </button>
-                            <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            </a>
-                            <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
-                                <span class="glyphicon glyphicon-envelope"></span>
-                            </a>
-                            <a href="#" class="btn btn-primary" role="button" title="Llamar">
-                                <span class="glyphicon glyphicon-earphone"></span>
-                            </a>
-                            <a href="#" class="btn btn-danger" role="button" title="Denunciar">
-                                <span class="glyphicon glyphicon-thumbs-down"></span>
-                            </a>
-                        </p>
+                <!-- List group -->
+                <ul class="list-group">
+                    <li class="list-group-item">#1 Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row" ng-repeat="row in anuncios | inSlicesOf:2">
+                <div class="col-xs-6 col-sm-6" data-ng-repeat="anuncio in row">
+                    <div class="thumbnail">
+                        <div style="height: 13em; background-image: url({{anuncio.images[0]}});" class="imagenAnuncio">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <span data-ng-repeat="tag in anuncio.tags" class="label label-primary pull-left"
+                                          style="font-size: initial; margin: 2px;">{{tag}}</span>
+                                </div>
+                                <div class="col-md-5">
+                                    <span class="label label-default pull-right" am-time-ago="anuncio.created"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caption">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter"
+                                            class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-comment"></span>
+                                    </button>
+                                    <a href="#" class="btn btn-warning btn-sm" role="button" title="Añadir a favoritos">
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-sm" role="button" title="Enviar mensaje">
+                                        <span class="glyphicon glyphicon-envelope"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-primary btn-sm" role="button" title="Llamar">
+                                        <span class="glyphicon glyphicon-earphone"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm" role="button" title="Denunciar">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <span style="float: right; margin-right: 15px; font-size: initial;"
+                                              class="label label-primary">{{anuncio.precio}}€</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top: 8px;">
+                                    <p>{{anuncio.descripcion}}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
+</div>
 </section>
