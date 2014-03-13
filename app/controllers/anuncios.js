@@ -217,19 +217,36 @@ exports.mis = function (req, res) {
 
 exports.find = function (req, res) {
     console.log("{ 'query': '" + req.params.q + "' }");
-    var tagsParams = req.params.q;
+    var tags = req.params.q;
+    var tagsParams = new Array();
     console.log("tagParams: " + tagsParams);
-    tagsParams = tagsParams.split("+");
-    Anuncio.find({user: {$ne: req.user._id}, tags: { $in: tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
-        if (err) {
-            res.render('error', {
-                status: 500
-            });
-        } else {
-            console.log('Resultado: ' + anuncio);
-            res.jsonp(anuncio);
-        }
-    });
+    tagsParams = tags.split("+");
+    for (var i = 0; i < tags.length; i++) {
+        tagsParams.push(tags[i].toLowerCase());
+    }
+    if (req.user) {
+        Anuncio.find({user: {$ne: req.user._id}, tagsLower: { $in: tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                console.log('Resultado: ' + anuncio);
+                res.jsonp(anuncio);
+            }
+        });
+    } else {
+        Anuncio.find({tagsLower: { $in: tagsParams }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                console.log('Resultado: ' + anuncio);
+                res.jsonp(anuncio);
+            }
+        });
+    }
 };
 
 exports.findGeo = function (req, res) {
