@@ -5,6 +5,8 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
     function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
         $scope.global = Global;
 
+        $scope.descripcion = "Hola";
+
         $scope.caution = function() {
             if (!window.user) {
                 $location.path('#!/');
@@ -294,6 +296,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 anuncioId: $routeParams.anuncioId
             }, function (anuncio) {
                 $scope.anuncio = anuncio;
+                $scope.descripcion = anuncio.descripcion;
+                $scope.precio = anuncio.precio;
+                $scope.imagenes = anuncio.images;
             });
         };
         //end findOne

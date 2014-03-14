@@ -1,11 +1,41 @@
 <section data-ng-controller="AnunciosController" data-ng-init="find()">
-	<ul class="anuncios unstyled">
-		<li data-ng-repeat="anuncio in anuncios">
-			<span>{{anuncio.created | date:'medium'}}</span> /
-			<span>{{anuncio.user.name}}</span>
-			<h2><a data-ng-href="#!/anuncios/{{anuncio._id}}">{{anuncio.descripcion}}</a></h2>
-			<div>{{anuncio.tags}}</div>
-		</li>
-	</ul>
-	<h1 data-ng-hide="!anuncios || anuncios.length">No anuncios yet. <br> Why don't you <a href="/#!/anuncios/create">Create One</a>?</h1>
+    <div class="row">
+        <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" style="height: 250px"></div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tr>
+                <th></th>
+                <th>created</th>
+                <th>username</th>
+                <th>descripcion</th>
+                <th>tags</th>
+                <th>tagsLower</th>
+                <th>opciones</th>
+                <th>precio</th>
+                <th>images</th>
+                <th>locs</th>
+            </tr>
+            <tr data-ng-repeat="anuncio in anuncios">
+                <td>
+                    <a href="#!/anuncios/{{anuncio._id}}/edit" class="btn btn-primary" role="button" title="Modificar">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    <a href="#!/anuncios/{{anuncio._id}}/delete" class="btn btn-danger" role="button" title="Borrar">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+                <td>{{anuncio.created | date:'medium'}}</td>
+                <td>{{anuncio.user.name}}</td>
+                <td>{{anuncio.descripcion}}</td>
+                <td>{{anuncio.tags}}</td>
+                <td>{{anuncio.tagsLower}}</td>
+                <td>{{anuncio.opciones}}</td>
+                <td>{{anuncio.precio}}</td>
+                <td>{{anuncio.images}}</td>
+                <td>{{anuncio.locs}}</td>
+
+            </tr>
+        </table>
+    </div>
 </section>
