@@ -15,6 +15,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         $scope.isCollapsed = true;
 
         $scope.predeterminadaRadio = true;
+        $scope.geoRadio = true;
 
         // Texto para popover
         $scope.info = "Al aceptar recibir contraofertas, otros articulos o realizar un trueque te damos la opción de que nos " +
@@ -52,8 +53,6 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         }
 
         geolocation.getLocation().then(function (data) {
-
-            $scope.geoRadio = true;
 
             if (!$rootScope.lng) {
                 $scope.alerts = [
@@ -227,7 +226,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 descripcion: this.descripcion,
                 precio: this.precio,
                 images: images,
-                locs: locs
+                locs: locs,
+                trueque: this.trueque,
+                need: $scope.items
             });
 
             anuncio.$save(function (response) {
@@ -378,9 +379,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             if (typeof $scope.itemName != 'undefined') {
                 if ($scope.itemName != "") {
                     $scope.itemList = true;
-                    $scope.items.push({
-                        name: $scope.itemName
-                    });
+                    $scope.items.push($scope.itemName);
                     // Clear input fields after push
                     $scope.itemName = "";
 

@@ -29,6 +29,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                         $scope.alertOk = false;
                         $scope.loading = false;
                         $scope.results = $scope.anuncios.length;
+                        
                     });
             });
         } else {
@@ -57,6 +58,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                             $scope.alertOk = false;
                             $scope.loading = false;
                             $scope.results = $scope.anuncios.length;
+                            
                         });
                 }
 
@@ -83,6 +85,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             } else {
                 $http.get('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
@@ -92,6 +95,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             }
         }
@@ -117,6 +121,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             } else {
                 $http.get('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
@@ -126,6 +131,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             }
         }
@@ -153,6 +159,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                             $scope.alertOk = false;
                             $scope.loading = false;
                             $scope.results = $scope.anuncios.length;
+                            
                         });
                 } else {
                     $http.get('/searchDistancePrice', {params: {distance: distance, geo: latlng, desde: desde, hasta: hasta}})
@@ -163,6 +170,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                             $scope.alertOk = false;
                             $scope.loading = false;
                             $scope.results = $scope.anuncios.length;
+                            
                         });
                 }
             }
@@ -195,6 +203,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 20;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             });
             $http.get('/searchGeo', {params: {geo: query}}).success(function (response) {
@@ -208,6 +217,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $scope.loading = false;
                 $scope.kilometros = 20;
                 $scope.results = $scope.anuncios.length;
+                
             });
         } else if ($rootScope.lng) {
             $scope.search = false;
@@ -223,6 +233,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $scope.loading = false;
                 $scope.kilometros = 20;
                 $scope.results = $scope.anuncios.length;
+                
             });
         } else {
             $scope.alerts = [
@@ -316,6 +327,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 20;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             } else if ($scope.lng && !this.q) {
                 $http.get('/searchGeo', {params: {geo: query2}}).success(function (response) {
@@ -329,6 +341,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 20;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             } else if (this.q && !$scope.lng) {
                 $http.get('/searchGeo', {params: {search: query}}).success(function (response) {
@@ -339,6 +352,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 0;
                     $scope.results = $scope.anuncios.length;
+                    
                 });
             }
         };

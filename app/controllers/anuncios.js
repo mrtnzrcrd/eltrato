@@ -41,6 +41,12 @@ exports.create = function (req, res) {
     var anuncio = new Anuncio(req.body);
     anuncio.user = req.user;
 
+    if (req.body.trueque) {
+        var opciones = {trueque: req.body.trueque, need: req.body.need};
+        anuncio.opciones = opciones;
+        console.log(anuncio.opciones);
+    }
+
     // Metodo para coger todos los #Hastags y guardarlos en una array
 
     var tempArrayTags = new Array();
@@ -49,7 +55,6 @@ exports.create = function (req, res) {
 
     var descripcion = anuncio.descripcion.split(" ");
     var descripcion2 = anuncio.descripcion.split(" ");
-    var newDescripcion = '';
     var contador = 0;
     for (var i = 0; i < descripcion.length; i++) {
         var tag = descripcion[i];
@@ -66,7 +71,7 @@ exports.create = function (req, res) {
         newArrayDescription.push(tag);
     }
 
-    newDescripcion = newArrayDescription.join(" ");
+    var newDescripcion = newArrayDescription.join(" ");
 
     anuncio.descripcion = newDescripcion;
     // Fin del metodo para guargar #Hastags

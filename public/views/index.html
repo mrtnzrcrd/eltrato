@@ -180,15 +180,23 @@
                                           style="font-size: initial; margin: 2px;">{{tag}}</span>
                                 </div>
                                 <div class="col-md-5">
-                                    <span class="label label-default pull-right" am-time-ago="anuncio.created"></span>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="label label-default pull-right"
+                                                  am-time-ago="anuncio.created"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row" data-ng-repeat="trueque in anuncio.opciones" ng-switch
+                                         on="trueque.trueque">
+                                        <span class="label label-default pull-right" ng-switch-when="true">Quiere trueque!!</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="caption">
                             <div class="row">
                                 <div class="col-md-9">
-                                    <button popover="{{anuncio.descripcion}}" popover-trigger="mouseenter"
-                                            class="btn btn-default btn-sm">
+                                    <button class="btn btn-default btn-sm">
                                         <span class="glyphicon glyphicon-comment"></span>
                                     </button>
                                     <a href="#" class="btn btn-warning btn-sm" role="button" title="Añadir a favoritos">

@@ -1,259 +1,275 @@
 <section data-ng-controller="AnunciosController" data-ng-init="caution()">
-    <div class="page-header" style="margin: 20px 0 20px">
-        <h1>Publicar nuevo trato</h1>
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>
-            {{alert.msg}}
-        </alert>
+<div class="page-header" style="margin: 20px 0 20px">
+    <h1>Publicar nuevo trato</h1>
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>
+        {{alert.msg}}
+    </alert>
+</div>
+<div class="row">
+<form name="form" class="form-horizontal col-md-6" role="form" data-ng-submit="publicar()">
+    <!-- Descripción -->
+    <div class="form-group">
+        <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+
+        <div class="col-md-10">
+            <textarea name="Descripcion" data-ng-model="descripcion" id="descripcion" cols="30" rows="10"
+                      placeholder="Descripcion"
+                      class="form-control" required></textarea>
+        </div>
     </div>
-    <div class="row">
-        <form name="form" class="form-horizontal col-md-6" role="form" data-ng-submit="publicar()">
-            <!-- Descripción -->
-            <div class="form-group">
-                <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+    <!-- Fin Descripción -->
 
-                <div class="col-md-10">
-                    <textarea name="Descripcion" data-ng-model="descripcion" id="descripcion" cols="30" rows="10" placeholder="Descripcion"
-                              class="form-control" required></textarea>
-                </div>
+    <!-- Precio -->
+    <div class="form-group">
+        <label for="precio" class="col-md-2 control-label">Precio</label>
+
+        <div class="col-md-10">
+            <input name="precio" type="number" min="0" class="form-control" data-ng-model="precio" id="precio"
+                   placeholder="Precio" required>
+        </div>
+    </div>
+    <!-- Fin Precio -->
+
+    <!-- Fotos -->
+    <div class="form-group">
+        <label for="foto" class="col-md-2 control-label">Fotos</label>
+
+        <div class="col-md-10">
+            <!--<input type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
+                   data-ng-model="foto" id="foto" placeholder="Fotos" multiple ng-disabled="fotoActivo">
+
+                <h3>Select files</h3>
+
+                <div ng-show="uploader.isHTML5">
+                     3. ng-file-over | ng-file-over="className"
+                    <div class="well my-drop-zone" ng-file-over>
+                        Base drop zone
+                    </div>-->
+
+            <!-- Example: ng-file-drop | ng-file-drop="options"
+            <div class="well my-drop-zone" ng-file-drop="{ url: '/foo' }" ng-file-over="another-file-over-class">
+                Another drop zone with its own settings
             </div>
-            <!-- Fin Descripción -->
+        </div>-->
 
-            <!-- Precio -->
-            <div class="form-group">
-                <label for="precio" class="col-md-2 control-label">Precio</label>
-
-                <div class="col-md-10">
-                    <input name="precio" type="number" min="0" class="form-control" data-ng-model="precio" id="precio"
-                           placeholder="Precio" required>
-                </div>
+            <!-- 2. ng-file-select | ng-file-select="options" -->
+            <div class="fileUpload btn btn-default">
+                <span><span class="glyphicon glyphicon-camera"></span> Subir fotos</span>
+                <input ng-file-select type="file" class="upload" multiple required/>
             </div>
-            <!-- Fin Precio -->
+            <!--<input ng-file-select type="file" multiple required/>-->
 
-            <!-- Fotos -->
-            <div class="form-group">
-                <label for="foto" class="col-md-2 control-label">Fotos</label>
+        </div>
+    </div>
+    <div ng-if="foto" class="col-md-9 col-lg-offset-2" style="margin-bottom: 40px">
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="50%">Nombre</th>
+                <th ng-show="uploader.isHTML5">Tamaño</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in uploader.queue">
+                <td>
+                    <strong>{{ item.file.name }}</strong>
 
-                <div class="col-md-10">
-                    <!--<input type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
-                           data-ng-model="foto" id="foto" placeholder="Fotos" multiple ng-disabled="fotoActivo">
-
-                        <h3>Select files</h3>
-
-                        <div ng-show="uploader.isHTML5">
-                             3. ng-file-over | ng-file-over="className"
-                            <div class="well my-drop-zone" ng-file-over>
-                                Base drop zone
-                            </div>-->
-
-                    <!-- Example: ng-file-drop | ng-file-drop="options"
-                    <div class="well my-drop-zone" ng-file-drop="{ url: '/foo' }" ng-file-over="another-file-over-class">
-                        Another drop zone with its own settings
-                    </div>
-                </div>-->
-
-                    <!-- 2. ng-file-select | ng-file-select="options" -->
-                    <div class="fileUpload btn btn-default">
-                        <span><span class="glyphicon glyphicon-camera"></span> Subir fotos</span>
-                        <input ng-file-select type="file" class="upload" multiple required/>
-                    </div>
-                    <!--<input ng-file-select type="file" multiple required/>-->
-
-                </div>
-            </div>
-            <div ng-if="foto" class="col-md-9 col-lg-offset-2" style="margin-bottom: 40px">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th width="50%">Nombre</th>
-                        <th ng-show="uploader.isHTML5">Tamaño</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="item in uploader.queue">
-                        <td>
-                            <strong>{{ item.file.name }}</strong>
-                            <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, height: 100 }"></div>
-                        </td>
-                        <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                        <td class="text-center">
-                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                        </td>
-                        <td nowrap>
-                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div>
-                    <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
-                            ng-disabled="!uploader.queue.length">
-                        <span class="glyphicon glyphicon-trash"></span> Borrar todo
+                    <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, height: 100 }"></div>
+                </td>
+                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td class="text-center">
+                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span>
                     </button>
-                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-            </div>
-            <!-- Fin Fotos -->
+        <div>
+            <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
+                    ng-disabled="!uploader.queue.length">
+                <span class="glyphicon glyphicon-trash"></span> Borrar todo
+            </button>
+        </div>
 
-            <!-- geoLocalización -->
-            <div class="form-group" ng-if="mapa">
-                <label class="col-md-2 control-label" for="geolocalizacion"></label>
+    </div>
+    <!-- Fin Fotos -->
 
-                <div class="col-md-10">
-                    <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <label class="radio-inline" ng-if="radioAct==true">
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1" ng-change='newValue(options.value)' ng-checked="geoRadio">
-                        Ubicación actual
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2" ng-change='newValue(options.value)' ng-checked="predeterminadaRadio">
-                        Predeterminada
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optionsRadios" id="optionsRadios3" ng-model="options.value" value="option3" ng-checked="radioGo" ng-change='newValue(options.value)' required>
-                        Otra Ubicación
-                    </label>
-                </div>
-            </div>
-            <div class="form-group"ng-if="inputGeo==true">
-                <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
-                <div class="col-md-8">
-                    <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
-                for address in getLocationViaGoogle($viewValue) | filter:$viewValue" typeahead-loading="loadingLocations"
-                           class="form-control">
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                </div>
-            </div>
-            <input type="hidden" ng-value="lat" id="inputLat" name="lat">
-            <input type="hidden" ng-value="lng" id="inputLng" name="lng">
-            <!-- Fin geoLocalización -->
+    <!-- geoLocalización -->
+    <div class="form-group" ng-if="mapa">
+        <label class="col-md-2 control-label" for="geolocalizacion"></label>
 
-            <!-- Contraoferta -->
-            <div class="form-group">
-                <div class="checkbox">
-                    <label class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <label>
-                            <input type="checkbox" ng-click="isCollapsed = !isCollapsed"> Deseas recibir contraofertas,
-                            otros articulos como forma de pago o truques de otros usuarios interesados en tu venta?
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group" collapse="isCollapsed">
-                <label popover="{{info}}" popover-trigger="mouseenter" class="col-md-4 control-label">Que te interesa?
-                    <span class="glyphicon glyphicon-info-sign"></span>
+        <div class="col-md-10">
+            <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label"></label>
+
+        <div class="col-md-10">
+            <label class="radio-inline" ng-if="radioAct==true">
+                <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1"
+                       ng-change='newValue(options.value)'>
+                Ubicación actual
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2"
+                       ng-change='newValue(options.value)' ng-checked="predeterminadaRadio">
+                Predeterminada
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optionsRadios" id="optionsRadios3" ng-model="options.value" value="option3"
+                       ng-checked="radioGo" ng-change='newValue(options.value)' required>
+                Otra Ubicación
+            </label>
+        </div>
+    </div>
+    <div class="form-group" ng-if="inputGeo==true">
+        <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
+
+        <div class="col-md-8">
+            <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
+                for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
+                   typeahead-loading="loadingLocations"
+                   class="form-control">
+            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+        </div>
+    </div>
+    <input type="hidden" ng-value="lat" id="inputLat" name="lat">
+    <input type="hidden" ng-value="lng" id="inputLng" name="lng">
+    <!-- Fin geoLocalización -->
+
+    <!-- Contraoferta -->
+    <div class="form-group">
+        <div class="checkbox">
+            <label class="col-md-2 control-label"></label>
+
+            <div class="col-md-10">
+                <label>
+                    <input type="checkbox" ng-click="isCollapsed = !isCollapsed" ng-model="trueque"> Deseas recibir
+                    contraofertas, otros articulos como forma de pago o truques de otros usuarios interesados en tu
+                    venta?
                 </label>
-                <div class="col-md-6">
-
-                    <div class="input-group">
-                        <input value="" type="text" class="form-control"
-                               ng-model="itemName" id="interes" placeholder="Iphone 5s, ps3, bici..">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary" data-ng-click="addItem()"><span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <span class="help-block">Inserta de uno en uno los articulos</span>
-                </div>
-            </div>
-            <!-- Fin Contraoferta -->
-            <div class="form-group">
-                <label class="col-md-2 control-label"></label>
-                <div ng-show="process">
-                    <p>
-                        Procesando tu trato:
-                    </p>
-                    <div>
-                        <div class="progress-bar" role="progressbar"
-                             ng-style="{ 'width': uploader.progress + '%' }"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" class="btn btn-primary">Publicar</button>
-                </div>
-            </div>
-        </form>
-        <div class="col-md-6">
-            <div class="bs-callout bs-callout-warning" style="margin: 0; margin-bottom: 56px;">
-                <h4>Como publicar correctamente tu trato (PRUEBA)</h4>
-                <ul>
-                    <li>
-                        eltrato.net funciona con busqueda de <b>Hastags "#"</b>, así que cuando vayas a poner la
-                        descripción de tu articulo,
-                        tendrás que poner un # en aquellas palabras claves por las que quieres que tu articulo sea
-                        buscado.
-                    </li>
-                    <li>
-                        Un Ejemplo sería el siguiente, si vamos a poner a la venta un coche pondriamos el siguiente
-                        anuncio:
-                        Vendo #Honda #civic #rojo 1.6 #vti en la provincia de #Barcelona. El coche tiene 240000 km, muy
-                        cuidado, siempre en garage etc..
-                    </li>
-                    <li>
-                        Con el ejemplo que tenemos, cualquier persona que busque en nuestro buscador la palabra (No
-                        distinguimos mayusculas de minusculas, así que no influye en la busqueda)
-                        honda, civic, rojo, vti o Barcelona, le aparecera tu anuncio.
-
-                        Esperamos haberte podido ayudar, pero si aún tienes dudas no dudes en ponerte en contacto con
-                        nosotros.
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-offset-1 col-md-6" ng-if="itemList">
-                <ul class="list-group">
-                    <li style="background-color: #428bca; border-color: #357ebd; color: #ffffff"
-                        class="list-group-item list-group-item-success">
-                        Te interesa:
-                    </li>
-                    <li class="list-group-item" ng-repeat="item in items">
-                        {{item.name}} <button  style="float: right" class="btn btn-danger btn-xs" data-ng-click="delItem($index)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
+    <div class="form-group" collapse="isCollapsed">
+        <label popover="{{info}}" popover-trigger="mouseenter" class="col-md-4 control-label">Que te interesa?
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </label>
 
-    <!--<div class="row">
-        <div class="col-md-offset-1">
-            <div class="col-xs-4 col-md-2" data-ng-hide="disponible1">
-                <div class="thumbnail" style="height: 122px">
-                    <img src="{{image}}" class="img-circle" style="height: 110px">
-                </div>
-            </div>
+        <div class="col-md-6">
 
-            <div class="col-xs-4 col-md-2" data-ng-hide="disponible2">
-                <div class="thumbnail" style="height: 122px;">
-                    <img src="{{image2}}" class="img-circle" style="height: 110px">
-                </div>
-            </div>
+            <div class="input-group">
+                <input value="" type="text" class="form-control"
+                       ng-model="itemName" id="interes" placeholder="Iphone 5s, ps3, bici..">
 
-            <div class="col-xs-4 col-md-2" data-ng-hide="disponible3">
-                <div class="thumbnail" style="height: 122px;">
-                    <img src="{{image3}}" class="img-circle" style="height: 110px">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" data-ng-click="addItem()"><span
+                            class="glyphicon glyphicon-plus"></span>
+                    </button>
                 </div>
             </div>
-            <div class="col-xs-4 col-md-2" data-ng-hide="disponible4">
-                <div class="thumbnail" style="height: 122px;">
-                    <img src="{{image4}}" class="img-circle" style="height: 110px">
-                </div>
-            </div>
-            <div class="col-xs-4 col-md-2" data-ng-hide="disponible5">
-                <div class="thumbnail" style="height: 122px;">
-                    <img src="{{image5}}" class="img-circle" style="height: 110px">
-                </div>
+            <span class="help-block">Inserta de uno en uno los articulos</span>
+        </div>
+    </div>
+    <!-- Fin Contraoferta -->
+    <div class="form-group">
+        <label class="col-md-2 control-label"></label>
+
+        <div ng-show="process">
+            <p>
+                Procesando tu trato:
+            </p>
+
+            <div>
+                <div class="progress-bar" role="progressbar"
+                     ng-style="{ 'width': uploader.progress + '%' }"></div>
             </div>
         </div>
-    </div>-->
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+    </div>
+</form>
+<div class="col-md-6">
+    <div class="bs-callout bs-callout-warning" style="margin: 0; margin-bottom: 56px;">
+        <h4>Como publicar correctamente tu trato (PRUEBA)</h4>
+        <ul>
+            <li>
+                eltrato.net funciona con busqueda de <b>Hastags "#"</b>, así que cuando vayas a poner la
+                descripción de tu articulo,
+                tendrás que poner un # en aquellas palabras claves por las que quieres que tu articulo sea
+                buscado.
+            </li>
+            <li>
+                Un Ejemplo sería el siguiente, si vamos a poner a la venta un coche pondriamos el siguiente
+                anuncio:
+                Vendo #Honda #civic #rojo 1.6 #vti en la provincia de #Barcelona. El coche tiene 240000 km, muy
+                cuidado, siempre en garage etc..
+            </li>
+            <li>
+                Con el ejemplo que tenemos, cualquier persona que busque en nuestro buscador la palabra (No
+                distinguimos mayusculas de minusculas, así que no influye en la busqueda)
+                honda, civic, rojo, vti o Barcelona, le aparecera tu anuncio.
+
+                Esperamos haberte podido ayudar, pero si aún tienes dudas no dudes en ponerte en contacto con
+                nosotros.
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-offset-1 col-md-6" ng-if="itemList">
+        <ul class="list-group">
+            <li style="background-color: #428bca; border-color: #357ebd; color: #ffffff"
+                class="list-group-item list-group-item-success">
+                Te interesa:
+            </li>
+            <li class="list-group-item" ng-repeat="item in items">
+                {{item}}
+                <button style="float: right" class="btn btn-danger btn-xs" data-ng-click="delItem($index)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!--<div class="row">
+    <div class="col-md-offset-1">
+        <div class="col-xs-4 col-md-2" data-ng-hide="disponible1">
+            <div class="thumbnail" style="height: 122px">
+                <img src="{{image}}" class="img-circle" style="height: 110px">
+            </div>
+        </div>
+
+        <div class="col-xs-4 col-md-2" data-ng-hide="disponible2">
+            <div class="thumbnail" style="height: 122px;">
+                <img src="{{image2}}" class="img-circle" style="height: 110px">
+            </div>
+        </div>
+
+        <div class="col-xs-4 col-md-2" data-ng-hide="disponible3">
+            <div class="thumbnail" style="height: 122px;">
+                <img src="{{image3}}" class="img-circle" style="height: 110px">
+            </div>
+        </div>
+        <div class="col-xs-4 col-md-2" data-ng-hide="disponible4">
+            <div class="thumbnail" style="height: 122px;">
+                <img src="{{image4}}" class="img-circle" style="height: 110px">
+            </div>
+        </div>
+        <div class="col-xs-4 col-md-2" data-ng-hide="disponible5">
+            <div class="thumbnail" style="height: 122px;">
+                <img src="{{image5}}" class="img-circle" style="height: 110px">
+            </div>
+        </div>
+    </div>
+</div>-->
 </section>

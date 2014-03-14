@@ -30,6 +30,17 @@ var AnuncioSchema = new Schema({
         default: '',
         trim: true
     },
+    opciones: [{
+        trueque : {
+            type: Boolean,
+            default: true
+        },
+        need: {
+            type: Array,
+            default: '',
+            trim: true
+        }
+    }],
     precio: {
         type: Number,
         default: 0,
