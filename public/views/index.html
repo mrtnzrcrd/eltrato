@@ -150,8 +150,18 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-    <div class="col-md-12 col-lg-offset-3">
-        <p>Encontrados {{results}} tratos</p>
+    <div class="row">
+        <div class="col-md-3 col-lg-offset-3">
+            <p>Encontrados {{results}} tratos</p>
+        </div>
+        <div class="col-md-3 col-lg-offset-3">
+            <label style="float: right;">
+                <span class="glyphicon glyphicon-info-sign"
+                      popover="Cuando veas este enlace significa que ese trato puede recibir contraofertas, otros articulos
+                      como forma de pago o trueques" popover-trigger="mouseenter" popover-placement="bottom"></span>
+                <img src="../img/icons/tratoInfo.png" width="50px">
+            </label>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -188,7 +198,8 @@
                                     </div>
                                     <div class="row" data-ng-repeat="trueque in anuncio.opciones" ng-switch
                                          on="trueque.trueque">
-                                            <img src="../img/icons/trato.png" width="50px" style="float: right; margin-right: 15px;">
+                                        <img src="../img/icons/trato.png" width="50px"
+                                             style="float: right; margin-right: 15px;">
                                     </div>
                                 </div>
                             </div>
