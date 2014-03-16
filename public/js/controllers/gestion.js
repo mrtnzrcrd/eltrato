@@ -44,8 +44,8 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
                 controller: ModalInstanceCtrl
             });
 
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
+            modalInstance.result.then(function (respuesta) {
+                console.log("Borrar anuncio" + idAnuncio + " -->" + respuesta);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
@@ -55,7 +55,7 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
 
             $scope.ok = function () {
                 console.log("BORRAR");
-                $modalInstance.close("Borrado");
+                $modalInstance.close("OK");
             };
 
             $scope.cancel = function () {
