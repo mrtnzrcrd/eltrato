@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '$http', '$routeParams', '$rootScope', '$location',
-    'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader', 'FancyboxService', 'Geocoder',
-    function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader, FancyboxService, Geocoder) {
+    'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader', 'Geocoder',
+    function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader, Geocoder) {
         $scope.global = Global;
 
         $scope.caution = function () {
@@ -407,9 +407,5 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $scope.itemList = false;
             }
         }
-
-        $scope.show_dialog = function () {
-            FancyboxService.open("div.wrapper");
-        };
 
     }]);

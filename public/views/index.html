@@ -158,7 +158,9 @@
             <label style="float: right;">
                 <span class="glyphicon glyphicon-info-sign"
                       popover="Cuando veas esta etiqueta significara que ese trato puede recibir contraofertas, otros articulos
-                      como forma de pago o trueques" popover-trigger="mouseenter" popover-placement="bottom"></span>
+                      como forma de pago o trueques <a href='#' class='btn btn-success' role='button' title='Contraoferta>
+                <span class='glyphicon glyphicon-transfer'></span> Contraoferta
+                </a>" popover-trigger="mouseenter" popover-placement="bottom"></span>
                 <img src="../img/icons/tratoInfo.png" width="50px">
             </label>
         </div>
@@ -184,7 +186,7 @@
                 <div class="col-xs-6 col-sm-6" data-ng-repeat="anuncio in row">
                     <div class="thumbnail">
                         <div style="height: 13em; background-image: url({{anuncio.images[0]}});" class="imagenAnuncio">
-                            <a href="#!/anuncios/{{anuncio._id}}">
+                            <a href="{{anuncio}}" data-ng-click="view($event, anuncio)">
                                 <div class="row">
                                     <div class="col-md-7">
                                         <span data-ng-repeat="tag in anuncio.tags" class="label label-primary pull-left"
@@ -212,14 +214,15 @@
                         <div class="caption">
                             <div class="row">
                                 <div class="col-md-9">
-                                    <button class="btn btn-default btn-sm">
-                                        <span class="glyphicon glyphicon-comment"></span>
-                                    </button>
-                                    <a href="#" class="btn btn-warning btn-sm" role="button" title="Añadir a favoritos">
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </a>
                                     <a href="#" class="btn btn-info btn-sm" role="button" title="Enviar mensaje">
                                         <span class="glyphicon glyphicon-envelope"></span>
+                                    </a>
+                                    <a href="#" class="btn btn-success btn-sm" role="button" title="Contraoferta"
+                                       data-ng-repeat="trueque in anuncio.opciones" ng-switch on="trueque.trueque">
+                                        <span class="glyphicon glyphicon-transfer"></span> Contraoferta
+                                    </a>
+                                    <a href="#" class="btn btn-warning btn-sm" role="button" title="Añadir a favoritos">
+                                        <span class="glyphicon glyphicon-star-empty"></span>
                                     </a>
                                     <a href="#" class="btn btn-primary btn-sm" role="button" title="Llamar">
                                         <span class="glyphicon glyphicon-earphone"></span>
@@ -247,4 +250,85 @@
         </div>
     </div>
 </div>
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-md-9">
+                <span data-ng-repeat="tag in tratos.tags" class="label label-primary pull-left"
+                      style="font-size: initial; margin: 2px;">{{tag}}</span>
+            </div>
+            <div class="col-md-3">
+                <button style="float: right; margin-right: 15px;" ng-click="cancel()" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <span style="float: right; margin-right: 15px; font-size: initial;"
+                      class="label label-primary">{{tratos.precio}}€</span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div data-ng-repeat="images in tratos.images">
+                    <div class="row" ng-if="$index == 0">
+                        <div class="col-md-12">
+                            <a href ng-click="show_dialog()">
+                                <div class="thumbnail" style="margin-bottom: 7px;">
+                                    <img alt="{{images}}" src="{{images}}" class="img-circle">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="padding-left: 0;" ng-if="$index != 0">
+                        <a href ng-click="show_dialog()">
+                            <div class="thumbnail">
+                                <img src="{{images}}" class="img-circle" style="height: 4em">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="wrapper">
+                        <div class="future_fancybox_content">
+                            <img class="fancybox-image" src="{{images}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="label label-default">{{address}}</span>
+                    </div>
+                    <div class="col-md-6">
+                            <span class="label label-default pull-right"
+                                  am-time-ago="tratos.created"></span>
+                    </div>
+                </div>
+                <div class="row" style="height: 13.5em">
+                    <div class="col-md-12">
+                        <h4>{{tratos.descripcion}}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    {{tratos.user.username}}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
+            <span class="glyphicon glyphicon-envelope"></span> Enviar mensaje
+        </a>
+        <a href="#" class="btn btn-success" role="button" title="Contraoferta" ng-if="contraoferta">
+            <span class="glyphicon glyphicon-transfer"></span> Contraoferta
+        </a>
+        <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
+            <span class="glyphicon glyphicon-star-empty"></span> Añadir a favoritos
+        </a>
+        <a href="#" class="btn btn-primary" role="button" title="Ver teléfono">
+            <span class="glyphicon glyphicon-earphone"></span> Ver teléfono
+        </a>
+        <a href="#" class="btn btn-danger" role="button" title="Denunciar trato">
+            <span class="glyphicon glyphicon-thumbs-down"></span> Denunciar trato
+        </a>
+    </div>
+</script>
 </section>

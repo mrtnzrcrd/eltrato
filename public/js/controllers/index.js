@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation', 'Geocoder',
-    function ($scope, $http, $rootScope, $location, Global, geolocation, Geocoder) {
+angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation', 'Geocoder', '$modal', 'FancyboxService',
+    function ($scope, $http, $rootScope, $location, Global, geolocation, Geocoder, $modal, FancyboxService) {
         $scope.global = Global;
 
         $scope.search = true;
@@ -204,7 +204,6 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 20;
                     $scope.results = $scope.anuncios.length;
-                    
                 });
             });
             $http.get('/searchGeo', {params: {geo: query}}).success(function (response) {
@@ -218,7 +217,6 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $scope.loading = false;
                 $scope.kilometros = 20;
                 $scope.results = $scope.anuncios.length;
-                
             });
         } else if ($rootScope.lng) {
             $scope.search = false;
@@ -356,5 +354,52 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     
                 });
             }
+        };
+
+        $scope.view = function (event, anuncio) {
+            event.preventDefault();
+            var trato = anuncio;
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: ModalInstanceCtrl,
+                windowClass: 'modalTrato',
+                resolve: {
+                    trato: function () {
+                        return trato;
+                    }
+                },
+                keyboard: false
+            });
+        };
+
+        var ModalInstanceCtrl = function ($scope, $modalInstance, trato) {
+
+            $scope.tratos = trato;
+
+            if ($scope.tratos.opciones.length > 0) {
+                $scope.contraoferta = $scope.tratos.opciones[0].trueque;
+            }
+
+            Geocoder.addressForLatLng($scope.tratos.locs[1], $scope.tratos.locs[0]).then(function (data) {
+                $scope.address = data.address;
+            });
+
+            $scope.ok = function () {
+                console.log("BORRAR");
+                $modalInstance.close("OK");
+            };
+
+            $scope.cancel = function () {
+                console.log("NO BORRAR");
+                $modalInstance.dismiss('Cancelado');
+            };
+
+            $scope.show_dialog = function () {
+                FancyboxService.open("div.wrapper");
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
         };
     }]);
