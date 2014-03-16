@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '$http', '$routeParams', '$rootScope', '$location',
-    'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader',
-    function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader) {
+    'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader', 'FancyboxService', 'Geocoder',
+    function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader, FancyboxService, Geocoder) {
         $scope.global = Global;
 
-        $scope.descripcion = "Hola";
-
-        $scope.caution = function() {
+        $scope.caution = function () {
             if (!window.user) {
                 $location.path('#!/');
             }
@@ -212,7 +210,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         // end push array
 
-        $scope.publicar =function(){
+        $scope.publicar = function () {
             uploader.uploadAll();
             $scope.process = true;
         }
@@ -241,7 +239,8 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                         { type: 'danger', title: response.title, msg: response.errorTag }
                     ];
                     $scope.model = {precio: response.anuncio.precio};
-                    $scope.model = {descripcion: response.anuncio.descripcion};
+                    //$scope.model = {descripcion: response.anuncio.descripcion};
+                    $scope.descripcion = response.anuncio.descripcion;
                 }
             });
 
@@ -299,6 +298,12 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $scope.descripcion = anuncio.descripcion;
                 $scope.precio = anuncio.precio;
                 $scope.imagenes = anuncio.images;
+                Geocoder.addressForLatLng(anuncio.locs[1], anuncio.locs[0]).then(function (data) {
+                    $scope.address = data.address;
+                });
+                var latlng = new google.maps.LatLng(anuncio.locs[1], anuncio.locs[0]);
+                $scope.model.myMap.setCenter(latlng);
+                $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
             });
         };
         //end findOne
@@ -323,7 +328,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         // Images only
         uploader.filters.push(function (item /*{File|HTMLInputElement}*/) {
-            var type = uploader.isHTML5? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+            var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
             type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
             $scope.foto = true;
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
@@ -402,5 +407,9 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $scope.itemList = false;
             }
         }
+
+        $scope.show_dialog = function () {
+            FancyboxService.open("div.wrapper");
+        };
 
     }]);

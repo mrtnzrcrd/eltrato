@@ -13,6 +13,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
         if (window.user) {
             $rootScope.$on('searcHeader', function (event, args) {
+
                 if ($scope.lng) {
                     var latlng = $scope.lng + '+' + $scope.lat;
                 } else {
