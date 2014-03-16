@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation', 'misAnuncios',
-    function ($scope, $routeParams, $rootScope, $location, Global, geolocation, misAnuncios) {
+angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation', 'misAnuncios', '$modal',
+    function ($scope, $routeParams, $rootScope, $location, Global, geolocation, misAnuncios, $modal) {
         $scope.global = Global;
 
         $scope.nombre = Global.user.name;
@@ -19,10 +19,9 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
                 case "tratos":
                     console.log("tratos");
                     console.log(Global.user._id);
-                    misAnuncios.query2({
+                    misAnuncios.query({
                         usuarioId: Global.user._id
                     }, function (anuncio) {
-
                         $scope.anuncios = anuncio;
                     });
                     break;
@@ -35,6 +34,34 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
                 default:
                     console.log("");
             }
+        };
+
+        $scope.remove = function (event) {
+            event.preventDefault();
+            var idAnuncio = event.currentTarget.attributes.href.nodeValue;
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: ModalInstanceCtrl
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        var ModalInstanceCtrl = function ($scope, $modalInstance) {
+
+            $scope.ok = function () {
+                console.log("BORRAR");
+                $modalInstance.close("Borrado");
+            };
+
+            $scope.cancel = function () {
+                console.log("NO BORRAR");
+                $modalInstance.dismiss('Cancelado');
+            };
         };
 
 
