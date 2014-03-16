@@ -184,25 +184,30 @@
                 <div class="col-xs-6 col-sm-6" data-ng-repeat="anuncio in row">
                     <div class="thumbnail">
                         <div style="height: 13em; background-image: url({{anuncio.images[0]}});" class="imagenAnuncio">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <span data-ng-repeat="tag in anuncio.tags" class="label label-primary pull-left"
-                                          style="font-size: initial; margin: 2px;">{{tag}}</span>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <span class="label label-default pull-right"
-                                                  am-time-ago="anuncio.created"></span>
+                            <a href="#!/anuncios/{{anuncio._id}}">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <span data-ng-repeat="tag in anuncio.tags" class="label label-primary pull-left"
+                                              style="font-size: initial; margin: 2px;">{{tag}}</span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <span class="label label-default pull-right"
+                                                      am-time-ago="anuncio.created"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" data-ng-repeat="trueque in anuncio.opciones" ng-switch
+                                             on="trueque.trueque">
+                                            <img src="../img/icons/trato.png" width="50px"
+                                                 style="float: right; margin-right: 15px;">
                                         </div>
                                     </div>
-                                    <div class="row" data-ng-repeat="trueque in anuncio.opciones" ng-switch
-                                         on="trueque.trueque">
-                                        <img src="../img/icons/trato.png" width="50px"
-                                             style="float: right; margin-right: 15px;">
-                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-12"style="height: 8em; margin-bottom: 10px">
+
+                                </div>
+                            </a>
                         </div>
                         <div class="caption">
                             <div class="row">

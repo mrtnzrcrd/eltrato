@@ -147,3 +147,5 @@ input[type='range']::-moz-range-thumb {
     height: 20px;
     width: 20px;
 }
+
+.wrapper { display: none; }

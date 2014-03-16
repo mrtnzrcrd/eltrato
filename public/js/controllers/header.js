@@ -14,10 +14,16 @@ angular.module('elTrato.system').controller('HeaderController', ['$scope', '$roo
             }
 
             $scope.buscar = function () {
+                $rootScope.location = $location;
+
                 if ($scope.tagsHeader) {
-                    var query = $rootScope.tagsHeader;
-                    var parameters = {tags : query};
-                    $rootScope.$broadcast('searcHeader', parameters);
+                    if ($rootScope.location.$$absUrl != "http://localhost:3000/#!/") {
+                        console.log('no estas en index');
+                    } else {
+                        var query = $rootScope.tagsHeader;
+                        var parameters = {tags : query};
+                        $rootScope.$broadcast('searcHeader', parameters);
+                    }
                 }
             };
         }
