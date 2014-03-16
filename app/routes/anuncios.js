@@ -1,8 +1,8 @@
 'use strict';
 
 // Anuncios routes use anuncios controller
-var anuncios = require('../controllers/anuncios');
-var authorization = require('./middlewares/authorization');
+var anuncios = require('../controllers/anuncios'),
+    authorization = require('./middlewares/authorization');
 
 // Anuncio authorization helpers
 var hasAuthorization = function(req, res, next) {
@@ -18,8 +18,7 @@ module.exports = function(app) {
     app.post('/anuncios', authorization.requiresLogin, anuncios.create);
     app.get('/anuncios/:anuncioId', anuncios.show);
 
-    app.get('/misanuncios/:usuarioId', anuncios.mis);
-
+    app.get('/misanuncios/:usuarioId', authorization.requiresLogin ,anuncios.mis);
     app.put('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.update);
     app.del('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.destroy);
 
