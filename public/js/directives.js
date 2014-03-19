@@ -96,3 +96,20 @@ angular.module('elTrato.system').directive('myInput', function () {
         }
     };
 });
+
+/*angular.module('elTrato.system').directive("loadingIndicator", function() {
+    return {
+        restrict : "A",
+        template: "<div id='loading' style='display: inline-block;'><img src='../img/icons/ajax-loader.gif'><p>Comprobando favorito</p></div>",
+        link : function(scope, element, attrs) {
+            scope.$on("loading-started", function(e) {
+                element.css({"display" : ""});
+            });
+
+            scope.$on("loading-complete", function(e) {
+                element.css({"display" : "none"});
+            });
+
+        }
+    };
+});*/
