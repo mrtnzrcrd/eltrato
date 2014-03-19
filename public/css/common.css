@@ -152,6 +152,11 @@ input[type='range']::-moz-range-thumb {
 
 @media screen and (min-width: 767px) {
     .modalTrato .modal-dialog  {
-        width: 60%;
+        width: 61%;
     }
+}
+
+#loading {
+    width: 50%;
+    margin: 0 auto;
 }
