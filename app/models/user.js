@@ -26,6 +26,10 @@ var UserSchema = new Schema({
     locs: {
         type: Array
     },
+    favorites: [{
+        type: Schema.ObjectId,
+        ref: 'Anuncio'
+    }],
     facebook: {},
     twitter: {},
     github: {},

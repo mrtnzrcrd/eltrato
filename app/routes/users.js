@@ -10,6 +10,9 @@ module.exports = function(app, passport) {
     app.get('/signout', users.signout);
     app.get('/users/me', users.me);
 
+    app.get('/addFavorite', users.addFavorite);
+    app.get('/lookFavorite', users.lookFavorite);
+
     // Setting up the users api
     app.post('/users', users.create);
 

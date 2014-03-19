@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation', 'Geocoder', '$modal', 'FancyboxService',
-    function ($scope, $http, $rootScope, $location, Global, geolocation, Geocoder, $modal, FancyboxService) {
+angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation', 'Geocoder', '$modal', 'FancyboxService', '$timeout', 'toaster',
+    function ($scope, $http, $rootScope, $location, Global, geolocation, Geocoder, $modal, FancyboxService, $timeout, toaster) {
         $scope.global = Global;
 
         $scope.search = true;
         $scope.yesAd = false;
         $scope.alertOk = true;
         $scope.loading = false;
+        $scope.toasterGeneral = true;
 
         $scope.kilometros = 0;
 
@@ -356,7 +357,12 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             }
         };
 
+        $scope.favoritosGeneral = function (id) {
+            toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
+        };
+
         $scope.view = function (event, anuncio) {
+            $scope.toasterGeneral = false;
             event.preventDefault();
             var trato = anuncio;
             var modalInstance = $modal.open({
@@ -370,11 +376,27 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 },
                 keyboard: false
             });
+
+            modalInstance.result.then(function (respuesta) {
+
+            }, function () {
+                $scope.toasterGeneral = true;
+            });
         };
 
         var ModalInstanceCtrl = function ($scope, $modalInstance, trato) {
 
             $scope.tratos = trato;
+
+            $http.get('/lookFavorite', {params: {idTrato: trato._id}}).success(function (response) {
+                if (response != "null") {
+                    $scope.defaultFav = false;
+                    $scope.tratoFav = true;
+                } else {
+                    $scope.defaultFav = true;
+                    $scope.tratoFav = false;
+                }
+            });
 
             if ($scope.tratos.opciones.length > 0) {
                 $scope.contraoferta = $scope.tratos.opciones[0].trueque;
@@ -401,5 +423,17 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
             };
+
+            $scope.favorite = function (id) {
+                $http.get('/addFavorite', {params: {idTrato: id}}).success(function (response) {
+                    if (response.ok == 'ok') {
+                        $scope.defaultFav = false;
+                        $scope.tratoFav = true;
+                        toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
+                    } else {
+                        toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
+                    }
+                });
+            }
         };
     }]);

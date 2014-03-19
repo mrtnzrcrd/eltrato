@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     validator = require('validator');
 
+var ObjectId = require('mongoose').Types.ObjectId;
 /**
  * Auth callback
  */
@@ -125,3 +126,41 @@ exports.user = function(req, res, next, id) {
             next();
         });
 };
+
+/**
+ * Add favorite
+ */
+exports.addFavorite = function(req, res, next) {
+    var idTrato = req.query.idTrato;
+
+    var user = req.user;
+
+    var conditions = {_id : user._id},
+        update = { $push : {favorites : idTrato}};
+
+    User.update(conditions, update, function(err, user) {
+        if (err) return next(err);
+        res.jsonp({ok: 'ok'});
+    });
+}
+
+/**
+ * look favorite
+ */
+exports.lookFavorite = function(req, res, next) {
+    var idTrato = req.query.idTrato;
+
+    var user = req.user;
+
+    User.findOne({_id : user._id, favorites : idTrato}, {_id:0, username: 1}).exec(function (err, favorite) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            res.jsonp(favorite);
+        }
+    });
+}
+
+

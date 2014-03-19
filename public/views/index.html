@@ -1,5 +1,5 @@
 <section data-ng-controller="IndexController">
-
+<toaster-container ng-if="toasterGeneral" toaster-options="{'time-out': 3000}"></toaster-container>
 <alert ng-if="alertOk" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
     <h4>{{alert.title}}</h4>
     {{alert.msg}}
@@ -158,9 +158,7 @@
             <label style="float: right;">
                 <span class="glyphicon glyphicon-info-sign"
                       popover="Cuando veas esta etiqueta significara que ese trato puede recibir contraofertas, otros articulos
-                      como forma de pago o trueques <a href='#' class='btn btn-success' role='button' title='Contraoferta>
-                <span class='glyphicon glyphicon-transfer'></span> Contraoferta
-                </a>" popover-trigger="mouseenter" popover-placement="bottom"></span>
+                      como forma de pago o trueques " popover-trigger="mouseenter" popover-placement="bottom"></span>
                 <img src="../img/icons/tratoInfo.png" width="50px">
             </label>
         </div>
@@ -221,7 +219,8 @@
                                        data-ng-repeat="trueque in anuncio.opciones" ng-switch on="trueque.trueque">
                                         <span class="glyphicon glyphicon-transfer"></span> Contraoferta
                                     </a>
-                                    <a href="#" class="btn btn-warning btn-sm" role="button" title="Añadir a favoritos">
+                                    <a class="btn btn-warning btn-sm" role="button" ng-click="favoritosGeneral(anuncio)"
+                                       title="Añadir a favoritos">
                                         <span class="glyphicon glyphicon-star-empty"></span>
                                     </a>
                                     <a href="#" class="btn btn-primary btn-sm" role="button" title="Llamar">
@@ -265,6 +264,7 @@
         </div>
     </div>
     <div class="modal-body">
+        <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
         <div class="row">
             <div class="col-md-6">
                 <div data-ng-repeat="images in tratos.images">
@@ -320,8 +320,11 @@
         <a href="#" class="btn btn-success" role="button" title="Contraoferta" ng-if="contraoferta">
             <span class="glyphicon glyphicon-transfer"></span> Contraoferta
         </a>
-        <a href="#" class="btn btn-warning" role="button" title="Añadir a favoritos">
+        <a class="btn btn-warning" ng-click="favorite(tratos._id)" ng-if="defaultFav" role="button" title="Añadir a favoritos">
             <span class="glyphicon glyphicon-star-empty"></span> Añadir a favoritos
+        </a>
+        <a class="btn btn-warning" ng-if="tratoFav"  role="button" title="Favorito">
+            <span class="glyphicon glyphicon-star"></span> Favorito
         </a>
         <a href="#" class="btn btn-primary" role="button" title="Ver teléfono">
             <span class="glyphicon glyphicon-earphone"></span> Ver teléfono
