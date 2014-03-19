@@ -211,26 +211,27 @@
                         </div>
                         <div class="caption">
                             <div class="row">
-                                <div class="col-md-9">
-                                    <a href="#" class="btn btn-info btn-sm" role="button" title="Enviar mensaje">
+                                <div class="col-md-10">
+                                    <a href="#" class="btn btn-message btn-sm" role="button" tooltip="Enviar mensaje">
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
-                                    <a href="#" class="btn btn-success btn-sm" role="button" title="Contraoferta"
+                                    <a href="#" class="btn btn-deal btn-sm" role="button" tooltip="Contraoferta"
                                        data-ng-repeat="trueque in anuncio.opciones" ng-switch on="trueque.trueque">
                                         <span class="glyphicon glyphicon-transfer"></span> Contraoferta
                                     </a>
-                                    <a class="btn btn-warning btn-sm" role="button" ng-click="favoritosGeneral(anuncio)"
-                                       title="Añadir a favoritos">
+                                    <a class="btn btn-favorite btn-sm" role="button" ng-click="favoritosGeneral(anuncio)"
+                                       tooltip="Añadir a favoritos">
                                         <span class="glyphicon glyphicon-star-empty"></span>
                                     </a>
-                                    <a href="#" class="btn btn-primary btn-sm" role="button" title="Llamar">
+                                    <a href="#" class="btn btn-phone btn-sm" role="button"
+                                       tooltip="Teléfono">
                                         <span class="glyphicon glyphicon-earphone"></span>
                                     </a>
-                                    <a href="#" class="btn btn-danger btn-sm" role="button" title="Denunciar">
+                                    <a href="#" class="btn btn-complaint btn-sm" role="button" tooltip="Denunciar trato">
                                         <span class="glyphicon glyphicon-thumbs-down"></span>
                                     </a>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="row">
                                         <span style="float: right; margin-right: 15px; font-size: initial;"
                                               class="label label-primary">{{anuncio.precio}}€</span>
@@ -314,22 +315,22 @@
     </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn btn-info" role="button" title="Enviar mensaje">
+        <a href="#" class="btn btn-message" role="button" title="Enviar mensaje">
             <span class="glyphicon glyphicon-envelope"></span> Enviar mensaje
         </a>
-        <a href="#" class="btn btn-success" role="button" title="Contraoferta" ng-if="contraoferta">
+        <a href="#" class="btn btn-deal" role="button" title="Contraoferta" ng-if="contraoferta">
             <span class="glyphicon glyphicon-transfer"></span> Contraoferta
         </a>
-        <a class="btn btn-warning" ng-click="favorite(tratos._id)" ng-if="defaultFav" role="button" title="Añadir a favoritos">
+        <a class="btn btn-favorite" ng-click="favorite(tratos._id)" ng-if="defaultFav" role="button" title="Añadir a favoritos">
             <span class="glyphicon glyphicon-star-empty"></span> Añadir a favoritos
         </a>
         <a class="btn btn-warning" ng-if="tratoFav"  role="button" title="Favorito">
             <span class="glyphicon glyphicon-star"></span> Favorito
         </a>
-        <a href="#" class="btn btn-primary" role="button" title="Ver teléfono">
+        <a href="#" class="btn btn-phone" role="button" title="Ver teléfono">
             <span class="glyphicon glyphicon-earphone"></span> Ver teléfono
         </a>
-        <a href="#" class="btn btn-danger" role="button" title="Denunciar trato">
+        <a href="#" class="btn btn-complaint" role="button" title="Denunciar trato">
             <span class="glyphicon glyphicon-thumbs-down"></span> Denunciar trato
         </a>
     </div>

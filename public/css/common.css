@@ -160,3 +160,251 @@ input[type='range']::-moz-range-thumb {
     width: 50%;
     margin: 0 auto;
 }
+
+/*message Button*/
+.btn-message {
+    color: #428bca;
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-message:hover,
+.btn-message:focus,
+.btn-message:active,
+.btn-message.active,
+.open .dropdown-toggle.btn-message {
+    color: #ffffff;
+    background-color: #428bca;
+    border-color: #285e8e;
+}
+
+.btn-message:active,
+.btn-message.active,
+.open .dropdown-toggle.btn-message {
+    background-image: none;
+}
+
+.btn-message.disabled,
+.btn-message[disabled],
+fieldset[disabled] .btn-message,
+.btn-message.disabled:hover,
+.btn-message[disabled]:hover,
+fieldset[disabled] .btn-message:hover,
+.btn-message.disabled:focus,
+.btn-message[disabled]:focus,
+fieldset[disabled] .btn-message:focus,
+.btn-message.disabled:active,
+.btn-message[disabled]:active,
+fieldset[disabled] .btn-message:active,
+.btn-message.disabled.active,
+.btn-message[disabled].active,
+fieldset[disabled] .btn-message.active {
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-message .badge {
+    color: #ffffff;
+    background-color: #fff;
+}
+/*End message button*/
+
+/*deal Button*/
+
+.btn-deal {
+    color: #428bca;
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-deal:hover,
+.btn-deal:focus,
+.btn-deal:active,
+.btn-deal.active,
+.open .dropdown-toggle.btn-deal {
+    color: #ffffff;
+    background-color: #47a447;
+    border-color: #398439;
+}
+
+.btn-deal:active,
+.btn-deal.active,
+.open .dropdown-toggle.btn-deal {
+    background-image: none;
+}
+
+.btn-deal.disabled,
+.btn-deal[disabled],
+fieldset[disabled] .btn-deal,
+.btn-deal.disabled:hover,
+.btn-deal[disabled]:hover,
+fieldset[disabled] .btn-deal:hover,
+.btn-deal.disabled:focus,
+.btn-deal[disabled]:focus,
+fieldset[disabled] .btn-deal:focus,
+.btn-deal.disabled:active,
+.btn-deal[disabled]:active,
+fieldset[disabled] .btn-deal:active,
+.btn-deal.disabled.active,
+.btn-deal[disabled].active,
+fieldset[disabled] .btn-deal.active {
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-deal .badge {
+    color: #ffffff;
+    background-color: #fff;
+}
+
+/*End deal button*/
+
+/*favorite button*/
+
+.btn-favorite {
+    color: #428bca;
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-favorite:hover,
+.btn-favorite:focus,
+.btn-favorite:active,
+.btn-favorite.active,
+.open .dropdown-toggle.btn-favorite {
+    color: #ffffff;
+    background-color: #ed9c28;
+    border-color: #d58512;
+}
+
+.btn-favorite:active,
+.btn-favorite.active,
+.open .dropdown-toggle.btn-favorite {
+    background-image: none;
+}
+
+.btn-favorite.disabled,
+.btn-favorite[disabled],
+fieldset[disabled] .btn-favorite,
+.btn-favorite.disabled:hover,
+.btn-favorite[disabled]:hover,
+fieldset[disabled] .btn-favorite:hover,
+.btn-favorite.disabled:focus,
+.btn-favorite[disabled]:focus,
+fieldset[disabled] .btn-favorite:focus,
+.btn-favorite.disabled:active,
+.btn-favorite[disabled]:active,
+fieldset[disabled] .btn-favorite:active,
+.btn-favorite.disabled.active,
+.btn-favorite[disabled].active,
+fieldset[disabled] .btn-favorite.active {
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-favorite .badge {
+    color: #ffffff;
+    background-color: #fff;
+}
+
+/*End favorite button*/
+
+/*phone button*/
+
+.btn-phone {
+    color: #428bca;
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-phone:hover,
+.btn-phone:focus,
+.btn-phone:active,
+.btn-phone.active,
+.open .dropdown-toggle.btn-phone {
+    color: #ffffff;
+    background-color: #39b3d7;
+    border-color: #269abc;
+}
+
+.btn-phone:active,
+.btn-phone.active,
+.open .dropdown-toggle.btn-phone {
+    background-image: none;
+}
+
+.btn-phone.disabled,
+.btn-phone[disabled],
+fieldset[disabled] .btn-phone,
+.btn-phone.disabled:hover,
+.btn-phone[disabled]:hover,
+fieldset[disabled] .btn-phone:hover,
+.btn-phone.disabled:focus,
+.btn-phone[disabled]:focus,
+fieldset[disabled] .btn-phone:focus,
+.btn-phone.disabled:active,
+.btn-phone[disabled]:active,
+fieldset[disabled] .btn-phone:active,
+.btn-phone.disabled.active,
+.btn-phone[disabled].active,
+fieldset[disabled] .btn-phone.active {
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-phone .badge {
+    color: #ffffff;
+    background-color: #fff;
+}
+
+/*End phone button*/
+
+/*complaint button*/
+
+.btn-complaint {
+    color: #428bca;
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-complaint:hover,
+.btn-complaint:focus,
+.btn-complaint:active,
+.btn-complaint.active,
+.open .dropdown-toggle.btn-complaint {
+    color: #ffffff;
+    background-color: #d2322d;
+    border-color: #ac2925;
+}
+
+.btn-complaint:active,
+.btn-complaint.active,
+.open .dropdown-toggle.btn-complaint {
+    background-image: none;
+}
+
+.btn-complaint.disabled,
+.btn-complaint[disabled],
+fieldset[disabled] .btn-complaint,
+.btn-complaint.disabled:hover,
+.btn-complaint[disabled]:hover,
+fieldset[disabled] .btn-complaint:hover,
+.btn-complaint.disabled:focus,
+.btn-complaint[disabled]:focus,
+fieldset[disabled] .btn-complaint:focus,
+.btn-complaint.disabled:active,
+.btn-complaint[disabled]:active,
+fieldset[disabled] .btn-complaint:active,
+.btn-complaint.disabled.active,
+.btn-complaint[disabled].active,
+fieldset[disabled] .btn-complaint.active {
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+
+.btn-complaint .badge {
+    color: #ffffff;
+    background-color: #fff;
+}
+
+/*end complaint button*/
