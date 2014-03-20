@@ -31,7 +31,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                         $scope.alertOk = false;
                         $scope.loading = false;
                         $scope.results = $scope.anuncios.length;
-                        
+
                     });
             });
         } else {
@@ -60,7 +60,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                             $scope.alertOk = false;
                             $scope.loading = false;
                             $scope.results = $scope.anuncios.length;
-                            
+
                         });
                 }
 
@@ -87,7 +87,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
-                    
+
                 });
             } else {
                 $http.get('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
@@ -97,7 +97,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
-                    
+
                 });
             }
         }
@@ -123,7 +123,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
-                    
+
                 });
             } else {
                 $http.get('/searchDistancePrice', {params: {distance: distance, geo: latlng}}).success(function (response) {
@@ -133,7 +133,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.alertOk = false;
                     $scope.loading = false;
                     $scope.results = $scope.anuncios.length;
-                    
+
                 });
             }
         }
@@ -161,7 +161,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                             $scope.alertOk = false;
                             $scope.loading = false;
                             $scope.results = $scope.anuncios.length;
-                            
+
                         });
                 } else {
                     $http.get('/searchDistancePrice', {params: {distance: distance, geo: latlng, desde: desde, hasta: hasta}})
@@ -172,7 +172,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                             $scope.alertOk = false;
                             $scope.loading = false;
                             $scope.results = $scope.anuncios.length;
-                            
+
                         });
                 }
             }
@@ -233,7 +233,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $scope.loading = false;
                 $scope.kilometros = 20;
                 $scope.results = $scope.anuncios.length;
-                
+
             });
         } else {
             $scope.alerts = [
@@ -327,7 +327,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 20;
                     $scope.results = $scope.anuncios.length;
-                    
+
                 });
             } else if ($scope.lng && !this.q) {
                 $http.get('/searchGeo', {params: {geo: query2}}).success(function (response) {
@@ -341,7 +341,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 20;
                     $scope.results = $scope.anuncios.length;
-                    
+
                 });
             } else if (this.q && !$scope.lng) {
                 $http.get('/searchGeo', {params: {search: query}}).success(function (response) {
@@ -352,13 +352,27 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.loading = false;
                     $scope.kilometros = 0;
                     $scope.results = $scope.anuncios.length;
-                    
+
                 });
             }
         };
 
         $scope.favoritosGeneral = function (id) {
-            toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
+            var favorites = window.user.favorites;
+            var result = favorites.indexOf(id);
+            if (result == -1) {
+                $http.get('/addFavorite', {params: {idTrato: id}}).success(function (response) {
+                    if (response.ok == 'ok') {
+                        $scope.defaultFav = false;
+                        $scope.tratoFav = true;
+                        toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
+                        window.user.favorites.push(id);
+                        $rootScope.$broadcast('nuevoFavorito', {id: id});
+                    } else {
+                        toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
+                    }
+                });
+            }
         };
 
         $scope.view = function (event, anuncio) {
@@ -381,10 +395,11 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
             }, function () {
                 $scope.toasterGeneral = true;
+
             });
         };
 
-        var ModalInstanceCtrl = function ($scope, $modalInstance, trato) {
+        var ModalInstanceCtrl = function ($scope, $rootScope, $modalInstance, trato) {
 
             $scope.tratos = trato;
 
@@ -411,7 +426,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $modalInstance.close("OK");
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function (id) {
                 console.log("NO BORRAR");
                 $modalInstance.dismiss('Cancelado');
             };
@@ -430,10 +445,18 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                         $scope.defaultFav = false;
                         $scope.tratoFav = true;
                         toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
+                        window.user.favorites.push(id);
+                        $rootScope.$broadcast('nuevoFavorito', {id: id});
                     } else {
                         toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
                     }
                 });
             }
         };
+
+        $scope.$on('nuevoFavorito', function(event, id) {
+            angular.element('#' + id.id).removeClass('btn-favorite');
+            angular.element('#' + id.id).addClass('btn-warning');
+            angular.element('#' + id.id).removeAttr('id');
+        });
     }]);
