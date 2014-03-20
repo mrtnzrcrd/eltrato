@@ -408,3 +408,8 @@ fieldset[disabled] .btn-complaint.active {
 }
 
 /*end complaint button*/
+
+.numPhotos {
+    text-align: right;
+    color: #428bca;
+}
