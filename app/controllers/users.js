@@ -136,7 +136,7 @@ exports.addFavorite = function(req, res, next) {
     var user = req.user;
 
     var conditions = {_id : user._id},
-        update = { $push : {favorites : idTrato}};
+        update = { $addToSet : {favorites : idTrato}};
 
     User.update(conditions, update, function(err, user) {
         if (err) return next(err);
