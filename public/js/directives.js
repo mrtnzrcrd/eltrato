@@ -162,7 +162,6 @@ angular.module('elTrato.system').directive('photos', ['$compile', function ($com
             var photos = attrs.numphotos;
             photos = JSON.parse(photos);
             photos = photos.length;
-            console.log(photos);
 
             var  tag = '<div class="col-md-12 numPhotos">' +
                             '<span class="glyphicon glyphicon-camera"> </span> ' + photos +

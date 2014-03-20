@@ -30,6 +30,9 @@ var UserSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Anuncio'
     }],
+    phone: {
+        type: Number
+    },
     facebook: {},
     twitter: {},
     github: {},

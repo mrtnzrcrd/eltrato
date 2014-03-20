@@ -2,9 +2,14 @@
 
 {% block auth %}
 <section data-ng-controller="SignupController">
+    <div class="row">
+        <div class="col-md-8 col-lg-offset-4">
+            <p class="help-block"><i class="fieldRequired">*</i> campo obligatorio</p>
+        </div>
+    </div>
     <form class="signin form-horizontal" action="/users" method="post">
         <div class="form-group">
-            <label class="col-md-4 control-label" for="name">Tu nombre: </label>
+            <label class="col-md-4 control-label" for="name">Tu nombre: <i class="fieldRequired">*</i></label>
 
             <div class="col-md-8">
                 <input id="name" class="form-control" type="text" name="name" placeholder="Nombre completo"
@@ -12,7 +17,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label" for="email">Email</label>
+            <label class="col-md-4 control-label" for="email">Email <i class="fieldRequired">*</i></label>
 
             <div class="col-md-8">
                 <input id="email" class="form-control" type="text" name="email" placeholder="Email"
@@ -20,7 +25,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label" for="username">Nombre de usuario</label>
+            <label class="col-md-4 control-label" for="username">Nombre de usuario <i class="fieldRequired">*</i></label>
 
             <div class="col-md-8">
                 <input id="username" class="form-control" type="text" name="username" placeholder="Nombre de usuario"
@@ -28,14 +33,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label" for="password">Contraseña</label>
+            <label class="col-md-4 control-label" for="password">Contraseña <i class="fieldRequired">*</i></label>
 
             <div class="col-md-8">
                 <input id="password" class="form-control" type="password" name="password" placeholder="Contraseña"/>
             </div>
         </div>
         <div class="form-group" ng-if="mapa==true">
-            <label class="col-md-4 control-label" for="geolocalizacion">Tu ubicación actual</label>
+            <label class="col-md-4 control-label">Tu ubicación actual <i class="fieldRequired">*</i></label>
 
             <div class="col-md-8">
                 <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
@@ -54,8 +59,8 @@
                 </label>
             </div>
         </div>
-        <div class="form-group"ng-if="inputGeo==true">
-            <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
+        <div class="form-group" ng-if="inputGeo==true">
+            <label class="col-md-4 control-label">Elige tu ubicación</label>
             <div class="col-md-8">
                 <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
                 for address in getLocationViaGoogle($viewValue) | filter:$viewValue" typeahead-loading="loadingLocations"
@@ -65,7 +70,12 @@
         </div>
         <input type="hidden" ng-value="lat" id="inputLat" name="lat">
         <input type="hidden" ng-value="lng" id="inputLng" name="lng">
-
+        <div class="form-group">
+            <label class="col-md-4 control-label">Teléfono</label>
+            <div class="col-md-8">
+                <input type="tel" class="form-control" placeholder="Opcional">
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-4 col-md-8">
                 <button class="btn btn-primary" type="submit">Sign up</button>

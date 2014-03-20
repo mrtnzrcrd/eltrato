@@ -54,6 +54,9 @@ var AnuncioSchema = new Schema({
     locs: {
         type: Array
     },
+    showPhone: {
+        type: Boolean
+    },
     user: {
         type: Schema.ObjectId,
         ref: 'User'

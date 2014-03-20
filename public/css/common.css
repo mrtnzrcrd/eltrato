@@ -413,3 +413,7 @@ fieldset[disabled] .btn-complaint.active {
     text-align: right;
     color: #428bca;
 }
+
+.fieldRequired {
+    color: red;
+}

@@ -209,33 +209,43 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="caption">
+                        <div class="caption" style="padding-top: 0px;">
                             <div class="row">
-                                <div class="col-md-10">
+                                <photos numphotos="{{anuncio.images}}"></photos>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
                                     <a href="#" class="btn btn-message btn-sm" role="button" tooltip="Enviar mensaje">
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
-                                    <a href="#" class="btn btn-deal btn-sm" role="button" tooltip="Contraoferta"
-                                       data-ng-repeat="trueque in anuncio.opciones" ng-switch on="trueque.trueque">
-                                        <span class="glyphicon glyphicon-transfer"></span> Contraoferta
-                                    </a>
-                                    <a class="btn btn-favorite btn-sm" role="button" ng-click="favoritosGeneral(anuncio)"
-                                       tooltip="Añadir a favoritos">
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </a>
-                                    <a href="#" class="btn btn-phone btn-sm" role="button"
-                                       tooltip="Teléfono">
+                                    <is-trueque ng-if="global.authenticated" data-trueque="{{anuncio.opciones[0].trueque}}"></is-trueque>
+                                    <is-favorite ng-if="global.authenticated" data-favorite="{{anuncio._id}}"> </is-favorite>
+                                    <a class="btn btn-phone btn-sm" role="button"
+                                       tooltip="Teléfono" ng-click="anuncio.collapsed = !anuncio.collapsed">
                                         <span class="glyphicon glyphicon-earphone"></span>
                                     </a>
                                     <a href="#" class="btn btn-complaint btn-sm" role="button" tooltip="Denunciar trato">
                                         <span class="glyphicon glyphicon-thumbs-down"></span>
                                     </a>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="row">
-                                        <span style="float: right; margin-right: 15px; font-size: initial;"
-                                              class="label label-primary">{{anuncio.precio}}€</span>
+                                        <div class="col-md-12">
+                                            <span style="float: right; font-size: initial;"
+                                                  class="label label-primary">{{anuncio.precio}}€</span>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="anuncio.collapsed">
+                                <div class="col-md-12">
+                                    <h4 class="pull-left">
+                                        <span class="label label-info">{{anuncio.user.name}}</span>
+                                    </h4>
+                                    <h4 class="pull-right">
+                                        <span class="glyphicon glyphicon-earphone"></span>
+                                        <span class="label label-info">{{anuncio.user.phone}}</span>
+                                    </h4>
                                 </div>
                             </div>
                             <div class="row">
@@ -258,7 +268,7 @@
                       style="font-size: initial; margin: 2px;">{{tag}}</span>
             </div>
             <div class="col-md-3">
-                <button style="float: right; margin-right: 15px;" ng-click="cancel()" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button style="float: right; margin-right: 15px;" ng-click="cancel(tratos._id)" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <span style="float: right; margin-right: 15px; font-size: initial;"
                       class="label label-primary">{{tratos.precio}}€</span>
             </div>
