@@ -36,8 +36,10 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
             }
         };
 
-        $scope.remove = function (event) {
+        $scope.remove = function (event, anuncio) {
             event.preventDefault();
+
+            var anuncio1 = anuncio;
 
             var idAnuncio = event.currentTarget.attributes.href.nodeValue;
             var modalInstance = $modal.open({
@@ -54,11 +56,11 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
                         $scope.anuncios.splice(i, 1);
                     }
                 }
-
+/*
                 Anuncios.delete({_id:idAnuncio},function(data){
                     console.log(data);
                 });
-
+*/
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });

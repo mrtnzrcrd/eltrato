@@ -13,6 +13,7 @@ var mongoose = require('mongoose'),
  * Find anuncio by id
  */
 exports.anuncio = function (req, res, next, id) {
+    if(req.params.anuncioId != "false" && req.params.anuncioId != "true"){
     if (req.params.anuncioId === "create") {
         return res.redirect('/#!/anuncios/create');
     } else {
@@ -23,6 +24,7 @@ exports.anuncio = function (req, res, next, id) {
             next();
         });
     }
+}
 };
 
 /**
