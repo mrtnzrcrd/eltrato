@@ -2,16 +2,17 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-offset-1 col-md-5">
-            <a href="/auth/facebook"><img src="/img/icons/facebook.png"></a>
-            <a href="/auth/github"><img src="/img/icons/github.png"></a>
-            <a href="/auth/twitter"><img src="/img/icons/twitter.png"></a>
-            <a href="/auth/google"><img src="/img/icons/google.png"></a>
-            <a href="/auth/linkedin"><img src="/img/icons/linkedin.png"></a>
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-lg-offset-1">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Disfruta de todas las ventajas de elTrato.net</h2>
+                    <h4><small>Publica tratos, guarda aquellos tratos que te gusten en favoritos, disfruta
+                    de todas las ventajas de nuestro chat, configura tu cuenta como mas
+                    te convenga, controla las estadisticas de tus tratos.</small></h4>
+                </div>
+            </div>
             {% if message && message.length  %}
-            <div class="fade in alert alert-error">
+            <div class="alert alert-danger">
                 <button class="close" data-dismiss="alert">&times;</button>
                 <div class="strong">
                     {{ message }}
@@ -19,6 +20,56 @@
             </div>
             {% endif %}
             {% block auth %}{% endblock %}
+        </div>
+        <div class="col-md-offset-1 col-md-4">
+            <h2><small>O entra usando:</small></h2>
+            <!--<a href="/auth/facebook"><img src="/img/icons/facebook.png"></a>-->
+            <div class="row" style="margin-bottom: 10px; margin-left: -5px;">
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1&appId=1420744988175141";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+                <fb:login-button size="large"
+                                 onlogin="require('./log').info('onlogin callback')">
+                    Entra con Facebook
+                </fb:login-button>
+            </div>
+            <div class="row" style="margin-left: -5px">
+                <script type="text/javascript">
+                    (function() {
+                        var po = document.createElement('script');
+                        po.type = 'text/javascript'; po.async = true;
+                        po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(po, s);
+                    })();
+
+                    function render() {
+                        gapi.signin.render('customBtn', {
+                            //'callback': 'signinCallback',
+                            'clientid': '841077041629.apps.googleusercontent.com',
+                            'cookiepolicy': 'single_host_origin',
+                            'requestvisibleactions': 'http://schemas.google.com/AddActivity',
+                            'scope': 'https://www.googleapis.com/auth/plus.login'
+                        });
+                    }
+                </script>
+                <div id="gSignInWrapper">
+                    <div id="customBtn" class="customGPlusSignIn">
+                        <span class="icon"></span>
+                        <span class="buttonText">Entra con google</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--<a href="/auth/github"><img src="/img/icons/github.png"></a>-->
+            <!--<a href="/auth/twitter"><img src="/img/icons/twitter.png"></a>-->
+            <!--<a href="/auth/google"><img src="/img/icons/google.png"></a>-->
+            <!--<a href="/auth/linkedin"><img src="/img/icons/linkedin.png"></a>-->
         </div>
     </div>
 {% endblock %}

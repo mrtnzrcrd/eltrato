@@ -131,7 +131,7 @@ angular.module('elTrato.system').directive('myInput', function () {
  };
  });*/
 
-angular.module('elTrato.system').directive('isFavorite', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', 'toaster', function ($compile, $http, toaster) {
     return {
         restrict: 'E',
         link: function (scope, element, attrs) {
@@ -140,11 +140,51 @@ angular.module('elTrato.system').directive('isFavorite', ['$compile', function (
             var result = favorites.indexOf(favorite);
             var tag = '';
 
+            scope.removeFavorite = function (id) {
+                $http.get('/removeFavorite', {params: {idTrato: id}}).success(function (response) {
+                    if (response.ok == 'ok') {
+                        toaster.pop('info', "Favoritos", 'Eliminado de tus favoritos');
+                        var i = window.user.favorites.indexOf(id);
+
+                        if (i != -1) {
+                            window.user.favorites.splice(i, 1);
+                        }
+
+                        tag = '<a class="btn btn-favorite btn-sm" role="button" ' +
+                            'ng-click="favoritosGeneral(anuncio._id)" tooltip="Añadir a favoritos"> ' +
+                            '<span class="glyphicon glyphicon-star-empty"></span> </a>';
+                        element.html($compile(tag)(scope));
+                    } else {
+                        toaster.pop('error', "Se ha producido un error", 'No se ha podido eliminar de tus favoritos');
+                    }
+                });
+            };
+
+            scope.favoritosGeneral = function (id) {
+                var favorites = window.user.favorites;
+                var result = favorites.indexOf(id);
+                if (result == -1) {
+                    $http.get('/addFavorite', {params: {idTrato: id}}).success(function (response) {
+                        if (response.ok == 'ok') {
+                            toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
+                            window.user.favorites.push(id);
+                            tag = '<a class="btn btn-warning btn-sm" role="button" tooltip="Favorito" ' +
+                                'ng-click="removeFavorite(anuncio._id)">' +
+                                '<span class="glyphicon glyphicon-star"></span> </a>';
+                            element.html($compile(tag)(scope));
+                        } else {
+                            toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
+                        }
+                    });
+                }
+            };
+
             if (result != -1) {
-                tag = '<a class="btn btn-warning btn-sm" role="button" tooltip="Favorito"> ' +
+                tag = '<a class="btn btn-warning btn-sm" role="button" tooltip="Favorito" ' +
+                    'ng-click="removeFavorite(anuncio._id)">' +
                     '<span class="glyphicon glyphicon-star"></span> </a>'
             } else {
-                tag = '<a id="{{anuncio._id}}" class="btn btn-favorite btn-sm" role="button" ' +
+                tag = '<a class="btn btn-favorite btn-sm" role="button" ' +
                     'ng-click="favoritosGeneral(anuncio._id)" tooltip="Añadir a favoritos"> ' +
                     '<span class="glyphicon glyphicon-star-empty"></span> </a>'
             }

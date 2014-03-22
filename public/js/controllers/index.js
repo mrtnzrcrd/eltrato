@@ -357,24 +357,6 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             }
         };
 
-        $scope.favoritosGeneral = function (id) {
-            var favorites = window.user.favorites;
-            var result = favorites.indexOf(id);
-            if (result == -1) {
-                $http.get('/addFavorite', {params: {idTrato: id}}).success(function (response) {
-                    if (response.ok == 'ok') {
-                        $scope.defaultFav = false;
-                        $scope.tratoFav = true;
-                        toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
-                        window.user.favorites.push(id);
-                        $rootScope.$broadcast('nuevoFavorito', {id: id});
-                    } else {
-                        toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
-                    }
-                });
-            }
-        };
-
         $scope.view = function (event, anuncio) {
             $scope.toasterGeneral = false;
             event.preventDefault();
@@ -457,6 +439,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
         $scope.$on('nuevoFavorito', function(event, id) {
             angular.element('#' + id.id).removeClass('btn-favorite');
             angular.element('#' + id.id).addClass('btn-warning');
+            angular.element('#' + id.id).attr('ng-class', 'favorito');
             angular.element('#' + id.id).removeAttr('id');
         });
     }]);

@@ -40,7 +40,7 @@
                                         <a href="#!/anuncios/{{anuncio._id}}/edit" class="btn btn-primary" role="button" title="Modificar">
                                             <span class="glyphicon glyphicon-edit"></span>
                                         </a>
-                                        <a href="{{anuncio._id}}" data-ng-click="remove($event)" class="btn btn-danger" role="button" title="Borrar">
+                                        <a href="{{anuncio._id}}" data-ng-click="remove($event, anuncio._id)" class="btn btn-danger" role="button" title="Borrar">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </a>
                                     </p>
@@ -137,7 +137,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-primary" ng-click="ok(id)">OK</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
     </div>
 </script>

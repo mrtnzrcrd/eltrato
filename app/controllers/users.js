@@ -163,4 +163,21 @@ exports.lookFavorite = function(req, res, next) {
     });
 }
 
+/**
+ * remove favorite
+ */
+exports.removeFavorite = function(req, res, next) {
+    var idTrato = req.query.idTrato;
 
+    var user = req.user;
+
+    User.update({_id : user._id}, {$pull : {favorites : idTrato}}).exec(function (err, favorite) {
+        if (err) {
+            res.render('error', {
+                status: 500
+            });
+        } else {
+            res.jsonp({ok: 'ok'});
+        }
+    });
+}

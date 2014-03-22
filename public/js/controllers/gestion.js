@@ -44,7 +44,12 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
             var idAnuncio = event.currentTarget.attributes.href.nodeValue;
             var modalInstance = $modal.open({
                 templateUrl: 'myModalContent.html',
-                controller: ModalInstanceCtrl
+                controller: ModalInstanceCtrl,
+                resolve: {
+                    trato: function () {
+                        return idAnuncio;
+                    }
+                }
             });
 
             modalInstance.result.then(function (respuesta) {

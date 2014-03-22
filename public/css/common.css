@@ -417,3 +417,38 @@ fieldset[disabled] .btn-complaint.active {
 .fieldRequired {
     color: red;
 }
+
+/*Google Sign in*/
+
+#customBtn {
+    display: inline-block;
+    background: #dd4b39;
+    color: white;
+    width: 159px;
+    height: 29px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+#customBtn:hover {
+    background: #e74b37;
+    cursor: hand;
+}
+span.label {
+    font-weight: bold;
+}
+span.icon {
+    background: url('../img/icons/g+32.png') transparent 5px 50% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    width: 35px;
+    height: 28px;
+    border-right: #bb3f30 1px solid;
+}
+span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 5px;
+    font-size: 14px;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: 'Helvetica Neue';
+}

@@ -12,6 +12,7 @@ module.exports = function(app, passport) {
 
     app.get('/addFavorite', users.addFavorite);
     app.get('/lookFavorite', users.lookFavorite);
+    app.get('/removeFavorite', users.removeFavorite);
 
     // Setting up the users api
     app.post('/users', users.create);
