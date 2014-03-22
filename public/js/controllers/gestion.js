@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation', 'misAnuncios', '$modal',
-    function ($scope, $routeParams, $rootScope, $location, Global, geolocation, misAnuncios, $modal) {
+angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation', 'misAnuncios', 'Anuncios','$modal',
+    function ($scope, $routeParams, $rootScope, $location, Global, geolocation, misAnuncios, Anuncios, $modal) {
         $scope.global = Global;
 
         $scope.nombre = Global.user.name;
@@ -18,10 +18,7 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
             {
                 case "tratos":
                     console.log("tratos");
-                    console.log(Global.user._id);
-                    misAnuncios.query({
-                        usuarioId: Global.user._id
-                    }, function (anuncio) {
+                    misAnuncios.tratos(function (anuncio) {
                         $scope.anuncios = anuncio;
                     });
                     break;
@@ -30,6 +27,9 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
                     break
                 case "favoritos":
                     console.log("favoritos");
+                    misAnuncios.favoritos( function (anuncio) {
+                        $scope.anuncios = anuncio;
+                    });
                     break;
                 default:
                     console.log("");
@@ -38,6 +38,7 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
 
         $scope.remove = function (event) {
             event.preventDefault();
+
             var idAnuncio = event.currentTarget.attributes.href.nodeValue;
             var modalInstance = $modal.open({
                 templateUrl: 'myModalContent.html',
@@ -45,7 +46,19 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
             });
 
             modalInstance.result.then(function (respuesta) {
-                console.log("Borrar anuncio" + idAnuncio + " -->" + respuesta);
+                console.log("Borrar anuncio: " + idAnuncio + " -->" + respuesta);
+                for (var i in $scope.anuncios) {
+                    if ($scope.anuncios[i]._id === idAnuncio) {
+                        //$scope.anuncio = $scope.anuncios[i];
+                        $scope.anuncios[i].$remove();
+                        $scope.anuncios.splice(i, 1);
+                    }
+                }
+
+                Anuncios.delete({_id:idAnuncio},function(data){
+                    console.log(data);
+                });
+
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });

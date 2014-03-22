@@ -16,6 +16,7 @@ angular.module('elTrato.anuncios').factory('Buscar', ['$resource', function($res
         query: {method:'GET', params:{q:'@q'}, isArray:true}
     });
 }]);
+
 /*
 // Pruebas servicios
 angular.module('elTrato.gestion').factory('Anuncios', ['$resource', function($resource) {

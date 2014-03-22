@@ -207,15 +207,38 @@ exports.all = function (req, res) {
 };
 
 exports.mis = function (req, res) {
-    var usuarioId = req.params.usuarioId;
-    console.log("{ 'query': '" + req.params.usuarioId + "' }");
-    Anuncio.find({user: usuarioId}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+    var favoritos = req.params.favoritos;
+    if(favoritos != "true"){
+        Anuncio.find({user: req.user._id}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                res.jsonp(anuncio);
+            }
+        });
+    }else{
+        Anuncio.find({_id: { $in: req.user.favorites }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                res.jsonp(anuncio);
+            }
+        });
+    }
+
+};
+exports.misFav = function (req, res) {
+    var favs = req.user.favorites;
+    Anuncio.find({_id: { $in: favs }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
         if (err) {
             res.render('error', {
                 status: 500
             });
         } else {
-            console.log('Resultado: ' + anuncio);
             res.jsonp(anuncio);
         }
     });

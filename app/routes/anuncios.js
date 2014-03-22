@@ -18,7 +18,10 @@ module.exports = function(app) {
     app.post('/anuncios', authorization.requiresLogin, anuncios.create);
     app.get('/anuncios/:anuncioId', anuncios.show);
 
-    app.get('/misanuncios/:usuarioId', authorization.requiresLogin ,anuncios.mis);
+    app.get('/misfavoritos', authorization.requiresLogin ,anuncios.misFav);
+    app.get('/misanuncios/:favoritos', authorization.requiresLogin ,anuncios.mis);
+    app.del('/misanuncios/:favoritos', authorization.requiresLogin ,anuncios.destroy);
+
     app.put('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.update);
     app.del('/anuncios/:anuncioId', authorization.requiresLogin, hasAuthorization, anuncios.destroy);
 

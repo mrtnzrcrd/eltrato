@@ -86,6 +86,23 @@ angular.module('elTrato.anuncios').directive('ngFileSelect', [ '$fileUploader', 
     };
 }]);
 
+angular.module('elTrato.system').directive('myTrato', function() {
+    return {
+        scope: {
+            anuncio1: '=dataAnuncio'
+        },
+        templateUrl: 'views/anuncios/trato.html'
+    };
+});
+
+angular.module('elTrato.system').directive('myTrato2', function() {
+    console.log("HOLA");
+    return {
+        restrict: 'E',
+        template: 'Hola'
+    };
+});
+
 angular.module('elTrato.system').directive('myInput', function () {
     return {
         restrict: 'A',

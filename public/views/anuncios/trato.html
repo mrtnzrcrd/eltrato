@@ -1,0 +1,58 @@
+    <div style="height: 13em; background-image: url({{anuncio.images[0]}});" class="imagenAnuncio">
+        <a href="{{anuncio}}" data-ng-click="view($event, anuncio)">
+            <div class="row">
+                <div class="col-md-7">
+                                        <span data-ng-repeat="tag in anuncio.tags" class="label label-primary pull-left"
+                                              style="font-size: initial; margin: 2px;">{{tag}}</span>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                                                <span class="label label-default pull-right"
+                                                      am-time-ago="anuncio.created"></span>
+                        </div>
+                    </div>
+                    <div class="row" data-ng-repeat="trueque in anuncio.opciones" ng-switch on="trueque.trueque">
+                        <img src="../img/icons/trato.png" width="50px" style="float: right; margin-right: 15px;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12"style="height: 8em; margin-bottom: 10px">
+
+            </div>
+        </a>
+    </div>
+    <div class="caption">
+        <div class="row">
+            <div class="col-md-10">
+                <a href="#" class="btn btn-message btn-sm" role="button" tooltip="Enviar mensaje">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                </a>
+                <a href="#" class="btn btn-deal btn-sm" role="button" tooltip="Contraoferta"
+                   data-ng-repeat="trueque in anuncio.opciones" ng-switch on="trueque.trueque">
+                    <span class="glyphicon glyphicon-transfer"></span> Contraoferta
+                </a>
+                <a class="btn btn-favorite btn-sm" role="button" ng-click="favoritosGeneral(anuncio)"
+                   tooltip="Añadir a favoritos">
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                </a>
+                <a href="#" class="btn btn-phone btn-sm" role="button"
+                   tooltip="Teléfono">
+                    <span class="glyphicon glyphicon-earphone"></span>
+                </a>
+                <a href="#" class="btn btn-complaint btn-sm" role="button" tooltip="Denunciar trato">
+                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                </a>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                     <span style="float: right; margin-right: 15px; font-size: initial;" class="label label-primary">{{anuncio.precio}}€</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 8px;">
+                <p>{{anuncio.descripcion}}</p>
+            </div>
+        </div>
+    </div>
