@@ -301,6 +301,7 @@ angular.module('elTrato.system').directive('isFavoriteModal', ['$rootScope', '$c
                             tag = '<a class="btn btn-warning" ng-click="removeFavorite(tratos._id)"  role="button" title="Favorito"> ' +
                                 '<span class="glyphicon glyphicon-star"></span> Favorito </a>';
                             element.html($compile(tag)(scope));
+                            $rootScope.$broadcast('addFavorite', {id: id});
                         } else {
                             toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
                         }
@@ -332,10 +333,17 @@ angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', '
             var tag = '';
 
             scope.$on('removeFavorite', function (event, id) {
-                tag = '<a class="btn btn-favorite btn-sm" id="' + id.id + '" role="button" ' +
+                tag = '<a class="btn btn-favorite btn-sm" id="anuncio._id" role="button" ' +
                     'ng-click="favoritosGeneral(anuncio._id)" tooltip="Añadir a favoritos"> ' +
                     '<span class="glyphicon glyphicon-star-empty"></span> </a>';
-                angular.element('#' + id.id).html($compile(tag)(scope));
+                angular.element('#' + id.id).replaceWith($compile(tag)(scope));
+            });
+
+            scope.$on('addFavorite', function (event, id) {
+                tag = '<a class="btn btn-warning btn-sm" id="anuncio._id" role="button" tooltip="Favorito" ' +
+                    'ng-click="removeFavorite(anuncio._id)">' +
+                    '<span class="glyphicon glyphicon-star"></span> </a>';
+                angular.element('#' + id.id).replaceWith($compile(tag)(scope));
             });
 
             scope.removeFavorite = function (id) {

@@ -31,6 +31,14 @@ var AnuncioSchema = new Schema({
         trim: true
     },
     opciones: [{
+        contraoferta : {
+            type: Boolean,
+            default: true
+        },
+        formaPago : {
+            type: Boolean,
+            default: true
+        },
         trueque : {
             type: Boolean,
             default: true
