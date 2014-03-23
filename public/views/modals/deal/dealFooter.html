@@ -1,0 +1,14 @@
+<div class="modal-footer">
+    <a class="btn btn-deal active" ng-click="dealButton($event)" role="button" title="Contraoferta">
+        <span class="glyphicon glyphicon-euro"></span> Contraoferta
+    </a>
+    <a class="btn btn-message" ng-click="productOffer($event)" role="button" title="Ofrecer producto">
+        <span class="glyphicon glyphicon-envelope"></span> Ofrecer producto
+    </a>
+    <a ng-if="deal" ng-click="barterButton($event)" class="btn btn-phone" role="button" title="Trueque">
+        <span class="glyphicon glyphicon-transfer"></span> Trueque
+    </a>
+    <a class="btn btn-complaint" role="button" title="Denunciar trato">
+        <span class="glyphicon glyphicon-thumbs-down"></span> Denunciar trato
+    </a>
+</div>

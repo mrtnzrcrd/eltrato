@@ -1,0 +1,15 @@
+<form role="form" class="form-horizontal" ng-submit="sendDeal()" ng-if="mostrar">
+    <h3 style="color: #428bca">Hacer oferta</h3>
+    <div class="form-group">
+        <input name="oferta" type="number" min="0" class="form-control" data-ng-model="oferta" id="oferta"
+               placeholder="0€" required>
+    </div>
+    <div class="form-group">
+        <textarea name="Descripcion" data-ng-model="descripcion" id="descripcion" cols="10" rows="2"
+                  placeholder="Comentario (Opcional)"
+                  class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+<p ng-if="!mostrar">Oferta enviada de forma correcta</p>

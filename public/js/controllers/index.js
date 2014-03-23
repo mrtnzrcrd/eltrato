@@ -377,7 +377,6 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
             }, function () {
                 $scope.toasterGeneral = true;
-
             });
         };
 
@@ -420,26 +419,59 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
             };
-
-            $scope.favorite = function (id) {
-                $http.get('/addFavorite', {params: {idTrato: id}}).success(function (response) {
-                    if (response.ok == 'ok') {
-                        $scope.defaultFav = false;
-                        $scope.tratoFav = true;
-                        toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
-                        window.user.favorites.push(id);
-                        $rootScope.$broadcast('nuevoFavorito', {id: id});
-                    } else {
-                        toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
-                    }
-                });
-            }
         };
 
-        $scope.$on('nuevoFavorito', function(event, id) {
-            angular.element('#' + id.id).removeClass('btn-favorite');
-            angular.element('#' + id.id).addClass('btn-warning');
-            angular.element('#' + id.id).attr('ng-class', 'favorito');
-            angular.element('#' + id.id).removeAttr('id');
-        });
+        $scope.deal = function (event, anuncio) {
+            //$scope.toasterGeneral = false;
+            event.preventDefault();
+            var trato = anuncio;
+            var modalDeal = $modal.open({
+                templateUrl: 'dealView.html',
+                controller: modalDealCtrl,
+                windowClass: 'modalTrato',
+                resolve: {
+                    trato: function () {
+                        return trato;
+                    }
+                },
+                keyboard: false
+            });
+
+            modalDeal.result.then(function (respuesta) {
+
+            }, function () {
+                $scope.toasterGeneral = true;
+            });
+        }
+
+        var modalDealCtrl = function ($scope, $rootScope, $modalInstance, trato) {
+
+            $scope.tratos = trato;
+
+            if (trato.opciones[0].need.length > 0) {
+                $scope.deal = true;
+            }
+
+            Geocoder.addressForLatLng($scope.tratos.locs[1], $scope.tratos.locs[0]).then(function (data) {
+                $scope.address = data.address;
+            });
+
+            $scope.ok = function () {
+                console.log("BORRAR");
+                $modalInstance.close("OK");
+            };
+
+            $scope.cancel = function (id) {
+                console.log("NO BORRAR");
+                $modalInstance.dismiss('Cancelado');
+            };
+
+            $scope.show_dialog = function () {
+                FancyboxService.open("div.wrapper");
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+        };
     }]);

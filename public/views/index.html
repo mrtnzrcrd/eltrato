@@ -80,7 +80,7 @@
                                    tooltip="Buscar en {{kilometros}} km" min="0" max="140" step="20"
                                    ng-value="kilometros" data-ng-change="distance(kilometros)"/>
 
-                            <p ng-if="!pais" style="text-align: center; margin-top: 5px;">En {{kilometros}} km</p>
+                            <p style="text-align: center; margin-top: 5px;">En {{kilometros}} km</p>
                         </div>
                     </li>
                     <li class="dropdown">
@@ -261,88 +261,13 @@
     </div>
 </div>
 <script type="text/ng-template" id="myModalContent.html">
-    <div class="modal-header">
-        <div class="row">
-            <div class="col-md-9">
-                <span data-ng-repeat="tag in tratos.tags" class="label label-primary pull-left"
-                      style="font-size: initial; margin: 2px;">{{tag}}</span>
-            </div>
-            <div class="col-md-3">
-                <button style="float: right; margin-right: 15px;" ng-click="cancel(tratos._id)" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <span style="float: right; margin-right: 15px; font-size: initial;"
-                      class="label label-primary">{{tratos.precio}}€</span>
-            </div>
-        </div>
-    </div>
-    <div class="modal-body">
-        <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
-        <div class="row">
-            <div class="col-md-6">
-                <div data-ng-repeat="images in tratos.images">
-                    <div class="row" ng-if="$index == 0">
-                        <div class="col-md-12">
-                            <a href ng-click="show_dialog()">
-                                <div class="thumbnail" style="margin-bottom: 7px;">
-                                    <img alt="{{images}}" src="{{images}}" class="img-circle">
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-4" style="padding-left: 0;" ng-if="$index != 0">
-                        <a href ng-click="show_dialog()">
-                            <div class="thumbnail">
-                                <img src="{{images}}" class="img-circle" style="height: 4em">
-                            </div>
-                        </a>
-                    </div>
-                    <div class="wrapper">
-                        <div class="future_fancybox_content">
-                            <img class="fancybox-image" src="{{images}}">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-6">
-                        <span class="label label-default">{{address}}</span>
-                    </div>
-                    <div class="col-md-6">
-                            <span class="label label-default pull-right"
-                                  am-time-ago="tratos.created"></span>
-                    </div>
-                </div>
-                <div class="row" style="height: 13.5em">
-                    <div class="col-md-12">
-                        <h4>{{tratos.descripcion}}</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    {{tratos.user.username}}
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-message" role="button" title="Enviar mensaje">
-            <span class="glyphicon glyphicon-envelope"></span> Enviar mensaje
-        </a>
-        <a href="#" class="btn btn-deal" role="button" title="Contraoferta" ng-if="contraoferta">
-            <span class="glyphicon glyphicon-transfer"></span> Contraoferta
-        </a>
-        <a class="btn btn-favorite" ng-click="favorite(tratos._id)" ng-if="defaultFav" role="button" title="Añadir a favoritos">
-            <span class="glyphicon glyphicon-star-empty"></span> Añadir a favoritos
-        </a>
-        <a class="btn btn-warning" ng-if="tratoFav"  role="button" title="Favorito">
-            <span class="glyphicon glyphicon-star"></span> Favorito
-        </a>
-        <a href="#" class="btn btn-phone" role="button" title="Ver teléfono">
-            <span class="glyphicon glyphicon-earphone"></span> Ver teléfono
-        </a>
-        <a href="#" class="btn btn-complaint" role="button" title="Denunciar trato">
-            <span class="glyphicon glyphicon-thumbs-down"></span> Denunciar trato
-        </a>
-    </div>
+    <modal-header-trato></modal-header-trato>
+    <modal-body-trato></modal-body-trato>
+    <modal-footer-trato></modal-footer-trato>
+</script>
+<script type="text/ng-template" id="dealView.html">
+    <modal-header-deal></modal-header-deal>
+    <modal-body-deal></modal-body-deal>
+    <modal-footer-deal></modal-footer-deal>
 </script>
 </section>

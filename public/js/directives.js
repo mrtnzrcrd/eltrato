@@ -131,10 +131,141 @@ angular.module('elTrato.system').directive('myInput', function () {
  };
  });*/
 
-angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', 'toaster', function ($compile, $http, toaster) {
+//Comprobar si es trueque
+angular.module('elTrato.system').directive('isTrueque', ['$compile', function ($compile) {
     return {
         restrict: 'E',
         link: function (scope, element, attrs) {
+            var trueque = attrs.trueque;
+            var tag = '';
+
+            if (trueque == "true") {
+                tag = '<a href="#" class="btn btn-deal btn-sm" role="button" tooltip="Contraoferta" ' +
+                    'ng-click="deal($event, anuncio)" <span class="glyphicon glyphicon-transfer"></span>' +
+                    '<span class="glyphicon glyphicon-transfer"></span> Contraoferta </a>'
+            }
+
+             element.append($compile(tag)(scope));
+        }
+    };
+}]);
+
+//Contar numero de fotos
+angular.module('elTrato.system').directive('photos', ['$compile', function ($compile) {
+    return {
+        restrict: 'E',
+        link: function (scope, element, attrs) {
+            var photos = attrs.numphotos;
+            photos = JSON.parse(photos);
+            photos = photos.length;
+
+            var  tag = '<div class="col-md-12 numPhotos">' +
+                            '<span class="glyphicon glyphicon-camera"> </span> ' + photos +
+                       '</div>';
+
+            element.append($compile(tag)(scope));
+        }
+    };
+}]);
+
+//Formulario contraoferta
+angular.module('elTrato.system').directive('formDealDiv', ['$compile', function ($compile) {
+    return {
+        restrict: 'E',
+        templateUrl: '../views/forms/dealForm.html',
+        link:function (scope, element, attrs) {
+            scope.mostrar = true;
+            scope.sendDeal = function() {
+                console.log(this.oferta);
+                scope.mostrar = false;
+            }
+        }
+    };
+}]);
+
+//Modal contraoferta
+angular.module('elTrato.system').directive('modalHeaderDeal', ['$compile', function ($compile) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: '../views/modals/deal/dealHeader.html'
+    }
+}]);
+
+angular.module('elTrato.system').directive('modalBodyDeal', ['$compile', function ($compile) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: '../views/modals/deal/dealBody.html'
+    }
+}]);
+
+angular.module('elTrato.system').directive('modalFooterDeal', ['$compile', function ($compile) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: '../views/modals/deal/dealFooter.html',
+        link: function (scope, element, attrs) {
+            scope.dealDiv = true;
+
+            scope.dealButton = function (event) {
+                scope.dealDiv = true;
+                scope.productDiv = false;
+                scope.barterDiv = false;
+                angular.element('a').removeClass('active');
+                angular.element(event.target).addClass('active');
+            };
+
+            scope.productOffer = function (event) {
+                scope.dealDiv = false;
+                scope.productDiv = true;
+                scope.barterDiv = false;
+                angular.element('a').removeClass('active');
+                angular.element(event.target).addClass('active');
+            }
+
+            scope.barterButton = function (event) {
+                scope.dealDiv = false;
+                scope.productDiv = false;
+                scope.barterDiv = true;
+                angular.element('a').removeClass('active');
+                angular.element(event.target).addClass('active');
+            }
+        }
+    }
+}]);
+//End modal contraoferta
+
+//Modal trato
+angular.module('elTrato.system').directive('modalHeaderTrato', ['$compile', function ($compile) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: '../views/modals/trato/tratoHeader.html'
+    }
+}]);
+
+angular.module('elTrato.system').directive('modalBodyTrato', ['$compile', function ($compile) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: '../views/modals/trato/tratoBody.html'
+    }
+}]);
+
+angular.module('elTrato.system').directive('modalFooterTrato', ['$compile', function ($compile) {
+    return {
+        replace: true,
+        restrict: 'E',
+        templateUrl: '../views/modals/trato/tratoFooter.html'
+    }
+}]);
+//End modal trato
+
+angular.module('elTrato.system').directive('isFavoriteModal', ['$rootScope', '$compile', '$http', 'toaster', function ($rootScope, $compile, $http, toaster) {
+    return {
+        restrict: 'E',
+        link: function (scope, element, attrs, isfavoriteCrtl) {
             var favorite = attrs.favorite;
             var favorites = window.user.favorites;
             var result = favorites.indexOf(favorite);
@@ -149,8 +280,75 @@ angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', '
                         if (i != -1) {
                             window.user.favorites.splice(i, 1);
                         }
+                        tag = '<a class="btn btn-favorite" ng-click="favorite(tratos._id)" role="button" ' +
+                            'title="Añadir a favoritos"> <span class="glyphicon glyphicon-star-empty"></span> Añadir a favoritos </a>';
+                        element.html($compile(tag)(scope));
+                        $rootScope.$broadcast('removeFavorite', {id: id});
+                    } else {
+                        toaster.pop('error', "Se ha producido un error", 'No se ha podido eliminar de tus favoritos');
+                    }
+                });
+            };
 
-                        tag = '<a class="btn btn-favorite btn-sm" role="button" ' +
+            scope.favorite = function (id) {
+                var favorites = window.user.favorites;
+                var result = favorites.indexOf(id);
+                if (result == -1) {
+                    $http.get('/addFavorite', {params: {idTrato: id}}).success(function (response) {
+                        if (response.ok == 'ok') {
+                            toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
+                            window.user.favorites.push(id);
+                            tag = '<a class="btn btn-warning" ng-click="removeFavorite(tratos._id)"  role="button" title="Favorito"> ' +
+                                '<span class="glyphicon glyphicon-star"></span> Favorito </a>';
+                            element.html($compile(tag)(scope));
+                        } else {
+                            toaster.pop('error', "Se ha producido un error", 'No se ha podido añadir a tus favoritos');
+                        }
+                    });
+                }
+            };
+
+            if (result != -1) {
+                tag = '<a class="btn btn-warning" ng-click="removeFavorite(tratos._id)"  role="button" title="Favorito"> ' +
+                    '<span class="glyphicon glyphicon-star"></span> Favorito </a>';
+            } else {
+                tag = '<a class="btn btn-favorite" ng-click="favorite(tratos._id)" role="button" ' +
+                    'title="Añadir a favoritos"> <span class="glyphicon glyphicon-star-empty"></span> Añadir a favoritos </a>';
+            }
+
+            element.append($compile(tag)(scope));
+        }
+    }
+}]);
+
+// Favorites general
+angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', 'toaster', function ($compile, $http, toaster) {
+    return {
+        restrict: 'E',
+        link: function (scope, element, attrs) {
+            var favorite = attrs.favorite;
+            var favorites = window.user.favorites;
+            var result = favorites.indexOf(favorite);
+            var tag = '';
+
+            scope.$on('removeFavorite', function (event, id) {
+                tag = '<a class="btn btn-favorite btn-sm" id="' + id.id + '" role="button" ' +
+                    'ng-click="favoritosGeneral(anuncio._id)" tooltip="Añadir a favoritos"> ' +
+                    '<span class="glyphicon glyphicon-star-empty"></span> </a>';
+                angular.element('#' + id.id).html($compile(tag)(scope));
+            });
+
+            scope.removeFavorite = function (id) {
+                $http.get('/removeFavorite', {params: {idTrato: id}}).success(function (response) {
+                    if (response.ok == 'ok') {
+                        toaster.pop('info', "Favoritos", 'Eliminado de tus favoritos');
+                        var i = window.user.favorites.indexOf(id);
+
+                        if (i != -1) {
+                            window.user.favorites.splice(i, 1);
+                        }
+
+                        tag = '<a class="btn btn-favorite btn-sm" id="{{anuncio._id}}" role="button" ' +
                             'ng-click="favoritosGeneral(anuncio._id)" tooltip="Añadir a favoritos"> ' +
                             '<span class="glyphicon glyphicon-star-empty"></span> </a>';
                         element.html($compile(tag)(scope));
@@ -168,7 +366,7 @@ angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', '
                         if (response.ok == 'ok') {
                             toaster.pop('warning', "Favoritos", 'Se ha añadido a tus favoritos correctamente');
                             window.user.favorites.push(id);
-                            tag = '<a class="btn btn-warning btn-sm" role="button" tooltip="Favorito" ' +
+                            tag = '<a class="btn btn-warning btn-sm" id="{{anuncio._id}}" role="button" tooltip="Favorito" ' +
                                 'ng-click="removeFavorite(anuncio._id)">' +
                                 '<span class="glyphicon glyphicon-star"></span> </a>';
                             element.html($compile(tag)(scope));
@@ -181,10 +379,10 @@ angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', '
 
             if (result != -1) {
                 tag = '<a class="btn btn-warning btn-sm" role="button" tooltip="Favorito" ' +
-                    'ng-click="removeFavorite(anuncio._id)">' +
+                    'ng-click="removeFavorite(anuncio._id)" id="{{anuncio._id}}">' +
                     '<span class="glyphicon glyphicon-star"></span> </a>'
             } else {
-                tag = '<a class="btn btn-favorite btn-sm" role="button" ' +
+                tag = '<a class="btn btn-favorite btn-sm" id="{{anuncio._id}}" role="button" ' +
                     'ng-click="favoritosGeneral(anuncio._id)" tooltip="Añadir a favoritos"> ' +
                     '<span class="glyphicon glyphicon-star-empty"></span> </a>'
             }
@@ -194,37 +392,3 @@ angular.module('elTrato.system').directive('isFavorite', ['$compile', '$http', '
     };
 }]);
 
-angular.module('elTrato.system').directive('isTrueque', ['$compile', function ($compile) {
-    return {
-        restrict: 'E',
-        link: function (scope, element, attrs) {
-            var trueque = attrs.trueque;
-            var tag = '';
-
-            if (trueque == "true") {
-                tag = '<a href="#" class="btn btn-deal btn-sm" role="button" tooltip="Contraoferta" ' +
-                    'data-ng-repeat="trueque in anuncio.opciones" ng-switch on="trueque.trueque"> ' +
-                    '<span class="glyphicon glyphicon-transfer"></span> Contraoferta </a>'
-            }
-
-             element.append($compile(tag)(scope));
-        }
-    };
-}]);
-
-angular.module('elTrato.system').directive('photos', ['$compile', function ($compile) {
-    return {
-        restrict: 'E',
-        link: function (scope, element, attrs) {
-            var photos = attrs.numphotos;
-            photos = JSON.parse(photos);
-            photos = photos.length;
-
-            var  tag = '<div class="col-md-12 numPhotos">' +
-                            '<span class="glyphicon glyphicon-camera"> </span> ' + photos +
-                       '</div>';
-
-            element.append($compile(tag)(scope));
-        }
-    };
-}]);
