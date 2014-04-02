@@ -1,7 +1,7 @@
 'use strict';
 
 // Anuncios routes use anuncios controller
-var anuncios = require('../controllers/anuncios'),
+var anuncios = require('../controllers/anunciosCtrlServer'),
     authorization = require('./middlewares/authorization');
 
 // Anuncio authorization helpers
@@ -29,6 +29,7 @@ module.exports = function(app) {
 
     app.get('/searchGeo', anuncios.findGeo);
     app.get('/searchDistancePrice', anuncios.findDistancePrice);
+    app.get('/searchMisTratos', anuncios.misTratos);
 
     app.post('/upload', anuncios.upload);
 

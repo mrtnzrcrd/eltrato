@@ -1,7 +1,7 @@
 'use strict';
 
 // User routes use users controller
-var users = require('../controllers/users');
+var users = require('../controllers/usersCtrlServer');
 
 module.exports = function(app, passport) {
 

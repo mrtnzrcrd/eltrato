@@ -3,7 +3,7 @@
 module.exports = function(app) {
     
     // Home route
-    var index = require('../controllers/index');
+    var index = require('../controllers/indexCtrlServer');
     app.get('/', index.render);
 
 };
