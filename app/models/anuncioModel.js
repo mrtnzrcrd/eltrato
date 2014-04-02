@@ -33,15 +33,15 @@ var AnuncioSchema = new Schema({
     opciones: [{
         contraoferta : {
             type: Boolean,
-            default: true
+            default: false
         },
         formaPago : {
             type: Boolean,
-            default: true
+            default: false
         },
         trueque : {
             type: Boolean,
-            default: true
+            default: false
         },
         need: {
             type: Array,
