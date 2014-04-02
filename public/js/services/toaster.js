@@ -95,7 +95,7 @@ angular.module('elTrato.toaster')
                         angular.extend(toast, { id: id });
 
                         // Set the toast.bodyOutputType to the default if it isn't set
-                        toast.bodyOutputType = toast.bodyOutputType || mergedConfig['body-output-type']
+                        toast.bodyOutputType = toast.bodyOutputType || mergedConfig['body-output-type'];
                         switch (toast.bodyOutputType) {
                             case 'trustedHtml':
                                 toast.html = $sce.trustAsHtml(toast.body);

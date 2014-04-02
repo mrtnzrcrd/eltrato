@@ -548,4 +548,4 @@ angular.module('elTrato.anuncios').factory('$fileUploader', [ '$compile', '$root
         },
         isHTML5: Uploader.prototype.isHTML5
     };
-}])
+}]);
