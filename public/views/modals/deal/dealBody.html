@@ -38,14 +38,26 @@
             </div>
             <div class="row" style="height: 13.5em">
                 <div class="col-md-12">
-                    <div ng-if="dealDiv" class="col-md-8 col-lg-offset-2" style="margin-bottom: 10px">
+                    <div ng-if="dealDiv" class="col-md-10 col-lg-offset-1" style="margin-bottom: 10px">
                         <form-deal-div></form-deal-div>
                     </div>
                     <div ng-if="productDiv">
-                        <div class="well well-lg">Some content2</div>
+                        <form role="form" class="form-horizontal" ng-submit="sendDeal()">
+                            <h3 style="color: #428bca">Hacer oferta</h3>
+                            <div class="form-group">
+                                <input name="oferta" type="number" min="0" class="form-control" data-ng-model="oferta" id="oferta"
+                                       placeholder="0€" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="Descripcion" data-ng-model="descripcion" id="descripcion" cols="10" rows="2"
+                                          placeholder="Comentario (Opcional)"
+                                          class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
                     </div>
-                    <div ng-if="barterDiv">
-                        <div class="well well-lg">Some content3</div>
+                    <div ng-if="barterDiv" class="col-md-10 col-lg-offset-1" style="margin-bottom: 10px">
+                        <form-trueque-div></form-trueque-div>
                     </div>
                 </div>
             </div>
