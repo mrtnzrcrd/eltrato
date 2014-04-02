@@ -52,7 +52,7 @@ angular.module('elTrato.anuncios').directive('ngFileDrop', [ '$fileUploader', fu
                 });
         }
     };
-}])
+}]);
 // It is attached to an element which will be assigned to a class "ng-file-over" or ng-file-over="className"
 angular.module('elTrato.anuncios').directive('ngFileOver', function () {
     'use strict';
@@ -86,7 +86,7 @@ angular.module('elTrato.anuncios').directive('ngFileSelect', [ '$fileUploader', 
     };
 }]);
 
-angular.module('elTrato.system').directive('myTrato', function() {
+angular.module('elTrato.system').directive('myTrato', function () {
     return {
         scope: {
             anuncio1: '=dataAnuncio'
@@ -95,7 +95,7 @@ angular.module('elTrato.system').directive('myTrato', function() {
     };
 });
 
-angular.module('elTrato.system').directive('myTrato2', function() {
+angular.module('elTrato.system').directive('myTrato2', function () {
     console.log("HOLA");
     return {
         restrict: 'E',
@@ -137,15 +137,14 @@ angular.module('elTrato.system').directive('isTrueque', ['$compile', function ($
         restrict: 'E',
         link: function (scope, element, attrs) {
             var trueque = attrs.trueque;
-            var tag = '';
-
-            if (trueque == "true") {
+            trueque = JSON.parse(trueque);
+            if (trueque.length === 1) {
+                var tag = '';
                 tag = '<a href="#" class="btn btn-deal btn-sm" role="button" tooltip="Contraoferta" ' +
                     'ng-click="deal($event, anuncio)" <span class="glyphicon glyphicon-transfer"></span>' +
                     '<span class="glyphicon glyphicon-transfer"></span> Contraoferta </a>'
+                element.append($compile(tag)(scope));
             }
-
-             element.append($compile(tag)(scope));
         }
     };
 }]);
@@ -159,9 +158,9 @@ angular.module('elTrato.system').directive('photos', ['$compile', function ($com
             photos = JSON.parse(photos);
             photos = photos.length;
 
-            var  tag = '<div class="col-md-12 numPhotos">' +
-                            '<span class="glyphicon glyphicon-camera"> </span> ' + photos +
-                       '</div>';
+            var tag = '<div class="col-md-12 numPhotos">' +
+                '<span class="glyphicon glyphicon-camera"> </span> ' + photos +
+                '</div>';
 
             element.append($compile(tag)(scope));
         }
@@ -169,44 +168,78 @@ angular.module('elTrato.system').directive('photos', ['$compile', function ($com
 }]);
 
 //Formulario contraoferta
-angular.module('elTrato.system').directive('formDealDiv', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('formDealDiv', function () {
     return {
         restrict: 'E',
         templateUrl: '../views/forms/dealForm.html',
-        link:function (scope, element, attrs) {
+        link: function (scope) {
             scope.mostrar = true;
-            scope.sendDeal = function() {
+            scope.sendDeal = function () {
                 console.log(this.oferta);
                 scope.mostrar = false;
             }
         }
     };
+});
+
+angular.module('elTrato.system').directive('formTruequeDiv', ['$http', 'Global', function ($http, Global) {
+    return {
+        restrict: 'E',
+        templateUrl: '../views/forms/truequeForm.html',
+        link: function (scope) {
+
+            scope.mostrar = true;
+            var miTrueque = '';
+            scope.trueque = function() {
+                miTrueque = this.mitrueque.id;
+            };
+
+            scope.sendTrueque = function (id, descripcion) {
+                $http.post('/trato', {params: {idTrato: miTrueque, idAnuncio: scope.tratos._id, comment: this.comentario, tipo: 'trueque'}})
+                    .success(function (response) {
+                        if (response.ok) {
+                            scope.mostrar = false;
+                            scope.alertOpciones =
+                            { type: 'success',
+                                title: 'Tu trueque se ha enviado correctamente',
+                                msg: 'Si al usuario le interesa, en breves recibiras noticias suyas. Mucha suerte!' }
+                            ;
+                        } else {
+                            scope.alertOpciones =
+                            { type: 'danger',
+                                title: 'Tu trueque no se ha enviado correctamente',
+                                msg: 'Por favor, vuelve a intentarlo en unos minutos' }
+                            ;
+                        }
+                    });
+            };
+        }
+    };
 }]);
 
 //Modal contraoferta
-angular.module('elTrato.system').directive('modalHeaderDeal', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('modalHeaderDeal', function () {
     return {
         replace: true,
         restrict: 'E',
         templateUrl: '../views/modals/deal/dealHeader.html'
     }
-}]);
+});
 
-angular.module('elTrato.system').directive('modalBodyDeal', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('modalBodyDeal', function () {
     return {
         replace: true,
         restrict: 'E',
         templateUrl: '../views/modals/deal/dealBody.html'
     }
-}]);
+});
 
-angular.module('elTrato.system').directive('modalFooterDeal', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('modalFooterDeal', function () {
     return {
         replace: true,
         restrict: 'E',
         templateUrl: '../views/modals/deal/dealFooter.html',
-        link: function (scope, element, attrs) {
-            scope.dealDiv = true;
+        link: function (scope) {
 
             scope.dealButton = function (event) {
                 scope.dealDiv = true;
@@ -222,7 +255,7 @@ angular.module('elTrato.system').directive('modalFooterDeal', ['$compile', funct
                 scope.barterDiv = false;
                 angular.element('a').removeClass('active');
                 angular.element(event.target).addClass('active');
-            }
+            };
 
             scope.barterButton = function (event) {
                 scope.dealDiv = false;
@@ -233,39 +266,39 @@ angular.module('elTrato.system').directive('modalFooterDeal', ['$compile', funct
             }
         }
     }
-}]);
+});
 //End modal contraoferta
 
 //Modal trato
-angular.module('elTrato.system').directive('modalHeaderTrato', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('modalHeaderTrato', function () {
     return {
         replace: true,
         restrict: 'E',
         templateUrl: '../views/modals/trato/tratoHeader.html'
     }
-}]);
+});
 
-angular.module('elTrato.system').directive('modalBodyTrato', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('modalBodyTrato', function () {
     return {
         replace: true,
         restrict: 'E',
         templateUrl: '../views/modals/trato/tratoBody.html'
     }
-}]);
+});
 
-angular.module('elTrato.system').directive('modalFooterTrato', ['$compile', function ($compile) {
+angular.module('elTrato.system').directive('modalFooterTrato', function () {
     return {
         replace: true,
         restrict: 'E',
         templateUrl: '../views/modals/trato/tratoFooter.html'
     }
-}]);
+});
 //End modal trato
 
 angular.module('elTrato.system').directive('isFavoriteModal', ['$rootScope', '$compile', '$http', 'toaster', function ($rootScope, $compile, $http, toaster) {
     return {
         restrict: 'E',
-        link: function (scope, element, attrs, isfavoriteCrtl) {
+        link: function (scope, element, attrs) {
             var favorite = attrs.favorite;
             var favorites = window.user.favorites;
             var result = favorites.indexOf(favorite);
