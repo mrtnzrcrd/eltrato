@@ -31,7 +31,7 @@
 
     <!-- Fotos -->
     <div class="form-group">
-        <label for="foto" class="col-md-2 control-label">Fotos</label>
+        <label class="col-md-2 control-label">Fotos</label>
 
         <div class="col-md-10">
             <!--<input type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
@@ -109,7 +109,7 @@
 
     <!-- geoLocalización -->
     <div class="form-group" ng-if="mapa">
-        <label class="col-md-2 control-label" for="geolocalizacion"></label>
+        <label class="col-md-2 control-label"></label>
 
         <div class="col-md-10">
             <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
@@ -137,7 +137,7 @@
         </div>
     </div>
     <div class="form-group" ng-if="inputGeo==true">
-        <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
+        <label class="col-md-4 control-label">Elige tu ubicación</label>
 
         <div class="col-md-8">
             <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
@@ -207,7 +207,7 @@
     </div>
 </form>
 <div class="col-md-6">
-    <div class="bs-callout bs-callout-warning" style="margin: 0; margin-bottom: 56px;">
+    <div class="bs-callout bs-callout-warning" style="margin: 0 0 56px;">
         <h4>Como publicar correctamente tu trato (PRUEBA)</h4>
         <ul>
             <li>
