@@ -13,18 +13,18 @@ var mongoose = require('mongoose'),
  * Find anuncio by id
  */
 exports.anuncio = function (req, res, next, id) {
-    if(req.params.anuncioId != "false" && req.params.anuncioId != "true"){
-    if (req.params.anuncioId === "create") {
-        return res.redirect('/#!/anuncios/create');
-    } else {
-        Anuncio.load(id, function (err, anuncio) {
-            if (err) return next(err);
-            if (!anuncio) return next(new Error('Failed to load anuncio ' + id));
-            req.anuncio = anuncio;
-            next();
-        });
+    if (req.params.anuncioId != "false" && req.params.anuncioId != "true") {
+        if (req.params.anuncioId === "create") {
+            return res.redirect('/#!/anuncios/create');
+        } else {
+            Anuncio.load(id, function (err, anuncio) {
+                if (err) return next(err);
+                if (!anuncio) return next(new Error('Failed to load anuncio ' + id));
+                req.anuncio = anuncio;
+                next();
+            });
+        }
     }
-}
 };
 
 /**
@@ -43,21 +43,39 @@ exports.create = function (req, res) {
     var anuncio = new Anuncio(req.body);
     anuncio.user = req.user;
 
-    if (req.body.trueque) {
-        var opciones = {trueque: req.body.trueque, need: req.body.need};
-        anuncio.opciones = opciones;
+    var contraoferta = false;
+    var formaPago = false;
+    var trueque = false;
+
+    if (req.body.opcion) {
+        if (req.body.contraoferta) {
+            contraoferta = req.body.contraoferta;
+        }
+
+        if (req.body.formaPago) {
+            formaPago = req.body.formaPago;
+        }
+
+        if (req.body.trueque) {
+            trueque = req.body.trueque;
+        }
+
+
+        anuncio.opciones = {contraoferta: contraoferta, formaPago: formaPago, trueque: trueque, need: req.body.need};
+
         console.log(anuncio.opciones);
     }
 
     // Metodo para coger todos los #Hastags y guardarlos en una array
 
-    var tempArrayTags = new Array();
-    var tempArrayLower = new Array();
-    var newArrayDescription = new Array();
+    var tempArrayTags = [];
+    var tempArrayLower = [];
+    var newArrayDescription = [];
 
     var descripcion = anuncio.descripcion.split(" ");
     var descripcion2 = anuncio.descripcion.split(" ");
     var contador = 0;
+
     for (var i = 0; i < descripcion.length; i++) {
         var tag = descripcion[i];
         var hastag = tag.charAt(0);
@@ -73,13 +91,12 @@ exports.create = function (req, res) {
         newArrayDescription.push(tag);
     }
 
-    var newDescripcion = newArrayDescription.join(" ");
+    anuncio.descripcion = newArrayDescription.join(" ");
 
-    anuncio.descripcion = newDescripcion;
     // Fin del metodo para guargar #Hastags
     anuncio.tags = tempArrayTags;
 
-    for (var i = 0; i < tempArrayTags.length; i++) {
+    for (i = 0; i < tempArrayTags.length; i++) {
         tempArrayLower.push(tempArrayTags[i].toLowerCase());
     }
 
@@ -196,7 +213,7 @@ exports.show = function (req, res) {
  */
 
 exports.all = function (req, res) {
-   // Anuncio.find({locs: { $near: [global.lngUser, global.latUser], $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncios) {
+    // Anuncio.find({locs: { $near: [global.lngUser, global.latUser], $maxDistance: 10}}).populate('user', 'name username').exec(function (err, anuncios) {
     Anuncio.find().sort('-created').populate('user', 'name username').exec(function (err, anuncios) {
         if (err) {
             res.render('error', {
@@ -210,7 +227,7 @@ exports.all = function (req, res) {
 
 exports.mis = function (req, res) {
     var favoritos = req.params.favoritos;
-    if(favoritos != "true"){
+    if (favoritos != "true") {
         Anuncio.find({user: req.user._id}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
             if (err) {
                 res.render('error', {
@@ -220,7 +237,7 @@ exports.mis = function (req, res) {
                 res.jsonp(anuncio);
             }
         });
-    }else{
+    } else {
         Anuncio.find({_id: { $in: req.user.favorites }}).sort('-created').populate('user', 'name username').exec(function (err, anuncio) {
             if (err) {
                 res.render('error', {
@@ -249,7 +266,7 @@ exports.misFav = function (req, res) {
 exports.find = function (req, res) {
     console.log("{ 'query': '" + req.params.q + "' }");
     var tags = req.params.q;
-    var tagsParams = new Array();
+    var tagsParams = [];
     console.log("tagParams: " + tagsParams);
     tagsParams = tags.split("+");
     for (var i = 0; i < tags.length; i++) {
@@ -284,7 +301,7 @@ exports.findGeo = function (req, res) {
     var distance = 20;
 
     var tags = req.query.search;
-    var tagsParams = new Array();
+    var tagsParams = [];
 
     var loc = req.query.geo;
 
@@ -367,7 +384,7 @@ exports.findDistancePrice = function (req, res) {
     var hasta = req.query.hasta;
 
     var tags = req.query.tags;
-    var tagsParams = new Array();
+    var tagsParams = [];
 
     if (tags) {
         tags = tags.split('+');
@@ -659,13 +676,215 @@ exports.upload = function (req, res) {
 
     req.on('end', function () {
         // removing footer '\r\n'--boundary--\r\n' = (boundary.length + 8)
-        body = body.slice(0, body.length - (boundary.length + 8))
+        body = body.slice(0, body.length - (boundary.length + 8));
         console.log('final file size: ' + body.length);
         fs.writeFileSync('public/img/uploads/' + filename, body, 'binary');
         console.log('done');
 
         res.json({answer: "File transfer completed"});
     })
+};
+
+exports.misTratos = function (req, res, ok, trato) {
+
+    if (ok) {
+        var tratos = [];
+
+        for (var i = 0; i < trato.length; i++) {
+            tratos.push(trato[i].trato);
+        }
+
+        Anuncio.find({user: req.query.idUser, _id: {$nin: tratos}}, {tags: 1, precio: 1}).sort('-created').exec(function (err, misTratos) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                var isArray = req.query.interest instanceof Array,
+                    coincidencia = false,
+                    arrayCoincidencia = [],
+                    newMisTratos = [],
+                    contador = 0,
+                    title = '',
+                    tempTitle = '',
+                    search = '',
+                    i = 0,
+                    j = 0,
+                    x = 0;
+
+                if (isArray) {
+                    for (i = 0; i < misTratos.length; i++) {
+                        title = misTratos[i].tags.join(" ");
+                        tempTitle = title.toLowerCase();
+                        for (j = 0; j < req.query.interest.length; j++) {
+                            search = req.query.interest[j].split(" ");
+                            console.log(search);
+                            contador = 0;
+                            if (search.length >= 2) {
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                        contador++;
+                                    }
+                                }
+                            }
+
+                            console.log(contador);
+                            console.log('Comprobando espacios title: ' + title.substr(title.indexOf(' ')+1));
+                            if (contador >= 2) {
+                                arrayCoincidencia.push({
+                                    id: misTratos[i]._id,
+                                    title: title,
+                                    price: misTratos[i].precio
+                                });
+                            }
+                        }
+                        newMisTratos.push({
+                            id: misTratos[i]._id,
+                            title: title,
+                            price: misTratos[i].precio
+                        });
+                    }
+                } else {
+                    var array = [];
+                    array.push(req.query.interest);
+                    for (i = 0; i < misTratos.length; i++) {
+                        coincidencia = 0;
+                        title = misTratos[i].tags.join(" ");
+                        tempTitle = title.toLowerCase();
+                        for (j = 0; j < array.length; j++) {
+                            search = array[j].split(" ");
+                            console.log(search);
+                            contador = 0;
+                            if (search.length >= 2) {
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                        contador++;
+                                    }
+                                }
+                            }
+
+                            console.log(contador);
+                            console.log('Comprobando espacios title: ' + title.substr(title.indexOf(' ')+1));
+                            console.log('Comprobando espacios search: ' + search.substr(search.indexOf(' ')+1));
+
+                            if (contador >= 2) {
+                                arrayCoincidencia.push({
+                                    id: misTratos[i]._id,
+                                    title: title,
+                                    price: misTratos[i].precio
+                                });
+                            }
+                        }
+                        newMisTratos.push({
+                            id: misTratos[i]._id,
+                            title: title,
+                            price: misTratos[i].precio
+                        });
+                    }
+                }
+                var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
+                res.jsonp(send);
+            }
+        });
+    } else {
+        Anuncio.find({user: req.query.idUser}, {tags: 1, precio: 1}).sort('-created').exec(function (err, misTratos) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                var isArray = req.query.interest instanceof Array,
+                    coincidencia = false,
+                    arrayCoincidencia = [],
+                    newMisTratos = [],
+                    contador = 0,
+                    title = '',
+                    tempTitle = '',
+                    search = '',
+                    i = 0,
+                    j = 0,
+                    x = 0;
+
+                if (isArray) {
+                    for (i = 0; i < misTratos.length; i++) {
+                        title = misTratos[i].tags.join(" ");
+                        tempTitle = title.toLowerCase();
+                        for (j = 0; j < req.query.interest.length; j++) {
+                            search = req.query.interest[j].split(" ");
+                            console.log(search);
+                            contador = 0;
+                            if (search.length >= 2) {
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                        contador++;
+                                    }
+                                }
+                            }
+
+                            console.log(contador);
+                            console.log('Comprobando espacios title: ' + title.substr(title.indexOf(' ')+1));
+                            console.log('Comprobando espacios search: ' + search.substr(search.indexOf(' ')+1));
+
+                            if (contador >= 2) {
+                                arrayCoincidencia.push({
+                                    id: misTratos[i]._id,
+                                    title: title,
+                                    price: misTratos[i].precio
+                                });
+                            }
+                        }
+                        newMisTratos.push({
+                            id: misTratos[i]._id,
+                            title: title,
+                            price: misTratos[i].precio
+                        });
+                    }
+                } else {
+                    var array = [];
+                    array.push(req.query.interest);
+                    for (i = 0; i < misTratos.length; i++) {
+                        coincidencia = 0;
+                        title = misTratos[i].tags.join(" ");
+                        tempTitle = title.toLowerCase();
+                        for (j = 0; j < array.length; j++) {
+                            search = array[j].split(" ");
+                            console.log(search);
+                            contador = 0;
+                            if (search.length >= 2) {
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                        contador++;
+                                    }
+                                }
+                            }
+
+                            console.log(contador);
+                            console.log('Comprobando espacios: ' + title.substr(title.indexOf(' ')+1));
+
+                            if (contador >= 2) {
+                                arrayCoincidencia.push({
+                                    id: misTratos[i]._id,
+                                    title: title,
+                                    price: misTratos[i].precio
+                                });
+                            }
+                        }
+                        newMisTratos.push({
+                            id: misTratos[i]._id,
+                            title: title,
+                            price: misTratos[i].precio
+                        });
+                    }
+                }
+                var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
+                res.jsonp(send);
+            }
+        });
+    }
 };
 
 // db.anuncios.find({locs : {$near : [ 1.9138029, 41.418776199999996 ], $maxDistance : 119/111.12 }}).pretty()

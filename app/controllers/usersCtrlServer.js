@@ -7,7 +7,6 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     validator = require('validator');
 
-var ObjectId = require('mongoose').Types.ObjectId;
 /**
  * Auth callback
  */
@@ -138,16 +137,16 @@ exports.addFavorite = function(req, res, next) {
     var conditions = {_id : user._id},
         update = { $addToSet : {favorites : idTrato}};
 
-    User.update(conditions, update, function(err, user) {
+    User.update(conditions, update, function(err) {
         if (err) return next(err);
         res.jsonp({ok: 'ok'});
     });
-}
+};
 
 /**
  * look favorite
  */
-exports.lookFavorite = function(req, res, next) {
+exports.lookFavorite = function(req, res) {
     var idTrato = req.query.idTrato;
 
     var user = req.user;
@@ -161,17 +160,17 @@ exports.lookFavorite = function(req, res, next) {
             res.jsonp(favorite);
         }
     });
-}
+};
 
 /**
  * remove favorite
  */
-exports.removeFavorite = function(req, res, next) {
+exports.removeFavorite = function(req, res) {
     var idTrato = req.query.idTrato;
 
     var user = req.user;
 
-    User.update({_id : user._id}, {$pull : {favorites : idTrato}}).exec(function (err, favorite) {
+    User.update({_id : user._id}, {$pull : {favorites : idTrato}}).exec(function (err) {
         if (err) {
             res.render('error', {
                 status: 500
@@ -180,4 +179,4 @@ exports.removeFavorite = function(req, res, next) {
             res.jsonp({ok: 'ok'});
         }
     });
-}
+};
