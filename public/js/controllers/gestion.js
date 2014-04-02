@@ -24,7 +24,7 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
                     break;
                 case "mensajes":
                     console.log("mensajes");
-                    break
+                    break;
                 case "favoritos":
                     console.log("favoritos");
                     misAnuncios.favoritos( function (anuncio) {
@@ -38,8 +38,6 @@ angular.module('elTrato.gestion').controller('GestionController', ['$scope', '$r
 
         $scope.remove = function (event, anuncio) {
             event.preventDefault();
-
-            var anuncio1 = anuncio;
 
             var idAnuncio = event.currentTarget.attributes.href.nodeValue;
             var modalInstance = $modal.open({

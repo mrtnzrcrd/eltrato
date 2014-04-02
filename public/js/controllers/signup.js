@@ -86,7 +86,7 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', '$htt
                 $scope.lng = longitude;
                 $scope.lat = latitude;
             }
-        }
+        };
 
         console.log('Enviado desde Signup. Latitude: ' + $scope.lat + ' Longitude: ' + $scope.lng);
 
@@ -103,7 +103,7 @@ angular.module('elTrato.signup').controller('SignupController', ['$scope', '$htt
 
         $scope.buscar = function () {
             console.log("$scope.q: " + $scope.q);
-            var query = $scope.q.replace(/\s/g, "+");;
+            var query = $scope.q.replace(/\s/g, "+");
             $location.path('busqueda/' + query);
         };
 

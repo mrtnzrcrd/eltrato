@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('elTrato.mensajes').controller('MensajesController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation',
-    function ($scope, $routeParams, $rootScope, $location, Global, geolocation) {
+angular.module('elTrato.mensajes').controller('MensajesController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global',
+    function ($scope, $routeParams, $rootScope, $location, Global) {
         $scope.global = Global;
 
         $scope.nombre = Global.user.name;

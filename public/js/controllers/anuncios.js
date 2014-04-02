@@ -1,24 +1,27 @@
 'use strict';
 
 angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '$http', '$routeParams', '$rootScope', '$location',
-    'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader', 'Geocoder',
-    function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader, Geocoder) {
+    'Global', 'Anuncios', 'Buscar', 'geolocation', '$fileUploader', 'Geocoder', 'toaster',
+    function ($scope, $http, $routeParams, $rootScope, $location, Global, Anuncios, Buscar, geolocation, $fileUploader, Geocoder, toaster) {
         $scope.global = Global;
 
         $scope.caution = function () {
             if (!window.user) {
                 $location.path('#!/');
             }
-        }
+        };
 
         // Variable para mostrar opciones contraoferta...
         $scope.isCollapsed = true;
+
+        // Variable para mostrar opciones trueque...
+        $scope.isTrueque = true;
 
         $scope.predeterminadaRadio = true;
         $scope.geoRadio = true;
 
         // Texto para popover
-        $scope.info = "Al aceptar recibir contraofertas, otros articulos o realizar un trueque te damos la opción de que nos " +
+        $scope.info = "Al aceptar recibir trueques te damos la opción de que nos " +
             "digas que te gustaría recibir, de esta manera, agilizamos muchisimo mas el trato que puedas realizar";
         // Fin texto popover
 
@@ -66,8 +69,8 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
             $rootScope.lat = data.coords.latitude;
             $rootScope.lng = data.coords.longitude;
 
-            $scope.lng = $rootScope.lng
-            $scope.lat = $rootScope.lat
+            $scope.lng = $rootScope.lng;
+            $scope.lat = $rootScope.lat;
 
             longitude = data.coords.longitude;
             latitude = data.coords.latitude;
@@ -127,11 +130,12 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // Filtrar la geolocalización elegida por el usuario
 
         $scope.newValue = function (value) {
+            var latlng;
             if (value === 'option2') {
                 $scope.lng = window.user.locs[0];
                 $scope.lat = window.user.locs[1];
 
-                var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+                latlng = new google.maps.LatLng($scope.lat, $scope.lng);
                 $scope.model.myMap.setCenter(latlng);
                 $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
                 $scope.inputGeo = false;
@@ -142,12 +146,12 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 $scope.lng = longitude;
                 $scope.lat = latitude;
 
-                var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+                latlng = new google.maps.LatLng($scope.lat, $scope.lng);
                 $scope.model.myMap.setCenter(latlng);
                 $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
                 $scope.inputGeo = false;
             }
-        }
+        };
 
         //Fin Filtrar la geolocalización elegida por el usuario
 
@@ -168,7 +172,7 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
         // End Alertas
 
         // Añadir imagenes en array para bd
-        var images = new Array();
+        var images = [];
         var contador = 1;
         $scope.fotoActivo = false;
         $scope.disponible1 = true;
@@ -210,15 +214,20 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         // end push array
 
+        $scope.opcionesTrueque = function () {
+            $scope.isTrueque = !$scope.isTrueque;
+            $scope.itemList = false;
+        };
+
         $scope.publicar = function () {
             uploader.uploadAll();
             $scope.process = true;
-        }
+        };
 
         // Create new trato
         $scope.create = function () {
 
-            var locs = new Array();
+            var locs = [];
             locs.push($scope.lng);
             locs.push($scope.lat);
 
@@ -227,7 +236,10 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                 precio: this.precio,
                 images: images,
                 locs: locs,
-                trueque: this.trueque,
+                opcion: this.opciones,
+                contraoferta: this.opContraoferta,
+                formaPago: this.opFormapago,
+                trueque: this.opTrueque,
                 need: $scope.items
             });
 
@@ -385,16 +397,19 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         // Add a Item to the list
         $scope.addItem = function () {
-
             if (typeof $scope.itemName != 'undefined') {
                 if ($scope.itemName != "") {
                     $scope.itemList = true;
-                    $scope.items.push($scope.itemName);
-                    // Clear input fields after push
-                    $scope.itemName = "";
-
-                    event.preventDefault();
+                    var result = $scope.items.indexOf($scope.itemName);
+                    if (result === -1) {
+                        $scope.items.push($scope.itemName);
+                        // Clear input fields after push
+                        $scope.itemName = "";
+                    } else {
+                        toaster.pop('warning', "Aviso", 'Este articulo ya esta en la lista de tus intereses');
+                    }
                 }
+                event.preventDefault();
             }
         };
 

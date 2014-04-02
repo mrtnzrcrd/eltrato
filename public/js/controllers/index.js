@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation', 'Geocoder', '$modal', 'FancyboxService', '$timeout', 'toaster',
-    function ($scope, $http, $rootScope, $location, Global, geolocation, Geocoder, $modal, FancyboxService, $timeout, toaster) {
+angular.module('elTrato.system').controller('IndexController', ['$scope', '$http', '$rootScope', '$location', 'Global', 'geolocation', 'Geocoder', '$modal', 'FancyboxService',
+    function ($scope, $http, $rootScope, $location, Global, geolocation, Geocoder, $modal, FancyboxService) {
         $scope.global = Global;
 
         $scope.search = true;
@@ -14,11 +14,11 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
         if (window.user) {
             $rootScope.$on('searcHeader', function (event, args) {
-
+                var latlng = '';
                 if ($scope.lng) {
-                    var latlng = $scope.lng + '+' + $scope.lat;
+                    latlng = $scope.lng + '+' + $scope.lat;
                 } else {
-                    var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+                    latlng = window.user.locs[0] + '+' + window.user.locs[1];
                 }
 
                 var distance = $scope.kilometros;
@@ -37,17 +37,18 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
         } else {
             $scope.newTag = function (tags) {
                 $rootScope.tagsHeader = tags.replace(/\s/g, "+");
-            }
+            };
 
             $scope.formTags = function () {
                 if (this.tagsHeader) {
                     $rootScope.tagsHeader = this.tagsHeader;
                     var inputTags = this.tagsHeader.replace(/\s/g, "+");
+                    var latlng = '';
 
                     if ($scope.lng) {
-                        var latlng = $scope.lng + '+' + $scope.lat;
+                        latlng = $scope.lng + '+' + $scope.lat;
                     } else {
-                        var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+                        latlng = window.user.locs[0] + '+' + window.user.locs[1];
                     }
 
                     var distance = $scope.kilometros;
@@ -69,11 +70,12 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
         $scope.localizacion = function () {
             $scope.address = this.address;
+            var latlng = '';
 
             if ($scope.lng) {
-                var latlng = $scope.lng + '+' + $scope.lat;
+                latlng = $scope.lng + '+' + $scope.lat;
             } else {
-                var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+                latlng = window.user.locs[0] + '+' + window.user.locs[1];
             }
 
             var distance = $scope.kilometros;
@@ -100,22 +102,23 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
                 });
             }
-        }
+        };
 
         $scope.distance = function (data) {
             $scope.kilometros = data;
+            var latlng = '';
 
             if ($scope.lng) {
-                var latlng = $scope.lng + '+' + $scope.lat;
+                latlng = $scope.lng + '+' + $scope.lat;
             } else {
-                var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+                latlng = window.user.locs[0] + '+' + window.user.locs[1];
             }
 
             var distance = data;
 
             if ($rootScope.tagsHeader) {
                 var inputTags = $rootScope.tagsHeader;
-                ;
+
                 $http.get('/searchDistancePrice', {params: {tags: inputTags, distance: distance, geo: latlng}}).success(function (response) {
                     $scope.anuncios = response;
                     $scope.search = false;
@@ -136,17 +139,18 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
                 });
             }
-        }
+        };
 
         $scope.price = function () {
             if (this.desde || this.hasta) {
                 var desde = this.desde;
                 var hasta = this.hasta;
+                var latlng = '';
 
                 if ($scope.lng) {
-                    var latlng = $scope.lng + '+' + $scope.lat;
+                    latlng = $scope.lng + '+' + $scope.lat;
                 } else {
-                    var latlng = window.user.locs[0] + '+' + window.user.locs[1];
+                    latlng = window.user.locs[0] + '+' + window.user.locs[1];
                 }
 
                 var distance = $scope.kilometros;
@@ -155,14 +159,14 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     var inputTags = $rootScope.tagsHeader;
                     $http.get('/searchDistancePrice', {params: {tags: inputTags, distance: distance, geo: latlng,
                         desde: desde, hasta: hasta}}).success(function (response) {
-                            $scope.anuncios = response;
-                            $scope.search = false;
-                            $scope.yesAd = true;
-                            $scope.alertOk = false;
-                            $scope.loading = false;
-                            $scope.results = $scope.anuncios.length;
+                        $scope.anuncios = response;
+                        $scope.search = false;
+                        $scope.yesAd = true;
+                        $scope.alertOk = false;
+                        $scope.loading = false;
+                        $scope.results = $scope.anuncios.length;
 
-                        });
+                    });
                 } else {
                     $http.get('/searchDistancePrice', {params: {distance: distance, geo: latlng, desde: desde, hasta: hasta}})
                         .success(function (response) {
@@ -176,7 +180,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                         });
                 }
             }
-        }
+        };
 
         if (window.user != null) {
             $scope.search = false;
@@ -197,7 +201,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $http.get('/searchGeo', {params: {geo: query}}).success(function (response) {
                     Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function (data) {
                         $scope.address = data.address;
-                    })
+                    });
                     $scope.anuncios = response;
                     $scope.search = false;
                     $scope.yesAd = true;
@@ -210,7 +214,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             $http.get('/searchGeo', {params: {geo: query}}).success(function (response) {
                 Geocoder.addressForLatLng(window.user.locs[1], window.user.locs[0]).then(function (data) {
                     $scope.address = data.address;
-                })
+                });
                 $scope.anuncios = response;
                 $scope.search = false;
                 $scope.yesAd = true;
@@ -221,11 +225,11 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             });
         } else if ($rootScope.lng) {
             $scope.search = false;
-            var query = $scope.lng + '+' + $scope.lat;
+            query = $scope.lng + '+' + $scope.lat;
             $http.get('/searchGeo', {params: {geo: query}}).success(function (response) {
                 Geocoder.addressForLatLng($rootScope.lat, $rootScope.lng).then(function (data) {
                     $scope.address = data.address;
-                })
+                });
                 $scope.anuncios = response;
                 $scope.search = false;
                 $scope.yesAd = true;
@@ -258,13 +262,13 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
                 Geocoder.addressForLatLng(data.coords.latitude, data.coords.longitude).then(function (data2) {
                     $scope.address = data2.address;
-                })
+                });
 
                 var query = $scope.lng + '+' + $scope.lat;
                 $http.get('/searchGeo', {params: {geo: query}}).success(function (response) {
                     Geocoder.addressForLatLng($rootScope.lat, $rootScope.lng).then(function (data) {
                         $scope.address = data.address;
-                    })
+                    });
                     $scope.anuncios = response;
                     $scope.search = false;
                     $scope.yesAd = true;
@@ -284,19 +288,19 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     components: 'country:ES'
                 }
             }).then(function (res) {
-                    var addresses = [];
-                    var geoLocation = [];
-                    angular.forEach(res.data.results, function (item) {
-                        addresses.push(item.formatted_address);
-                        geoLocation.push(item.geometry.location.lng);
-                        geoLocation.push(item.geometry.location.lat);
-                    });
-
-                    $scope.lng = geoLocation[0];
-                    $scope.lat = geoLocation[1];
-
-                    return addresses;
+                var addresses = [];
+                var geoLocation = [];
+                angular.forEach(res.data.results, function (item) {
+                    addresses.push(item.formatted_address);
+                    geoLocation.push(item.geometry.location.lng);
+                    geoLocation.push(item.geometry.location.lat);
                 });
+
+                $scope.lng = geoLocation[0];
+                $scope.lat = geoLocation[1];
+
+                return addresses;
+            });
         };
 
         $scope.$on('error', function (event, args) {
@@ -319,7 +323,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $http.get('/searchGeo', {params: {search: query, geo: query2}}).success(function (response) {
                     Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function (data) {
                         $scope.address = data.address;
-                    })
+                    });
                     $scope.anuncios = response;
                     $scope.search = false;
                     $scope.yesAd = true;
@@ -333,7 +337,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $http.get('/searchGeo', {params: {geo: query2}}).success(function (response) {
                     Geocoder.addressForLatLng($scope.lat, $scope.lng).then(function (data) {
                         $scope.address = data.address;
-                    })
+                    });
                     $scope.anuncios = response;
                     $scope.search = false;
                     $scope.yesAd = true;
@@ -407,7 +411,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $modalInstance.close("OK");
             };
 
-            $scope.cancel = function (id) {
+            $scope.cancel = function () {
                 console.log("NO BORRAR");
                 $modalInstance.dismiss('Cancelado');
             };
@@ -442,14 +446,80 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             }, function () {
                 $scope.toasterGeneral = true;
             });
-        }
+        };
 
         var modalDealCtrl = function ($scope, $rootScope, $modalInstance, trato) {
 
             $scope.tratos = trato;
 
-            if (trato.opciones[0].need.length > 0) {
+            if (trato.opciones[0].contraoferta) {
+                $scope.contraoferta = true;
+                $scope.dealDiv = true;
+                if (trato.opciones[0].formaPago && trato.opciones[0].trueque) {
+                    $scope.formaPago = true;
+                    $scope.deal = true;
+                    $http.get('/mirarTratoEnviado', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
+                        .success(function (response) {
+                            if (response.coincidencia.length > 0) {
+                                $scope.coincidencia = true;
+                                $scope.resultCoinci = response.coincidencia.length;
+                                $scope.tratosCoincidencia = response.coincidencia;
+                            } else {
+                                $scope.coincidencia = false;
+                                $scope.misTratos = response.misTratos;
+                                if (response.misTratos.length == 1) {
+                                    $scope.noRepeat = true;
+                                } else {
+                                    $scope.noRepeat = false;
+                                }
+                            }
+                        });
+                } else if (trato.opciones[0].formaPago && !trato.opciones[0].trueque) {
+                    $scope.formaPago = true;
+                } else if (!trato.opciones[0].formaPago && trato.opciones[0].trueque) {
+                    $scope.deal = true;
+                    $http.get('/mirarTratoEnviado', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
+                        .success(function (response) {
+                            if (response.coincidencia.length > 0) {
+                                $scope.coincidencia = true;
+                                $scope.resultCoinci = response.coincidencia.length;
+                                $scope.tratosCoincidencia = response.coincidencia;
+                            } else {
+                                $scope.coincidencia = false;
+                                $scope.misTratos = response.misTratos;
+                                if (response.misTratos.length == 1) {
+                                    $scope.noRepeat = true;
+                                } else {
+                                    $scope.noRepeat = false;
+                                }
+                            }
+                        });
+                }
+            } else if (trato.opciones[0].formaPago) {
+                $scope.formaPago = true;
+                $scope.productDiv = true;
+                if (trato.opciones[0].trueque) {
+                    $scope.deal = true;
+                }
+            } else if (trato.opciones[0].trueque) {
                 $scope.deal = true;
+                $scope.barterDiv = true;
+                $http.get('/mirarTratoEnviado', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
+                    .success(function (response) {
+                        if (response.coincidencia.length > 0) {
+                            $scope.coincidencia = true;
+                            $scope.resultCoinci = response.coincidencia.length;
+                            $scope.tratosCoincidencia = response.coincidencia;
+                        } else {
+                            $scope.coincidencia = false;
+                            $scope.misTratos = response.misTratos;
+                            if (response.misTratos.length == 1) {
+                                $scope.noRepeat = true;
+                            } else {
+                                $scope.noRepeat = false;
+                            }
+                        }
+                    });
             }
 
             Geocoder.addressForLatLng($scope.tratos.locs[1], $scope.tratos.locs[0]).then(function (data) {
@@ -461,7 +531,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 $modalInstance.close("OK");
             };
 
-            $scope.cancel = function (id) {
+            $scope.cancel = function () {
                 console.log("NO BORRAR");
                 $modalInstance.dismiss('Cancelado');
             };

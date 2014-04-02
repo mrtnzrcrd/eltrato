@@ -11,7 +11,7 @@ angular.module('elTrato.system').controller('HeaderController', ['$scope', '$roo
             // Guardado de nuevos tags
             $scope.newTag = function (tags) {
                 $rootScope.tagsHeader = tags.replace(/\s/g, "+");
-            }
+            };
 
             $scope.buscar = function () {
                 $rootScope.location = $location;

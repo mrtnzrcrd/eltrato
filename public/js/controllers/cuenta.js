@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('elTrato.cuenta').controller('CuentaController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global', 'geolocation',
-    function ($scope, $routeParams, $rootScope, $location, Global, geolocation) {
+angular.module('elTrato.cuenta').controller('CuentaController', ['$scope', '$routeParams', '$rootScope', '$location', 'Global',
+    function ($scope, $routeParams, $rootScope, $location, Global) {
         $scope.global = Global;
 
         $scope.nombre = Global.user.name;
@@ -11,7 +11,7 @@ angular.module('elTrato.cuenta').controller('CuentaController', ['$scope', '$rou
         $scope.isCollapsed3 = true;
 
         $scope.cambiarTab = function (event) {
-           event.preventDefault();
+            event.preventDefault();
             var objectActive = angular.element(document.querySelector(".tab-pane.active"));
             objectActive.removeClass("active");
             var idTab = event.currentTarget.attributes.href.nodeValue;
@@ -20,18 +20,19 @@ angular.module('elTrato.cuenta').controller('CuentaController', ['$scope', '$rou
         };
 
         /*
-        $scope.find = function () {
-            Usuarios.query(function (usuarios) {
-                $scope.usuarios = usuarios;
-            });
-        };
+         $scope.find = function () {
+         Usuarios.query(function (usuarios) {
+         $scope.usuarios = usuarios;
+         });
+         };
 
-        $scope.findOne = function () {
-            Usuarios.get({
-                usuarioId: $routeParams.usuarioId
-            }, function (usuario) {
-                $scope.usuario = usuario;
-            });
-        };
-        */
+         $scope.findOne = function () {
+         Usuarios.get({
+         usuarioId: $routeParams.usuarioId
+         }, function (usuario) {
+         $scope.usuario = usuario;
+         });
+         };
+         */
+
     }]);
