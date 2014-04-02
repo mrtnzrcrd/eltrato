@@ -1,4 +1,5 @@
 <section data-ng-controller="AnunciosController" data-ng-init="caution()">
+<toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
 <div class="page-header" style="margin: 20px 0 20px">
     <h1>Publicar nuevo trato</h1>
     <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)"><h4>{{alert.title}}</h4>
@@ -7,163 +8,178 @@
 </div>
 <div class="row">
 <form name="form" class="form-horizontal col-md-6" role="form" data-ng-submit="publicar()">
-    <!-- Descripción -->
-    <div class="form-group">
-        <label for="descripcion" class="col-md-2 control-label">Descripción</label>
+<!-- Descripción -->
+<div class="form-group">
+    <label for="descripcion" class="col-md-2 control-label">Descripción</label>
 
-        <div class="col-md-10">
-            <textarea name="Descripcion" data-ng-model="descripcion" id="descripcion" cols="30" rows="10"
-                      placeholder="Descripcion"
-                      class="form-control" required></textarea>
-        </div>
+    <div class="col-md-10">
+        <textarea name="Descripcion" data-ng-model="descripcion" id="descripcion" cols="30" rows="10"
+                  placeholder="Descripcion"
+                  class="form-control" required></textarea>
     </div>
-    <!-- Fin Descripción -->
+</div>
+<!-- Fin Descripción -->
 
-    <!-- Precio -->
-    <div class="form-group">
-        <label for="precio" class="col-md-2 control-label">Precio</label>
+<!-- Precio -->
+<div class="form-group">
+    <label for="precio" class="col-md-2 control-label">Precio</label>
 
-        <div class="col-md-10">
-            <input name="precio" type="number" min="0" class="form-control" data-ng-model="precio" id="precio"
-                   placeholder="Precio" required>
-        </div>
+    <div class="col-md-10">
+        <input name="precio" type="number" min="0" class="form-control" data-ng-model="precio" id="precio"
+               placeholder="Precio" required>
     </div>
-    <!-- Fin Precio -->
+</div>
+<!-- Fin Precio -->
 
-    <!-- Fotos -->
-    <div class="form-group">
-        <label for="foto" class="col-md-2 control-label">Fotos</label>
+<!-- Fotos -->
+<div class="form-group">
+    <label class="col-md-2 control-label">Fotos</label>
 
-        <div class="col-md-10">
-            <!--<input type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
-                   data-ng-model="foto" id="foto" placeholder="Fotos" multiple ng-disabled="fotoActivo">
+    <div class="col-md-10">
+        <!--<input type="file" class="form-control" name="upload" data-ng-change="cambioImagen()"
+               data-ng-model="foto" id="foto" placeholder="Fotos" multiple ng-disabled="fotoActivo">
 
-                <h3>Select files</h3>
+            <h3>Select files</h3>
 
-                <div ng-show="uploader.isHTML5">
-                     3. ng-file-over | ng-file-over="className"
-                    <div class="well my-drop-zone" ng-file-over>
-                        Base drop zone
-                    </div>-->
+            <div ng-show="uploader.isHTML5">
+                 3. ng-file-over | ng-file-over="className"
+                <div class="well my-drop-zone" ng-file-over>
+                    Base drop zone
+                </div>-->
 
-            <!-- Example: ng-file-drop | ng-file-drop="options"
-            <div class="well my-drop-zone" ng-file-drop="{ url: '/foo' }" ng-file-over="another-file-over-class">
-                Another drop zone with its own settings
-            </div>
-        </div>-->
-
-            <!-- 2. ng-file-select | ng-file-select="options" -->
-            <div class="fileUpload btn btn-default">
-                <span><span class="glyphicon glyphicon-camera"></span> Subir fotos</span>
-                <input ng-file-select type="file" class="upload" multiple required/>
-            </div>
-            <!--<input ng-file-select type="file" multiple required/>-->
-
+        <!-- Example: ng-file-drop | ng-file-drop="options"
+        <div class="well my-drop-zone" ng-file-drop="{ url: '/foo' }" ng-file-over="another-file-over-class">
+            Another drop zone with its own settings
         </div>
-    </div>
-    <div ng-if="foto" class="col-md-9 col-lg-offset-2" style="margin-bottom: 40px">
-        <table class="table">
-            <thead>
-            <tr>
-                <th width="50%">Nombre</th>
-                <th ng-show="uploader.isHTML5">Tamaño</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="item in uploader.queue">
-                <td>
-                    <strong>{{ item.file.name }}</strong>
+    </div>-->
 
-                    <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, height: 100 }"></div>
-                </td>
-                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                <td class="text-center">
-                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                </td>
-                <td nowrap>
-                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div>
-            <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
-                    ng-disabled="!uploader.queue.length">
-                <span class="glyphicon glyphicon-trash"></span> Borrar todo
-            </button>
+        <!-- 2. ng-file-select | ng-file-select="options" -->
+        <div class="fileUpload btn btn-default">
+            <span><span class="glyphicon glyphicon-camera"></span> Subir fotos</span>
+            <input ng-file-select type="file" class="upload" multiple required/>
         </div>
+        <!--<input ng-file-select type="file" multiple required/>-->
 
     </div>
-    <!-- Fin Fotos -->
+</div>
+<div ng-if="foto" class="col-md-9 col-lg-offset-2" style="margin-bottom: 40px">
+    <table class="table">
+        <thead>
+        <tr>
+            <th width="50%">Nombre</th>
+            <th ng-show="uploader.isHTML5">Tamaño</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in uploader.queue">
+            <td>
+                <strong>{{ item.file.name }}</strong>
 
-    <!-- geoLocalización -->
-    <div class="form-group" ng-if="mapa">
-        <label class="col-md-2 control-label" for="geolocalizacion"></label>
+                <div ng-show="uploader.isHTML5" ng-thumb="{ file: item.file, height: 100 }"></div>
+            </td>
+            <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+            <td class="text-center">
+                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+            </td>
+            <td nowrap>
+                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-        <div class="col-md-10">
-            <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
-        </div>
+    <div>
+        <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
+                ng-disabled="!uploader.queue.length">
+            <span class="glyphicon glyphicon-trash"></span> Borrar todo
+        </button>
     </div>
-    <div class="form-group">
+
+</div>
+<!-- Fin Fotos -->
+
+<!-- geoLocalización -->
+<div class="form-group" ng-if="mapa">
+    <label class="col-md-2 control-label"></label>
+
+    <div class="col-md-10">
+        <div ui-map="model.myMap" ui-options="mapOptions" id="map_canvas" class="map-canvas"></div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-md-2 control-label"></label>
+
+    <div class="col-md-10">
+        <label class="radio-inline" ng-if="radioAct==true">
+            <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1"
+                   ng-change='newValue(options.value)'>
+            Ubicación actual
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2"
+                   ng-change='newValue(options.value)' ng-checked="predeterminadaRadio">
+            Predeterminada
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="optionsRadios" id="optionsRadios3" ng-model="options.value" value="option3"
+                   ng-checked="radioGo" ng-change='newValue(options.value)' required>
+            Otra Ubicación
+        </label>
+    </div>
+</div>
+<div class="form-group" ng-if="inputGeo==true">
+    <label class="col-md-4 control-label">Elige tu ubicación</label>
+
+    <div class="col-md-8">
+        <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
+                for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
+               typeahead-loading="loadingLocations"
+               class="form-control">
+        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+    </div>
+</div>
+<input type="hidden" ng-value="lat" id="inputLat" name="lat">
+<input type="hidden" ng-value="lng" id="inputLng" name="lng">
+<!-- Fin geoLocalización -->
+
+<!-- Contraoferta -->
+<div class="form-group" style="margin-bottom: -10px;">
+    <div class="checkbox">
         <label class="col-md-2 control-label"></label>
 
         <div class="col-md-10">
-            <label class="radio-inline" ng-if="radioAct==true">
-                <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="options.value" value="option1"
-                       ng-change='newValue(options.value)'>
-                Ubicación actual
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="options.value" value="option2"
-                       ng-change='newValue(options.value)' ng-checked="predeterminadaRadio">
-                Predeterminada
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optionsRadios" id="optionsRadios3" ng-model="options.value" value="option3"
-                       ng-checked="radioGo" ng-change='newValue(options.value)' required>
-                Otra Ubicación
+            <label>
+                <input type="checkbox" ng-click="isCollapsed = !isCollapsed" ng-model="opciones"> Deseas recibir
+                contraofertas, otros articulos mas dinero como forma de pago o trueques de otros usuarios interesados en
+                tu
+                venta?
             </label>
         </div>
     </div>
-    <div class="form-group" ng-if="inputGeo==true">
-        <label class="col-md-4 control-label" for="location">Elige tu ubicación</label>
-
-        <div class="col-md-8">
-            <input type="text" ng-model="asyncSelected" placeholder="Elige tu ubicación" typeahead="address
-                for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
-                   typeahead-loading="loadingLocations"
-                   class="form-control">
-            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+</div>
+<div class="form-group" collapse="isCollapsed">
+    <div class="checkbox">
+        <div class="col-md-12">
+            <label class="col-md-10 col-lg-offset-2">
+                <input type="checkbox" ng-model="opContraoferta"> Deseo recibir contraofertas.
+            </label>
+            <label class="col-md-10 col-lg-offset-2">
+                <input type="checkbox" ng-model="opFormapago"> Deseo recibir otros articulos mas dinero como forma de
+                pago.
+            </label>
+            <label class="col-md-10 col-lg-offset-2">
+                <input type="checkbox" ng-model="opTrueque" ng-click="opcionesTrueque()"> Deseo recibir trueques.
+            </label>
         </div>
     </div>
-    <input type="hidden" ng-value="lat" id="inputLat" name="lat">
-    <input type="hidden" ng-value="lng" id="inputLng" name="lng">
-    <!-- Fin geoLocalización -->
-
-    <!-- Contraoferta -->
-    <div class="form-group">
-        <div class="checkbox">
-            <label class="col-md-2 control-label"></label>
-
-            <div class="col-md-10">
-                <label>
-                    <input type="checkbox" ng-click="isCollapsed = !isCollapsed" ng-model="trueque"> Deseas recibir
-                    contraofertas, otros articulos como forma de pago o trueques de otros usuarios interesados en tu
-                    venta?
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="form-group" collapse="isCollapsed">
-        <label popover="{{info}}" popover-trigger="mouseenter" class="col-md-4 control-label">Que te interesa?
+    <div class="col-md-10 col-lg-offset-2" style="margin-top: 10px;" collapse="isTrueque">
+        <label popover="{{info}}" popover-trigger="mouseenter" class="col-md-5 control-label">Que te interesa?
             <span class="glyphicon glyphicon-info-sign"></span>
         </label>
 
-        <div class="col-md-6">
-
+        <div class="col-md-7">
             <div class="input-group">
                 <input value="" type="text" class="form-control"
                        ng-model="itemName" id="interes" placeholder="Iphone 5s, ps3, bici..">
@@ -177,29 +193,30 @@
             <span class="help-block">Inserta de uno en uno los articulos</span>
         </div>
     </div>
-    <!-- Fin Contraoferta -->
-    <div class="form-group">
-        <label class="col-md-2 control-label"></label>
+</div>
+<!-- Fin Contraoferta -->
+<div class="form-group">
+    <label class="col-md-2 control-label"></label>
 
-        <div ng-show="process">
-            <p>
-                Procesando tu trato:
-            </p>
+    <div ng-show="process">
+        <p>
+            Procesando tu trato:
+        </p>
 
-            <div>
-                <div class="progress-bar" role="progressbar"
-                     ng-style="{ 'width': uploader.progress + '%' }"></div>
-            </div>
+        <div>
+            <div class="progress-bar" role="progressbar"
+                 ng-style="{ 'width': uploader.progress + '%' }"></div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-primary">Publicar</button>
-        </div>
+</div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <button type="submit" class="btn btn-primary">Publicar</button>
     </div>
+</div>
 </form>
 <div class="col-md-6">
-    <div class="bs-callout bs-callout-warning" style="margin: 0; margin-bottom: 56px;">
+    <div class="bs-callout bs-callout-warning" style="margin: 0 0 56px;">
         <h4>Como publicar correctamente tu trato (PRUEBA)</h4>
         <ul>
             <li>
@@ -224,7 +241,7 @@
             </li>
         </ul>
     </div>
-    <div class="col-lg-offset-1 col-md-6" ng-if="itemList">
+    <div class="col-lg-offset-1 col-md-6" ng-if="itemList" id="itemList">
         <ul class="list-group">
             <li style="background-color: #428bca; border-color: #357ebd; color: #ffffff"
                 class="list-group-item list-group-item-success">
