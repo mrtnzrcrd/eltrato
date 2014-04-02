@@ -21,8 +21,7 @@
                        placeholder="Donde buscamos?"
                        typeahead="address
                 for address in getLocationViaGoogle($viewValue) | filter:$viewValue"
-                       typeahead-loading="loadingLocations"
-                       class="form-control">
+                       typeahead-loading="loadingLocations">
                 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
             </div>
             <div class="input-group">
@@ -76,9 +75,11 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <div class="col-md-12">
-                            <input style="margin-top: 10px;" type="range" data-ng-model="kilometros"
-                                   tooltip="Buscar en {{kilometros}} km" min="0" max="140" step="20"
-                                   ng-value="kilometros" data-ng-change="distance(kilometros)"/>
+                            <label>
+                                <input style="margin-top: 10px;" type="range" data-ng-model="kilometros"
+                                       tooltip="Buscar en {{kilometros}} km" min="0" max="140" step="20"
+                                       ng-value="kilometros" data-ng-change="distance(kilometros)"/>
+                            </label>
 
                             <p style="text-align: center; margin-top: 5px;">En {{kilometros}} km</p>
                         </div>
@@ -204,12 +205,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12"style="height: 8em; margin-bottom: 10px">
-
-                                </div>
+                                <div class="col-md-12" style="height: 8em; margin-bottom: 10px"></div>
                             </a>
                         </div>
-                        <div class="caption" style="padding-top: 0px;">
+                        <div class="caption" style="padding-top: 0;">
                             <div class="row">
                                 <photos numphotos="{{anuncio.images}}"></photos>
                             </div>
@@ -218,8 +217,9 @@
                                     <a href="#" class="btn btn-message btn-sm" role="button" tooltip="Enviar mensaje">
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
-                                    <is-trueque ng-if="global.authenticated" data-trueque="{{anuncio.opciones[0].trueque}}"></is-trueque>
+                                    <is-trueque ng-if="global.authenticated" data-trueque="{{anuncio.opciones}}"></is-trueque>
                                     <is-favorite ng-if="global.authenticated" data-favorite="{{anuncio._id}}"> </is-favorite>
+
                                     <a class="btn btn-phone btn-sm" role="button"
                                        tooltip="Teléfono" ng-click="anuncio.collapsed = !anuncio.collapsed">
                                         <span class="glyphicon glyphicon-earphone"></span>
