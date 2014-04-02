@@ -1,0 +1,39 @@
+<div class="row" style="margin-bottom: 10px">
+    <h3 style="color: #428bca">Que le interesa?</h3>
+    <h6><p class="text-muted">Aquí te mostramos los intereses del usuario</p></h6>
+    <span class="label label-info pull-left" style="margin-right: 5px;" ng-repeat="need in tratos.opciones[0].need">
+        {{need}}
+    </span>
+</div>
+<div class="row">
+    <form role="form" ng-submit="sendTrueque()" ng-if="mostrar">
+        <div class="form-group" ng-if="coincidencia">
+            <label class="form-group">Seleccionar de mis tratos <br>
+                <span class="label label-warning">Tienes {{resultCoinci}} tratos que le interesan!</span>
+            </label>
+            <select class="form-control" data-ng-model="mitrueque"
+                    ng-options="trato.title + ' | ' + trato.price + '€' for trato in tratosCoincidencia" data-ng-change="trueque()">
+                <option value="">Elige uno</option>
+            </select>
+        </div>
+        <div class="form-group" ng-if="!coincidencia">
+            <label class="form-group">Seleccionar de mis tratos
+            </label>
+            <select class="form-control" ng-model="mitrueque"
+                    ng-options="trato.title + ' | ' + trato.price + '€' for trato in misTratos"
+                    data-ng-change="trueque()">
+                <option value="">Elige uno</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <textarea name="Comentario" ng-model="comentario" id="comentario" cols="10" rows="4"
+                      placeholder="Comentario (Opcional)"
+                      class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+    <alert ng-if="!mostrar" type="alertOpciones.type"><h4>{{alertOpciones.title}}</h4>
+        {{alertOpciones.msg}}
+    </alert>
+</div>
+
