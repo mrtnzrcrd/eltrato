@@ -20,10 +20,24 @@ var TratoSchema = new Schema({
         default: '',
         trim: true
     },
+    interest: {
+        type: Boolean
+    },
     comentario: {
         type: String,
         default: '',
         trim: true
+    },
+    precio: {
+        type: Number
+    },
+    visto: {
+        type: Boolean,
+        default: false
+    },
+    aceptado : {
+        type: Number,
+        default: 0
     },
     user: {
         type: Schema.ObjectId,

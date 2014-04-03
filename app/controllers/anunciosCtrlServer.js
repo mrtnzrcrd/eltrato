@@ -720,9 +720,9 @@ exports.misTratos = function (req, res, ok, trato) {
                             search = req.query.interest[j].split(" ");
                             console.log(search);
                             contador = 0;
-                            if (search.length >= 2) {
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
+                            for (x = 0; x < search.length; x++) {
+                                console.log('titulo: ' + title);
+                                if (search[x].length >= 2) {
                                     if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
                                         contador++;
                                     }
@@ -737,6 +737,15 @@ exports.misTratos = function (req, res, ok, trato) {
                                     title: title,
                                     price: misTratos[i].precio
                                 });
+                            } else {
+                                var result = tempTitle.indexOf(' ');
+                                if (result === -1 && contador === 1) {
+                                    arrayCoincidencia.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
                             }
                         }
                         newMisTratos.push({
@@ -756,9 +765,9 @@ exports.misTratos = function (req, res, ok, trato) {
                             search = array[j].split(" ");
                             console.log(search);
                             contador = 0;
-                            if (search.length >= 2) {
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
+                            for (x = 0; x < search.length; x++) {
+                                console.log('titulo: ' + title);
+                                if (search[x].length >= 2) {
                                     if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
                                         contador++;
                                     }
@@ -767,14 +776,22 @@ exports.misTratos = function (req, res, ok, trato) {
 
                             console.log(contador);
                             console.log('Comprobando espacios title: ' + title.substr(title.indexOf(' ')+1));
-                            console.log('Comprobando espacios search: ' + search.substr(search.indexOf(' ')+1));
-
+                            console.log('*******************');
                             if (contador >= 2) {
                                 arrayCoincidencia.push({
                                     id: misTratos[i]._id,
                                     title: title,
                                     price: misTratos[i].precio
                                 });
+                            } else {
+                                var result = tempTitle.indexOf(' ');
+                                if (result === -1 && contador === 1) {
+                                    arrayCoincidencia.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
                             }
                         }
                         newMisTratos.push({
@@ -805,7 +822,8 @@ exports.misTratos = function (req, res, ok, trato) {
                     search = '',
                     i = 0,
                     j = 0,
-                    x = 0;
+                    x = 0,
+                    one = false;
 
                 if (isArray) {
                     for (i = 0; i < misTratos.length; i++) {
@@ -815,9 +833,13 @@ exports.misTratos = function (req, res, ok, trato) {
                             search = req.query.interest[j].split(" ");
                             console.log(search);
                             contador = 0;
-                            if (search.length >= 2) {
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
+                            one = false;
+                            if (search.length === 1) {
+                                one = true;
+                            }
+                            for (x = 0; x < search.length; x++) {
+                                console.log('titulo: ' + title);
+                                if (search[x].length >= 2) {
                                     if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
                                         contador++;
                                     }
@@ -825,8 +847,7 @@ exports.misTratos = function (req, res, ok, trato) {
                             }
 
                             console.log(contador);
-                            console.log('Comprobando espacios title: ' + title.substr(title.indexOf(' ')+1));
-                            console.log('Comprobando espacios search: ' + search.substr(search.indexOf(' ')+1));
+                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
 
                             if (contador >= 2) {
                                 arrayCoincidencia.push({
@@ -834,6 +855,15 @@ exports.misTratos = function (req, res, ok, trato) {
                                     title: title,
                                     price: misTratos[i].precio
                                 });
+                            } else {
+                                var result = tempTitle.indexOf(' ');
+                                if (result === -1 && contador === 1 && one === true) {
+                                    arrayCoincidencia.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
                             }
                         }
                         newMisTratos.push({
@@ -853,9 +883,10 @@ exports.misTratos = function (req, res, ok, trato) {
                             search = array[j].split(" ");
                             console.log(search);
                             contador = 0;
-                            if (search.length >= 2) {
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
+                            contador = 0;
+                            for (x = 0; x < search.length; x++) {
+                                console.log('titulo: ' + title);
+                                if (search[x].length >= 2) {
                                     if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
                                         contador++;
                                     }
@@ -871,6 +902,15 @@ exports.misTratos = function (req, res, ok, trato) {
                                     title: title,
                                     price: misTratos[i].precio
                                 });
+                            } else {
+                                var result = tempTitle.indexOf(' ');
+                                if (result === -1 && contador === 1) {
+                                    arrayCoincidencia.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
                             }
                         }
                         newMisTratos.push({

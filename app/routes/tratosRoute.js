@@ -18,10 +18,12 @@ var trato = require('../controllers/tratoCtrlServer');
 
 module.exports = function(app) {
 
-    app.post('/trato', trato.create);
+    app.post('/trueque', trato.createTrueque);
+    app.post('/contraoferta', trato.createContraoferta);
 
     app.get('/mirarTratos', trato.find);
-    app.get('/mirarTratoEnviado', trato.findTratoEnviado);
+    app.get('/comprobarTrueques', trato.comprobarTrueques);
+    app.get('/comprobarContraoferta', trato.comprobarContraoferta);
 
     // Finish with setting up the anuncioId param
     //app.param('tratoId', trato.anuncio);

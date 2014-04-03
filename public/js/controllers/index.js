@@ -458,7 +458,9 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                 if (trato.opciones[0].formaPago && trato.opciones[0].trueque) {
                     $scope.formaPago = true;
                     $scope.deal = true;
-                    $http.get('/mirarTratoEnviado', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
+                    $scope.mostrarAlert = false;
+                    $scope.mostrarButton = false;
+                    $http.get('/comprobarTrueques', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
                         .success(function (response) {
                             if (response.coincidencia.length > 0) {
                                 $scope.coincidencia = true;
@@ -478,7 +480,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
                     $scope.formaPago = true;
                 } else if (!trato.opciones[0].formaPago && trato.opciones[0].trueque) {
                     $scope.deal = true;
-                    $http.get('/mirarTratoEnviado', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
+                    $http.get('/comprobarTrueques', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
                         .success(function (response) {
                             if (response.coincidencia.length > 0) {
                                 $scope.coincidencia = true;
@@ -504,7 +506,7 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             } else if (trato.opciones[0].trueque) {
                 $scope.deal = true;
                 $scope.barterDiv = true;
-                $http.get('/mirarTratoEnviado', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
+                $http.get('/comprobarTrueques', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
                     .success(function (response) {
                         if (response.coincidencia.length > 0) {
                             $scope.coincidencia = true;

@@ -168,21 +168,86 @@ angular.module('elTrato.system').directive('photos', ['$compile', function ($com
 }]);
 
 //Formulario contraoferta
-angular.module('elTrato.system').directive('formDealDiv', function () {
+angular.module('elTrato.system').directive('formDealDiv', ['$http', function ($http) {
     return {
         restrict: 'E',
         templateUrl: '../views/forms/dealForm.html',
         link: function (scope) {
-            scope.mostrar = true;
+            var update = false;
+            var id = "";
+            scope.mostrarForm = false;
+            $http.get('/comprobarContraoferta', {params: {idTrato: scope.tratos._id}})
+                .success(function (response) {
+                    if (response.aceptado === "nulo") {
+                        scope.alertOpciones =
+                        { type: 'info',
+                            title: 'Contraoferta realizada',
+                            msg: 'El usuario aún no ha aceptado ni descartado tu oferta, hasta que esto no ocurra no podrás ' +
+                                'realizar otra contraoferta. Si estás muy interesado puedes enviarle un mensaje para hacer mas ' +
+                                'incapie.' }
+                        ;
+                        scope.mostrarAlert = true;
+                    } else if (response.aceptado == "true") {
+                        scope.alertOpciones =
+                        { type: 'success',
+                            title: 'El usuario ha aceptado tu contraoferta',
+                            msg: 'Enhorabuena! El usuario ha aceptado tu contraoferta.' }
+                        ;
+                        scope.mostrarAlert = true;
+                    } else if (response.aceptado == "false") {
+                        scope.alertOpciones =
+                        { type: 'warning',
+                            title: 'El usuario ha rechazado tu contraoferta',
+                            msg: 'Lo sentimos, el usuario ha rechazado tu contraoferta de ' + response.contraoferta.precio + '€'
+                        };
+                        id = response.contraoferta._id;
+                        scope.mostrarAlert = true;
+                        scope.mostrarButton = true;
+                    } else if (response.aceptado === 0) {
+                        scope.mostrarForm = true;
+                    }
+                });
             scope.sendDeal = function () {
-                console.log(this.oferta);
-                scope.mostrar = false;
-            }
+                $http.post('/contraoferta', {params: {idAnuncio: scope.tratos._id, comment: this.comentario, precio : this.oferta, update : update, id: id}})
+                    .success(function (response) {
+                        if (response.ok) {
+                            scope.mostrarForm = false;
+                            scope.mostrarAlert = true;
+                            scope.alertOpciones =
+                            { type: 'success',
+                                title: 'Tu contraoferta se ha enviado correctamente',
+                                msg: 'Si al usuario le interesa, en breves recibiras noticias suyas. Mucha suerte!' }
+                            ;
+                        } else if (response.update == "ok") {
+                            scope.alertOpciones =
+                            { type: 'success',
+                                title: 'Nueva contraoferta realizada',
+                                msg: 'Tu nueva contraoferta se ha realizado de forma correcta.'
+                            };
+                            scope.mostrarAlert = true;
+                            scope.mostrarForm = false;
+                        } else {
+                            scope.mostrarAlert = true;
+                            scope.alertOpciones =
+                            { type: 'danger',
+                                title: 'Tu contraoferta no se ha enviado correctamente',
+                                msg: 'Por favor, vuelve a intentarlo en unos minutos' }
+                            ;
+                        }
+                    });
+            };
+
+            scope.returnContra = function () {
+                scope.mostrarAlert = false;
+                scope.mostrarButton = false;
+                scope.mostrarForm = true;
+                update = true;
+            };
         }
     };
-});
+}]);
 
-angular.module('elTrato.system').directive('formTruequeDiv', ['$http', 'Global', function ($http, Global) {
+angular.module('elTrato.system').directive('formTruequeDiv', ['$http', function ($http) {
     return {
         restrict: 'E',
         templateUrl: '../views/forms/truequeForm.html',
@@ -190,12 +255,14 @@ angular.module('elTrato.system').directive('formTruequeDiv', ['$http', 'Global',
 
             scope.mostrar = true;
             var miTrueque = '';
-            scope.trueque = function() {
+            scope.trueque = function () {
                 miTrueque = this.mitrueque.id;
             };
-
+            console.log(scope.coincidencia);
             scope.sendTrueque = function (id, descripcion) {
-                $http.post('/trato', {params: {idTrato: miTrueque, idAnuncio: scope.tratos._id, comment: this.comentario, tipo: 'trueque'}})
+
+                $http.post('/trueque', {params: {idTrato: miTrueque, idAnuncio: scope.tratos._id, comment: this.comentario,
+                    interest : scope.coincidencia}})
                     .success(function (response) {
                         if (response.ok) {
                             scope.mostrar = false;
