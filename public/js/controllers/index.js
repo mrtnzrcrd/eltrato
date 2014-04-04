@@ -423,29 +423,105 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
             };
+
+            $scope.deal = function (event, anuncio) {
+                //$scope.toasterGeneral = false;
+                event.preventDefault();
+                var trato = anuncio;
+                var modalDeal = $modal.open({
+                    templateUrl: 'contraofertaView.html',
+                    controller: modalDealCtrl,
+                    windowClass: 'modalTrato',
+                    resolve: {
+                        trato: function () {
+                            return trato;
+                        }
+                    },
+                    keyboard: false
+                });
+
+                modalDeal.result.then(function (respuesta) {
+
+                }, function () {
+                    $scope.toasterGeneral = true;
+                });
+            };
+
         };
 
-        $scope.deal = function (event, anuncio) {
+        $scope.deal = function (event, anuncio, conFav) {
             //$scope.toasterGeneral = false;
             event.preventDefault();
-            var trato = anuncio;
-            var modalDeal = $modal.open({
-                templateUrl: 'dealView.html',
-                controller: modalDealCtrl,
-                windowClass: 'modalTrato',
-                resolve: {
-                    trato: function () {
-                        return trato;
-                    }
-                },
-                keyboard: false
-            });
+            if (!Global.user) {
+                var conFav2 = '';
+                if (conFav) {
+                    conFav2 = 'contraoferta';
+                } else {
+                    conFav2 = 'favorito';
+                }
 
-            modalDeal.result.then(function (respuesta) {
+                var modalNoLogin = $modal.open({
+                    templateUrl: 'noLoginView.html',
+                    controller: modalNoLoginCtrl,
+                    resolve: {
+                        conFav2: function () {
+                            return conFav2;
+                        }
+                    },
+                    keyboard: false
+                });
 
-            }, function () {
-                $scope.toasterGeneral = true;
-            });
+                modalNoLogin.result.then(function (respuesta) {
+
+                }, function () {
+                    $scope.toasterGeneral = true;
+                });
+            } else {
+                var trato = anuncio;
+                var modalDeal = $modal.open({
+                    templateUrl: 'contraofertaView.html',
+                    controller: modalDealCtrl,
+                    windowClass: 'modalTrato',
+                    resolve: {
+                        trato: function () {
+                            return trato;
+                        }
+                    },
+                    keyboard: false
+                });
+
+                modalDeal.result.then(function (respuesta) {
+
+                }, function () {
+                    $scope.toasterGeneral = true;
+                });
+            }
+        };
+
+        var modalNoLoginCtrl = function ($scope, $rootScope, $modalInstance, conFav2) {
+
+            if (conFav2 == 'contraoferta') {
+                $scope.conFav = 'Para poder realizar una contraoferta necesitas estar logueado. ' +
+                    'Deseas acceder o si aún no estas registrado registrarte?';
+            } else {
+                $scope.conFav = 'Para poder añadir un favorito necesitas estar logueado. ' +
+                    'Deseas acceder o si aún no estas registrado registrarte?';
+            }
+
+
+            $scope.ok = function () {
+                console.log("BORRAR");
+                $modalInstance.close("OK");
+            };
+
+            $scope.cancel = function () {
+                console.log("NO BORRAR");
+                $modalInstance.dismiss('Cancelado');
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
         };
 
         var modalDealCtrl = function ($scope, $rootScope, $modalInstance, trato) {
@@ -455,11 +531,48 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
             if (trato.opciones[0].contraoferta) {
                 $scope.contraoferta = true;
                 $scope.dealDiv = true;
+                $scope.mostrarForm = false;
+                $scope.error = false;
+
+                $http.get('/comprobarContraoferta', {params: {idTrato: trato._id}})
+                    .success(function (response) {
+                        if (response.aceptado === "nulo") {
+                            $scope.alertOpciones =
+                            { type: 'info',
+                                title: 'Contraoferta realizada',
+                                msg: 'El usuario aún no ha aceptado ni descartado tu oferta, hasta que esto no ocurra no podrás ' +
+                                    'realizar otra contraoferta. Si estás muy interesado puedes enviarle un mensaje para hacer mas ' +
+                                    'incapie.' }
+                            ;
+                            $scope.mostrarAlert = true;
+                        } else if (response.aceptado == "true") {
+                            $scope.alertOpciones =
+                            { type: 'success',
+                                title: 'El usuario ha aceptado tu contraoferta',
+                                msg: 'Enhorabuena! El usuario ha aceptado tu contraoferta.' }
+                            ;
+                            $scope.mostrarAlert = true;
+                        } else if (response.aceptado == "false") {
+                            $scope.alertOpciones =
+                            { type: 'warning',
+                                title: 'El usuario ha rechazado tu contraoferta',
+                                msg: 'Lo sentimos, el usuario ha rechazado tu contraoferta de ' + response.contraoferta.precio + '€'
+                            };
+                            $scope.precio = response.contraoferta.precio;
+                            $scope.id = response.contraoferta._id;
+                            $scope.mostrarAlert = true;
+                            $scope.mostrarButton = true;
+                        } else if (response.aceptado === 0) {
+                            $scope.mostrarForm = true;
+                        }
+                    });
+
                 if (trato.opciones[0].formaPago && trato.opciones[0].trueque) {
                     $scope.formaPago = true;
                     $scope.deal = true;
                     $scope.mostrarAlert = false;
                     $scope.mostrarButton = false;
+
                     $http.get('/comprobarTrueques', {params: {idUser: Global.user._id, idTrato: trato._id, interest: trato.opciones[0].need}})
                         .success(function (response) {
                             if (response.coincidencia.length > 0) {

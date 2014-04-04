@@ -217,8 +217,8 @@
                                     <a href="#" class="btn btn-message btn-sm" role="button" tooltip="Enviar mensaje">
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
-                                    <is-trueque ng-if="global.authenticated" data-trueque="{{anuncio.opciones}}"></is-trueque>
-                                    <is-favorite ng-if="global.authenticated" data-favorite="{{anuncio._id}}"> </is-favorite>
+                                    <is-trueque data-trueque="{{anuncio.opciones}}"></is-trueque>
+                                    <is-favorite data-favorite="{{anuncio._id}}"> </is-favorite>
 
                                     <a class="btn btn-phone btn-sm" role="button"
                                        tooltip="Teléfono" ng-click="anuncio.collapsed = !anuncio.collapsed">
@@ -265,9 +265,14 @@
     <modal-body-trato></modal-body-trato>
     <modal-footer-trato></modal-footer-trato>
 </script>
-<script type="text/ng-template" id="dealView.html">
-    <modal-header-deal></modal-header-deal>
-    <modal-body-deal></modal-body-deal>
-    <modal-footer-deal></modal-footer-deal>
+<script type="text/ng-template" id="contraofertaView.html">
+    <modal-header-contraoferta></modal-header-contraoferta>
+    <modal-body-contraoferta></modal-body-contraoferta>
+    <modal-footer-contraoferta></modal-footer-contraoferta>
+</script>
+<script type="text/ng-template" id="noLoginView.html">
+    <modal-header-nologin></modal-header-nologin>
+    <modal-body-nologin></modal-body-nologin>
+    <modal-footer-nologin></modal-footer-nologin>
 </script>
 </section>
