@@ -719,7 +719,10 @@ exports.misTratos = function (req, res, ok, trato) {
                         for (j = 0; j < req.query.interest.length; j++) {
                             search = req.query.interest[j].split(" ");
                             console.log(search);
-                            contador = 0;
+                            one = false;
+                            if (search.length === 1) {
+                                one = true;
+                            }
                             for (x = 0; x < search.length; x++) {
                                 console.log('titulo: ' + title);
                                 if (search[x].length >= 2) {
@@ -730,7 +733,8 @@ exports.misTratos = function (req, res, ok, trato) {
                             }
 
                             console.log(contador);
-                            console.log('Comprobando espacios title: ' + title.substr(title.indexOf(' ')+1));
+                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
+
                             if (contador >= 2) {
                                 arrayCoincidencia.push({
                                     id: misTratos[i]._id,
@@ -739,7 +743,7 @@ exports.misTratos = function (req, res, ok, trato) {
                                 });
                             } else {
                                 var result = tempTitle.indexOf(' ');
-                                if (result === -1 && contador === 1) {
+                                if (result === -1 && contador === 1 && one === true) {
                                     arrayCoincidencia.push({
                                         id: misTratos[i]._id,
                                         title: title,
@@ -764,7 +768,10 @@ exports.misTratos = function (req, res, ok, trato) {
                         for (j = 0; j < array.length; j++) {
                             search = array[j].split(" ");
                             console.log(search);
-                            contador = 0;
+                            one = false;
+                            if (search.length === 1) {
+                                one = true;
+                            }
                             for (x = 0; x < search.length; x++) {
                                 console.log('titulo: ' + title);
                                 if (search[x].length >= 2) {
@@ -775,8 +782,8 @@ exports.misTratos = function (req, res, ok, trato) {
                             }
 
                             console.log(contador);
-                            console.log('Comprobando espacios title: ' + title.substr(title.indexOf(' ')+1));
-                            console.log('*******************');
+                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
+
                             if (contador >= 2) {
                                 arrayCoincidencia.push({
                                     id: misTratos[i]._id,
@@ -785,7 +792,7 @@ exports.misTratos = function (req, res, ok, trato) {
                                 });
                             } else {
                                 var result = tempTitle.indexOf(' ');
-                                if (result === -1 && contador === 1) {
+                                if (result === -1 && contador === 1 && one === true) {
                                     arrayCoincidencia.push({
                                         id: misTratos[i]._id,
                                         title: title,
@@ -883,7 +890,10 @@ exports.misTratos = function (req, res, ok, trato) {
                             search = array[j].split(" ");
                             console.log(search);
                             contador = 0;
-                            contador = 0;
+                            one = false;
+                            if (search.length === 1) {
+                                one = true;
+                            }
                             for (x = 0; x < search.length; x++) {
                                 console.log('titulo: ' + title);
                                 if (search[x].length >= 2) {
@@ -894,7 +904,7 @@ exports.misTratos = function (req, res, ok, trato) {
                             }
 
                             console.log(contador);
-                            console.log('Comprobando espacios: ' + title.substr(title.indexOf(' ')+1));
+                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
 
                             if (contador >= 2) {
                                 arrayCoincidencia.push({
@@ -904,7 +914,7 @@ exports.misTratos = function (req, res, ok, trato) {
                                 });
                             } else {
                                 var result = tempTitle.indexOf(' ');
-                                if (result === -1 && contador === 1) {
+                                if (result === -1 && contador === 1 && one === true) {
                                     arrayCoincidencia.push({
                                         id: misTratos[i]._id,
                                         title: title,

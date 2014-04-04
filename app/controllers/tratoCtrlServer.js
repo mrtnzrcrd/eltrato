@@ -35,36 +35,40 @@ exports.createTrueque = function (req, res) {
 
 exports.createContraoferta = function (req, res) {
 
-    if (req.body.params.update) {
-        Trato.update({_id: req.body.params.id}, {$set: {aceptado: 0, precio: req.body.params.precio, comentario: req.body.params.comment}}).exec(function (err) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                res.jsonp({update: "ok"});
-            }
-        });
+    if (req.body.params.precio <= req.body.params.precioOld) {
+        res.jsonp({error : 'ok'});
     } else {
-        var trato = new Trato();
+        if (req.body.params.update) {
+            Trato.update({_id: req.body.params.id}, {$set: {aceptado: 0, precio: req.body.params.precio, comentario: req.body.params.comment}}).exec(function (err) {
+                if (err) {
+                    res.render('error', {
+                        status: 500
+                    });
+                } else {
+                    res.jsonp({update: "ok"});
+                }
+            });
+        } else {
+            var trato = new Trato();
 
-        trato.anuncio = req.body.params.idAnuncio;
-        trato.user = req.user._id;
-        trato.comentario = req.body.params.comment;
-        trato.tipo = 'contraoferta';
-        trato.precio = req.body.params.precio;
-        trato.visto = false;
+            trato.anuncio = req.body.params.idAnuncio;
+            trato.user = req.user._id;
+            trato.comentario = req.body.params.comment;
+            trato.tipo = 'contraoferta';
+            trato.precio = req.body.params.precio;
+            trato.visto = false;
 
-        trato.save(function (err) {
-            if (err) {
-                return res.send('users/signup', {
-                    errors: err.errors,
-                    trato: trato
-                });
-            } else {
-                res.jsonp({ok: 'ok'});
-            }
-        });
+            trato.save(function (err) {
+                if (err) {
+                    return res.send('users/signup', {
+                        errors: err.errors,
+                        trato: trato
+                    });
+                } else {
+                    res.jsonp({ok: 'ok'});
+                }
+            });
+        }
     }
 };
 
