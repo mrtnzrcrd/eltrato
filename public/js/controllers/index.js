@@ -528,6 +528,10 @@ angular.module('elTrato.system').controller('IndexController', ['$scope', '$http
 
             $scope.tratos = trato;
 
+            if (trato.opciones[0].need.length > 0) {
+                $scope.intereses = true;
+            }
+
             if (trato.opciones[0].contraoferta) {
                 $scope.contraoferta = true;
                 $scope.dealDiv = true;
