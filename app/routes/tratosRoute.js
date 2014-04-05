@@ -5,8 +5,8 @@
 'use strict';
 
 // Tratos routes use tratos controller
-var trato = require('../controllers/tratoCtrlServer');
-//authorization = require('./middlewares/authorization');
+var trato = require('../controllers/tratoCtrlServer'),
+    authorization = require('./middlewares/authorization');
 
 // Anuncio authorization helpers
 /*var hasAuthorization = function(req, res, next) {
@@ -16,14 +16,14 @@ var trato = require('../controllers/tratoCtrlServer');
  next();
  };*/
 
-module.exports = function(app) {
+module.exports = function (app) {
 
-    app.post('/trueque', trato.createTrueque);
-    app.post('/contraoferta', trato.createContraoferta);
+    app.post('/trueque', authorization.requiresLogin, trato.createTrueque);
+    app.post('/contraoferta', authorization.requiresLogin, trato.createContraoferta);
 
-    app.get('/mirarTratos', trato.find);
-    app.get('/comprobarTrueques', trato.comprobarTrueques);
-    app.get('/comprobarContraoferta', trato.comprobarContraoferta);
+    app.get('/mirarTratos', authorization.requiresLogin, trato.find);
+    app.get('/comprobarTrueques', authorization.requiresLogin, trato.comprobarTrueques);
+    app.get('/comprobarContraoferta', authorization.requiresLogin, trato.comprobarContraoferta);
 
     // Finish with setting up the anuncioId param
     //app.param('tratoId', trato.anuncio);

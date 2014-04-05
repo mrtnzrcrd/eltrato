@@ -31,7 +31,7 @@ module.exports = function(app) {
     app.get('/searchDistancePrice', anuncios.findDistancePrice);
     app.get('/searchMisTratos', anuncios.misTratos);
 
-    app.post('/upload', anuncios.upload);
+    app.post('/upload', authorization.requiresLogin, anuncios.upload);
 
     // Finish with setting up the anuncioId param
     app.param('anuncioId', anuncios.anuncio);
