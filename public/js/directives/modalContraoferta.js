@@ -59,7 +59,6 @@ angular.module('elTrato.system').directive('modalHeaderContraoferta', function (
             scope.trueque = function () {
                 miTrueque = this.mitrueque.id;
             };
-            console.log(scope.coincidencia);
             scope.sendTrueque = function (id, descripcion) {
 
                 $http.post('/trueque', {params: {idTrato: miTrueque, idAnuncio: scope.tratos._id, comment: this.comentario,
@@ -124,10 +123,16 @@ angular.module('elTrato.system').directive('modalHeaderContraoferta', function (
                                 scope.mostrarAlert = true;
                                 scope.mostrarForm = false;
                             } else if (response.error == "ok") {
+                                scope.error = true;
                                 scope.errorContra =
                                 { type: 'danger',
                                     msg: 'El precio que has introducido es menor al de tu ultima contraoferta de ' + scope.precio +
                                         '€. Por favor envia una contraoferta mas elevada. '};
+                            } else if (response.error == "precioNull") {
+                                scope.error = true;
+                                scope.errorContra =
+                                { type: 'danger',
+                                    msg: 'Para poder realizar una contraoferta tienes que poner un precio.'};
                             } else {
                                 scope.mostrarAlert = true;
                                 scope.alertOpciones =
