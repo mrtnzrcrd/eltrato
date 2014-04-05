@@ -62,8 +62,6 @@ exports.create = function (req, res) {
 
 
         anuncio.opciones = {contraoferta: contraoferta, formaPago: formaPago, trueque: trueque, need: req.body.need};
-
-        console.log(anuncio.opciones);
     }
 
     // Metodo para coger todos los #Hastags y guardarlos en una array
@@ -264,10 +262,8 @@ exports.misFav = function (req, res) {
 };
 
 exports.find = function (req, res) {
-    console.log("{ 'query': '" + req.params.q + "' }");
     var tags = req.params.q;
     var tagsParams = [];
-    console.log("tagParams: " + tagsParams);
     tagsParams = tags.split("+");
     for (var i = 0; i < tags.length; i++) {
         tagsParams.push(tags[i].toLowerCase());
@@ -279,7 +275,6 @@ exports.find = function (req, res) {
                     status: 500
                 });
             } else {
-                console.log('Resultado: ' + anuncio);
                 res.jsonp(anuncio);
             }
         });
@@ -290,7 +285,6 @@ exports.find = function (req, res) {
                     status: 500
                 });
             } else {
-                console.log('Resultado: ' + anuncio);
                 res.jsonp(anuncio);
             }
         });
@@ -318,7 +312,6 @@ exports.findGeo = function (req, res) {
                         status: 500
                     });
                 } else {
-                    console.log('Resultado: ' + anuncio);
                     res.jsonp(anuncio);
                 }
             });
@@ -329,7 +322,6 @@ exports.findGeo = function (req, res) {
                         status: 500
                     });
                 } else {
-                    console.log('Resultado: ' + anuncio);
                     res.jsonp(anuncio);
                 }
             });
@@ -356,7 +348,6 @@ exports.findGeo = function (req, res) {
                         status: 500
                     });
                 } else {
-                    console.log('Resultado: ' + anuncio);
                     res.jsonp(anuncio);
                 }
             });
@@ -367,7 +358,6 @@ exports.findGeo = function (req, res) {
                         status: 500
                     });
                 } else {
-                    console.log('Resultado: ' + anuncio);
                     res.jsonp(anuncio);
                 }
             });
@@ -423,7 +413,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -435,7 +424,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -449,7 +437,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -461,7 +448,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -475,7 +461,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -487,7 +472,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -501,7 +485,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -513,7 +496,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -529,7 +511,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -541,7 +522,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -555,7 +535,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -567,7 +546,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -581,7 +559,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -593,7 +570,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -607,7 +583,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -619,7 +594,6 @@ exports.findDistancePrice = function (req, res) {
                                 status: 500
                             });
                         } else {
-                            console.log('Resultado: ' + anuncio);
                             res.jsonp(anuncio);
                         }
                     });
@@ -700,107 +674,123 @@ exports.misTratos = function (req, res, ok, trato) {
                     status: 500
                 });
             } else {
-                var isArray = req.query.interest instanceof Array,
-                    coincidencia = false,
-                    arrayCoincidencia = [],
-                    newMisTratos = [],
-                    contador = 0,
-                    title = '',
-                    tempTitle = '',
-                    search = '',
-                    i = 0,
-                    j = 0,
-                    x = 0;
+                if (req.query.interest) {
+                    var isArray = req.query.interest instanceof Array,
+                        arrayCoincidencia = [],
+                        newMisTratos = [],
+                        contador = 0,
+                        title = '',
+                        tempTitle = '',
+                        search = '',
+                        i = 0,
+                        j = 0,
+                        x = 0,
+                        one = false;
 
-                if (isArray) {
-                    for (i = 0; i < misTratos.length; i++) {
-                        title = misTratos[i].tags.join(" ");
-                        tempTitle = title.toLowerCase();
-                        for (j = 0; j < req.query.interest.length; j++) {
-                            search = req.query.interest[j].split(" ");
-                            console.log(search);
-                            one = false;
-                            if (search.length === 1) {
-                                one = true;
-                            }
-                            for (x = 0; x < search.length; x++) {
-                                console.log('titulo: ' + title);
-                                if (search[x].length >= 2) {
-                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                        contador++;
+                    if (isArray) {
+                        for (i = 0; i < misTratos.length; i++) {
+                            title = misTratos[i].tags.join(" ");
+                            tempTitle = title.toLowerCase();
+                            for (j = 0; j < req.query.interest.length; j++) {
+                                search = req.query.interest[j].split(" ");
+                                console.log(search);
+                                contador = 0;
+                                one = false;
+                                if (search.length === 1) {
+                                    one = true;
+                                }
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (search[x].length >= 2) {
+                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                            contador++;
+                                        }
                                     }
                                 }
-                            }
 
-                            console.log(contador);
-                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
+                                console.log(1);
+                                console.log(contador);
+                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
 
-                            if (contador >= 2) {
-                                arrayCoincidencia.push({
-                                    id: misTratos[i]._id,
-                                    title: title,
-                                    price: misTratos[i].precio
-                                });
-                            } else {
-                                var result = tempTitle.indexOf(' ');
-                                if (result === -1 && contador === 1 && one === true) {
+                                if (contador >= 2) {
                                     arrayCoincidencia.push({
                                         id: misTratos[i]._id,
                                         title: title,
                                         price: misTratos[i].precio
                                     });
+                                } else {
+                                    var result = tempTitle.indexOf(' ');
+                                    if (result === -1 && contador === 1 && one === true) {
+                                        arrayCoincidencia.push({
+                                            id: misTratos[i]._id,
+                                            title: title,
+                                            price: misTratos[i].precio
+                                        });
+                                    }
                                 }
                             }
+                            newMisTratos.push({
+                                id: misTratos[i]._id,
+                                title: title,
+                                price: misTratos[i].precio
+                            });
                         }
-                        newMisTratos.push({
-                            id: misTratos[i]._id,
-                            title: title,
-                            price: misTratos[i].precio
-                        });
+                    } else {
+                        var array = [];
+                        array.push(req.query.interest);
+                        for (i = 0; i < misTratos.length; i++) {
+                            title = misTratos[i].tags.join(" ");
+                            tempTitle = title.toLowerCase();
+                            for (j = 0; j < array.length; j++) {
+                                search = array[j].split(" ");
+                                console.log(search);
+                                contador = 0;
+                                one = false;
+                                if (search.length === 1) {
+                                    one = true;
+                                }
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (search[x].length >= 2) {
+                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                            contador++;
+                                        }
+                                    }
+                                }
+                                console.log(2);
+                                console.log(contador);
+                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
+
+                                if (contador >= 2) {
+                                    arrayCoincidencia.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                } else {
+                                    var result = tempTitle.indexOf(' ');
+                                    if (result === -1 && contador === 1 && one === true) {
+                                        arrayCoincidencia.push({
+                                            id: misTratos[i]._id,
+                                            title: title,
+                                            price: misTratos[i].precio
+                                        });
+                                    }
+                                }
+                            }
+                            newMisTratos.push({
+                                id: misTratos[i]._id,
+                                title: title,
+                                price: misTratos[i].precio
+                            });
+                        }
                     }
                 } else {
-                    var array = [];
-                    array.push(req.query.interest);
+                    newMisTratos = [];
+                    arrayCoincidencia = [];
+
                     for (i = 0; i < misTratos.length; i++) {
-                        coincidencia = 0;
                         title = misTratos[i].tags.join(" ");
-                        tempTitle = title.toLowerCase();
-                        for (j = 0; j < array.length; j++) {
-                            search = array[j].split(" ");
-                            console.log(search);
-                            one = false;
-                            if (search.length === 1) {
-                                one = true;
-                            }
-                            for (x = 0; x < search.length; x++) {
-                                console.log('titulo: ' + title);
-                                if (search[x].length >= 2) {
-                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                        contador++;
-                                    }
-                                }
-                            }
-
-                            console.log(contador);
-                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
-
-                            if (contador >= 2) {
-                                arrayCoincidencia.push({
-                                    id: misTratos[i]._id,
-                                    title: title,
-                                    price: misTratos[i].precio
-                                });
-                            } else {
-                                var result = tempTitle.indexOf(' ');
-                                if (result === -1 && contador === 1 && one === true) {
-                                    arrayCoincidencia.push({
-                                        id: misTratos[i]._id,
-                                        title: title,
-                                        price: misTratos[i].precio
-                                    });
-                                }
-                            }
-                        }
                         newMisTratos.push({
                             id: misTratos[i]._id,
                             title: title,
@@ -808,6 +798,10 @@ exports.misTratos = function (req, res, ok, trato) {
                         });
                     }
                 }
+                if (arrayCoincidencia.length > 0) {
+                    newMisTratos = [];
+                }
+
                 var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
                 res.jsonp(send);
             }
@@ -819,116 +813,134 @@ exports.misTratos = function (req, res, ok, trato) {
                     status: 500
                 });
             } else {
-                var isArray = req.query.interest instanceof Array,
-                    coincidencia = false,
-                    arrayCoincidencia = [],
-                    newMisTratos = [],
-                    contador = 0,
-                    title = '',
-                    tempTitle = '',
-                    search = '',
-                    i = 0,
-                    j = 0,
-                    x = 0,
-                    one = false;
+                if (req.query.interest) {
+                    var isArray = req.query.interest instanceof Array,
+                        coincidencia = false,
+                        arrayCoincidencia = [],
+                        newMisTratos = [],
+                        contador = 0,
+                        title = '',
+                        tempTitle = '',
+                        search = '',
+                        i = 0,
+                        j = 0,
+                        x = 0,
+                        one = false;
 
-                if (isArray) {
-                    for (i = 0; i < misTratos.length; i++) {
-                        title = misTratos[i].tags.join(" ");
-                        tempTitle = title.toLowerCase();
-                        for (j = 0; j < req.query.interest.length; j++) {
-                            search = req.query.interest[j].split(" ");
-                            console.log(search);
-                            contador = 0;
-                            one = false;
-                            if (search.length === 1) {
-                                one = true;
-                            }
-                            for (x = 0; x < search.length; x++) {
-                                console.log('titulo: ' + title);
-                                if (search[x].length >= 2) {
-                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                        contador++;
+                    if (isArray) {
+                        for (i = 0; i < misTratos.length; i++) {
+                            title = misTratos[i].tags.join(" ");
+                            tempTitle = title.toLowerCase();
+                            for (j = 0; j < req.query.interest.length; j++) {
+                                search = req.query.interest[j].split(" ");
+                                console.log(search);
+                                contador = 0;
+                                one = false;
+                                if (search.length === 1) {
+                                    one = true;
+                                }
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (search[x].length >= 2) {
+                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                            contador++;
+                                        }
                                     }
                                 }
-                            }
+                                console.log(3);
+                                console.log(contador);
+                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
 
-                            console.log(contador);
-                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
-
-                            if (contador >= 2) {
-                                arrayCoincidencia.push({
-                                    id: misTratos[i]._id,
-                                    title: title,
-                                    price: misTratos[i].precio
-                                });
-                            } else {
-                                var result = tempTitle.indexOf(' ');
-                                if (result === -1 && contador === 1 && one === true) {
+                                if (contador >= 2) {
                                     arrayCoincidencia.push({
                                         id: misTratos[i]._id,
                                         title: title,
                                         price: misTratos[i].precio
                                     });
+                                } else {
+                                    var result = tempTitle.indexOf(' ');
+                                    if (result === -1 && contador === 1 && one === true) {
+                                        arrayCoincidencia.push({
+                                            id: misTratos[i]._id,
+                                            title: title,
+                                            price: misTratos[i].precio
+                                        });
+                                    }
                                 }
                             }
+                            newMisTratos.push({
+                                id: misTratos[i]._id,
+                                title: title,
+                                price: misTratos[i].precio
+                            });
                         }
-                        newMisTratos.push({
-                            id: misTratos[i]._id,
-                            title: title,
-                            price: misTratos[i].precio
-                        });
+                    } else {
+                        var array = [];
+                        array.push(req.query.interest);
+                        for (i = 0; i < misTratos.length; i++) {
+                            coincidencia = 0;
+                            title = misTratos[i].tags.join(" ");
+                            tempTitle = title.toLowerCase();
+                            for (j = 0; j < array.length; j++) {
+                                search = array[j].split(" ");
+                                console.log(search);
+                                contador = 0;
+                                one = false;
+                                if (search.length === 1) {
+                                    one = true;
+                                }
+                                for (x = 0; x < search.length; x++) {
+                                    console.log('titulo: ' + title);
+                                    if (search[x].length >= 2) {
+                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                            contador++;
+                                        }
+                                    }
+                                }
+                                console.log(4);
+                                console.log(contador);
+                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
+
+                                if (contador >= 2) {
+                                    arrayCoincidencia.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                } else {
+                                    var result = tempTitle.indexOf(' ');
+                                    if (result === -1 && contador === 1 && one === true) {
+                                        arrayCoincidencia.push({
+                                            id: misTratos[i]._id,
+                                            title: title,
+                                            price: misTratos[i].precio
+                                        });
+                                    }
+                                }
+                            }
+                            newMisTratos.push({
+                                id: misTratos[i]._id,
+                                title: title,
+                                price: misTratos[i].precio
+                            });
+                        }
                     }
                 } else {
-                    var array = [];
-                    array.push(req.query.interest);
+                    newMisTratos = [];
+                    arrayCoincidencia = [];
+
                     for (i = 0; i < misTratos.length; i++) {
-                        coincidencia = 0;
                         title = misTratos[i].tags.join(" ");
-                        tempTitle = title.toLowerCase();
-                        for (j = 0; j < array.length; j++) {
-                            search = array[j].split(" ");
-                            console.log(search);
-                            contador = 0;
-                            one = false;
-                            if (search.length === 1) {
-                                one = true;
-                            }
-                            for (x = 0; x < search.length; x++) {
-                                console.log('titulo: ' + title);
-                                if (search[x].length >= 2) {
-                                    if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                        contador++;
-                                    }
-                                }
-                            }
-
-                            console.log(contador);
-                            console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ')+1));
-
-                            if (contador >= 2) {
-                                arrayCoincidencia.push({
-                                    id: misTratos[i]._id,
-                                    title: title,
-                                    price: misTratos[i].precio
-                                });
-                            } else {
-                                var result = tempTitle.indexOf(' ');
-                                if (result === -1 && contador === 1 && one === true) {
-                                    arrayCoincidencia.push({
-                                        id: misTratos[i]._id,
-                                        title: title,
-                                        price: misTratos[i].precio
-                                    });
-                                }
-                            }
-                        }
                         newMisTratos.push({
                             id: misTratos[i]._id,
                             title: title,
                             price: misTratos[i].precio
                         });
                     }
+                }
+
+                if (arrayCoincidencia.length > 0) {
+                    newMisTratos = [];
                 }
                 var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
                 res.jsonp(send);

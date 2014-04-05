@@ -35,11 +35,21 @@ exports.createTrueque = function (req, res) {
 
 exports.createContraoferta = function (req, res) {
 
-    if (req.body.params.precio <= req.body.params.precioOld) {
+    if (!req.body.params.precio) {
+        res.jsonp({error : 'precioNull'});
+    } else if (req.body.params.precio <= req.body.params.precioOld) {
         res.jsonp({error : 'ok'});
     } else {
         if (req.body.params.update) {
-            Trato.update({_id: req.body.params.id}, {$set: {aceptado: 0, precio: req.body.params.precio, comentario: req.body.params.comment}}).exec(function (err) {
+            var date = new Date().toISOString();
+            var comment = req.body.params.comment;
+
+            if (!comment) {
+                comment = '';
+            }
+
+            Trato.update({_id: req.body.params.id}, {$set: {aceptado: 0, precio: req.body.params.precio,
+                comentario: comment, created: date}}).exec(function (err) {
                 if (err) {
                     res.render('error', {
                         status: 500
