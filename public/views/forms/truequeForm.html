@@ -1,6 +1,7 @@
 <div class="row" style="margin-bottom: 10px">
     <h3 style="color: #428bca">Que le interesa?</h3>
-    <h6><p class="text-muted">Aquí te mostramos los intereses del usuario</p></h6>
+    <h6 ng-if="intereses"><p class="text-muted">Aquí te mostramos los intereses del usuario.</p></h6>
+    <h6 ng-if="!intereses"><p class="text-muted">Este usuario no ha puesto ningún interes.</p></h6>
     <span class="label label-info pull-left" style="margin-right: 5px;" ng-repeat="need in tratos.opciones[0].need">
         {{need}}
     </span>
