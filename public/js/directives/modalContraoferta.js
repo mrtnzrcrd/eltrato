@@ -59,7 +59,7 @@ angular.module('elTrato.system').directive('modalHeaderContraoferta', function (
             scope.trueque = function () {
                 miTrueque = this.mitrueque.id;
             };
-            scope.sendTrueque = function (id, descripcion) {
+            scope.sendTrueque = function () {
 
                 $http.post('/trueque', {params: {idTrato: miTrueque, idAnuncio: scope.tratos._id, comment: this.comentario,
                     interest: scope.coincidencia}})
