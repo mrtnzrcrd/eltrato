@@ -263,8 +263,7 @@ exports.misFav = function (req, res) {
 
 exports.find = function (req, res) {
     var tags = req.params.q;
-    var tagsParams = [];
-    tagsParams = tags.split("+");
+    var tagsParams = tags.split("+");
     for (var i = 0; i < tags.length; i++) {
         tagsParams.push(tags[i].toLowerCase());
     }
@@ -685,7 +684,8 @@ exports.misTratos = function (req, res, ok, trato) {
                         i = 0,
                         j = 0,
                         x = 0,
-                        one = false;
+                        one = false,
+                        result = '';
 
                     if (isArray) {
                         for (i = 0; i < misTratos.length; i++) {
@@ -719,7 +719,7 @@ exports.misTratos = function (req, res, ok, trato) {
                                         price: misTratos[i].precio
                                     });
                                 } else {
-                                    var result = tempTitle.indexOf(' ');
+                                    result = tempTitle.indexOf(' ');
                                     if (result === -1 && contador === 1 && one === true) {
                                         arrayCoincidencia.push({
                                             id: misTratos[i]._id,
@@ -768,7 +768,7 @@ exports.misTratos = function (req, res, ok, trato) {
                                         price: misTratos[i].precio
                                     });
                                 } else {
-                                    var result = tempTitle.indexOf(' ');
+                                    result = tempTitle.indexOf(' ');
                                     if (result === -1 && contador === 1 && one === true) {
                                         arrayCoincidencia.push({
                                             id: misTratos[i]._id,
@@ -825,7 +825,8 @@ exports.misTratos = function (req, res, ok, trato) {
                         i = 0,
                         j = 0,
                         x = 0,
-                        one = false;
+                        one = false,
+                        result = '';
 
                     if (isArray) {
                         for (i = 0; i < misTratos.length; i++) {
@@ -858,7 +859,7 @@ exports.misTratos = function (req, res, ok, trato) {
                                         price: misTratos[i].precio
                                     });
                                 } else {
-                                    var result = tempTitle.indexOf(' ');
+                                    result = tempTitle.indexOf(' ');
                                     if (result === -1 && contador === 1 && one === true) {
                                         arrayCoincidencia.push({
                                             id: misTratos[i]._id,
@@ -908,7 +909,7 @@ exports.misTratos = function (req, res, ok, trato) {
                                         price: misTratos[i].precio
                                     });
                                 } else {
-                                    var result = tempTitle.indexOf(' ');
+                                    result = tempTitle.indexOf(' ');
                                     if (result === -1 && contador === 1 && one === true) {
                                         arrayCoincidencia.push({
                                             id: misTratos[i]._id,
