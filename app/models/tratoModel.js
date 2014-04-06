@@ -1,3 +1,7 @@
+/**
+ * Created by Victor-BookPro on 30/03/14.
+ */
+
 'use strict';
 
 /**
@@ -63,6 +67,3 @@ TratoSchema.statics.load = function(id, cb) {
 };
 
 mongoose.model('Trato', TratoSchema);
-/**
- * Created by Victor-BookPro on 30/03/14.
- */

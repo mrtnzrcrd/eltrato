@@ -6,7 +6,9 @@
 var mongoose = require('mongoose'),
     Anuncio = mongoose.model('Anuncio'),
     fs = require('fs'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    tags = require('./tagsCtrlServer'),
+    async = require('async');
 
 
 /**
@@ -60,6 +62,9 @@ exports.create = function (req, res) {
             trueque = req.body.trueque;
         }
 
+        if (req.body.need.length > 0) {
+            tags.saveTagsInterest(req.body.need);
+        }
 
         anuncio.opciones = {contraoferta: contraoferta, formaPago: formaPago, trueque: trueque, need: req.body.need};
     }
@@ -826,7 +831,8 @@ exports.misTratos = function (req, res, ok, trato) {
                         j = 0,
                         x = 0,
                         one = false,
-                        result = '';
+                        result = '',
+                        unica = false;
 
                     if (isArray) {
                         for (i = 0; i < misTratos.length; i++) {
@@ -894,10 +900,16 @@ exports.misTratos = function (req, res, ok, trato) {
                                     console.log('titulo: ' + title);
                                     if (search[x].length >= 2) {
                                         if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                            if (one) {
+                                                tags.findTagInterest(search[x], function (tag) {
+                                                    unica = tag;
+                                                });
+                                            }
                                             contador++;
                                         }
                                     }
                                 }
+                                console.log('unica= ' + unica);
                                 console.log(4);
                                 console.log(contador);
                                 console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
@@ -911,6 +923,12 @@ exports.misTratos = function (req, res, ok, trato) {
                                 } else {
                                     result = tempTitle.indexOf(' ');
                                     if (result === -1 && contador === 1 && one === true) {
+                                        arrayCoincidencia.push({
+                                            id: misTratos[i]._id,
+                                            title: title,
+                                            price: misTratos[i].precio
+                                        });
+                                    } else if (result != -1 && contador === 1 && one === true && unica === true) {
                                         arrayCoincidencia.push({
                                             id: misTratos[i]._id,
                                             title: title,
