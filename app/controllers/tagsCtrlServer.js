@@ -43,7 +43,6 @@ exports.saveTagsInterest = function (interest) {
 };
 
 exports.findTagInterest = function (interest, callback) {
-    var ok;
     interest = interest.toString().toLowerCase();
     Tags.findOne({tag : interest}).exec(function (err, tag) {
         if (tag) {

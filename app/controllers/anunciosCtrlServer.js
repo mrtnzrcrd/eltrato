@@ -8,7 +8,8 @@ var mongoose = require('mongoose'),
     fs = require('fs'),
     _ = require('lodash'),
     tags = require('./tagsCtrlServer'),
-    async = require('async');
+    async = require('async'),
+    Tags = mongoose.model('Tags');
 
 
 /**
@@ -666,305 +667,379 @@ exports.upload = function (req, res) {
 exports.misTratos = function (req, res, ok, trato) {
 
     if (ok) {
-        var tratos = [];
+        var tratos = [],
+            unica = [],
+            result = '',
+            contador = 0,
+            one = false,
+            tag = [],
+            titleArray = [],
+            arrayCoincidencia = [],
+            newMisTratos = [],
+            title = '',
+            tempTitle = '',
+            search = '',
+            i = 0,
+            j = 0,
+            x = 0;
 
-        for (var i = 0; i < trato.length; i++) {
+        for (i = 0; i < trato.length; i++) {
             tratos.push(trato[i].trato);
         }
 
-        Anuncio.find({user: req.query.idUser, _id: {$nin: tratos}}, {tags: 1, precio: 1}).sort('-created').exec(function (err, misTratos) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                if (req.query.interest) {
-                    var isArray = req.query.interest instanceof Array,
-                        arrayCoincidencia = [],
-                        newMisTratos = [],
-                        contador = 0,
-                        title = '',
-                        tempTitle = '',
-                        search = '',
-                        i = 0,
-                        j = 0,
-                        x = 0,
-                        one = false,
-                        result = '';
-
-                    if (isArray) {
-                        for (i = 0; i < misTratos.length; i++) {
-                            title = misTratos[i].tags.join(" ");
-                            tempTitle = title.toLowerCase();
-                            for (j = 0; j < req.query.interest.length; j++) {
-                                search = req.query.interest[j].split(" ");
-                                console.log(search);
-                                contador = 0;
-                                one = false;
-                                if (search.length === 1) {
-                                    one = true;
-                                }
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
-                                    if (search[x].length >= 2) {
-                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                            contador++;
-                                        }
-                                    }
-                                }
-
-                                console.log(1);
-                                console.log(contador);
-                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
-
-                                if (contador >= 2) {
-                                    arrayCoincidencia.push({
-                                        id: misTratos[i]._id,
-                                        title: title,
-                                        price: misTratos[i].precio
-                                    });
-                                } else {
-                                    result = tempTitle.indexOf(' ');
-                                    if (result === -1 && contador === 1 && one === true) {
-                                        arrayCoincidencia.push({
-                                            id: misTratos[i]._id,
-                                            title: title,
-                                            price: misTratos[i].precio
-                                        });
-                                    }
-                                }
-                            }
-                            newMisTratos.push({
-                                id: misTratos[i]._id,
-                                title: title,
-                                price: misTratos[i].precio
-                            });
-                        }
-                    } else {
-                        var array = [];
-                        array.push(req.query.interest);
-                        for (i = 0; i < misTratos.length; i++) {
-                            title = misTratos[i].tags.join(" ");
-                            tempTitle = title.toLowerCase();
-                            for (j = 0; j < array.length; j++) {
-                                search = array[j].split(" ");
-                                console.log(search);
-                                contador = 0;
-                                one = false;
-                                if (search.length === 1) {
-                                    one = true;
-                                }
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
-                                    if (search[x].length >= 2) {
-                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                            contador++;
-                                        }
-                                    }
-                                }
-                                console.log(2);
-                                console.log(contador);
-                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
-
-                                if (contador >= 2) {
-                                    arrayCoincidencia.push({
-                                        id: misTratos[i]._id,
-                                        title: title,
-                                        price: misTratos[i].precio
-                                    });
-                                } else {
-                                    result = tempTitle.indexOf(' ');
-                                    if (result === -1 && contador === 1 && one === true) {
-                                        arrayCoincidencia.push({
-                                            id: misTratos[i]._id,
-                                            title: title,
-                                            price: misTratos[i].precio
-                                        });
-                                    }
-                                }
-                            }
-                            newMisTratos.push({
-                                id: misTratos[i]._id,
-                                title: title,
-                                price: misTratos[i].precio
-                            });
-                        }
-                    }
-                } else {
-                    newMisTratos = [];
-                    arrayCoincidencia = [];
-
-                    for (i = 0; i < misTratos.length; i++) {
-                        title = misTratos[i].tags.join(" ");
-                        newMisTratos.push({
-                            id: misTratos[i]._id,
-                            title: title,
-                            price: misTratos[i].precio
+        async.series([
+            function (callback) {
+                Anuncio.find({user: req.query.idUser, _id: {$nin: tratos}}, {tags: 1, precio: 1}).sort('-created').exec(function (err, misTratos) {
+                    if (err) {
+                        res.render('error', {
+                            status: 500
                         });
-                    }
-                }
-                if (arrayCoincidencia.length > 0) {
-                    newMisTratos = [];
-                }
+                    } else {
+                        if (req.query.interest) {
+                            var isArray = req.query.interest instanceof Array;
 
-                var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
-                res.jsonp(send);
+                            if (isArray) {
+                                for (i = 0; i < misTratos.length; i++) {
+                                    title = misTratos[i].tags.join(" ");
+                                    tempTitle = title.toLowerCase();
+                                    for (j = 0; j < req.query.interest.length; j++) {
+                                        search = req.query.interest[j].split(" ");
+                                        contador = 0;
+                                        one = false;
+                                        if (search.length === 1) {
+                                            one = true;
+                                        }
+                                        for (x = 0; x < search.length; x++) {
+                                            if (search[x].length >= 2) {
+                                                if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                                    if (one && tempTitle.indexOf(' ') === -1) {
+                                                        arrayCoincidencia.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+
+                                                    } else if (one && tempTitle.indexOf(' ') != -1) {
+                                                        tag.push(search[x].toLowerCase());
+                                                        titleArray.push(title);
+                                                        unica.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+                                                    }
+                                                    contador++;
+                                                }
+                                            }
+                                        }
+
+                                        if (contador >= 2) {
+                                            arrayCoincidencia.push({
+                                                id: misTratos[i]._id,
+                                                title: title,
+                                                price: misTratos[i].precio
+                                            });
+                                        }
+                                    }
+                                    newMisTratos.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
+                            } else {
+                                var array = [];
+                                array.push(req.query.interest);
+                                for (i = 0; i < misTratos.length; i++) {
+                                    title = misTratos[i].tags.join(" ");
+                                    tempTitle = title.toLowerCase();
+                                    for (j = 0; j < array.length; j++) {
+                                        search = array[j].split(" ");
+                                        contador = 0;
+                                        one = false;
+                                        if (search.length === 1) {
+                                            one = true;
+                                        }
+                                        for (x = 0; x < search.length; x++) {
+                                            if (search[x].length >= 2) {
+                                                if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                                    if (one && tempTitle.indexOf(' ') === -1) {
+                                                        arrayCoincidencia.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+
+                                                    } else if (one && tempTitle.indexOf(' ') != -1) {
+                                                        tag.push(search[x].toLowerCase());
+                                                        titleArray.push(title);
+                                                        unica.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+                                                    }
+                                                    contador++;
+                                                }
+                                            }
+                                        }
+
+                                        if (contador >= 2) {
+                                            arrayCoincidencia.push({
+                                                id: misTratos[i]._id,
+                                                title: title,
+                                                price: misTratos[i].precio
+                                            });
+                                        }
+                                    }
+                                    newMisTratos.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
+                            }
+                        } else {
+                            newMisTratos = [];
+                            arrayCoincidencia = [];
+
+                            for (i = 0; i < misTratos.length; i++) {
+                                title = misTratos[i].tags.join(" ");
+                                newMisTratos.push({
+                                    id: misTratos[i]._id,
+                                    title: title,
+                                    price: misTratos[i].precio
+                                });
+                            }
+                        }
+                    }
+                    callback();
+                });
+            }, function (callback) {
+                Tags.find({tag: { $in: tag}}).exec(function (err, tag) {
+                    if (tag.length > 0) {
+                        if (tag.length === 1) {
+                            arrayCoincidencia.push({
+                                id: unica[0].id,
+                                title: unica[0].title,
+                                price: unica[0].price
+                            });
+                        } else {
+                            for (i = 0; i < tag.length; i++) {
+                                for (j = 0; j < unica.length; j++) {
+                                    title = unica[j].title;
+                                    tempTitle = unica[j].title.toLowerCase();
+                                    console.log(search);
+                                    if (tempTitle.indexOf(tag[i].tag.toLowerCase()) != -1) {
+                                        arrayCoincidencia.push({
+                                            id: unica[j].id,
+                                            title: title,
+                                            price: unica[j].price
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    callback();
+                });
+
             }
+        ], function (err) {
+            if (arrayCoincidencia.length > 0) {
+                newMisTratos = [];
+            }
+
+            var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
+            res.jsonp(send);
         });
     } else {
-        Anuncio.find({user: req.query.idUser}, {tags: 1, precio: 1}).sort('-created').exec(function (err, misTratos) {
-            if (err) {
-                res.render('error', {
-                    status: 500
-                });
-            } else {
-                if (req.query.interest) {
-                    var isArray = req.query.interest instanceof Array,
-                        coincidencia = false,
-                        arrayCoincidencia = [],
-                        newMisTratos = [],
-                        contador = 0,
-                        title = '',
-                        tempTitle = '',
-                        search = '',
-                        i = 0,
-                        j = 0,
-                        x = 0,
-                        one = false,
-                        result = '',
-                        unica = false;
-
-                    if (isArray) {
-                        for (i = 0; i < misTratos.length; i++) {
-                            title = misTratos[i].tags.join(" ");
-                            tempTitle = title.toLowerCase();
-                            for (j = 0; j < req.query.interest.length; j++) {
-                                search = req.query.interest[j].split(" ");
-                                console.log(search);
-                                contador = 0;
-                                one = false;
-                                if (search.length === 1) {
-                                    one = true;
-                                }
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
-                                    if (search[x].length >= 2) {
-                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                            contador++;
-                                        }
-                                    }
-                                }
-                                console.log(3);
-                                console.log(contador);
-                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
-
-                                if (contador >= 2) {
-                                    arrayCoincidencia.push({
-                                        id: misTratos[i]._id,
-                                        title: title,
-                                        price: misTratos[i].precio
-                                    });
-                                } else {
-                                    result = tempTitle.indexOf(' ');
-                                    if (result === -1 && contador === 1 && one === true) {
-                                        arrayCoincidencia.push({
-                                            id: misTratos[i]._id,
-                                            title: title,
-                                            price: misTratos[i].precio
-                                        });
-                                    }
-                                }
-                            }
-                            newMisTratos.push({
-                                id: misTratos[i]._id,
-                                title: title,
-                                price: misTratos[i].precio
-                            });
-                        }
-                    } else {
-                        var array = [];
-                        array.push(req.query.interest);
-                        for (i = 0; i < misTratos.length; i++) {
-                            coincidencia = 0;
-                            title = misTratos[i].tags.join(" ");
-                            tempTitle = title.toLowerCase();
-                            for (j = 0; j < array.length; j++) {
-                                search = array[j].split(" ");
-                                console.log(search);
-                                contador = 0;
-                                one = false;
-                                if (search.length === 1) {
-                                    one = true;
-                                }
-                                for (x = 0; x < search.length; x++) {
-                                    console.log('titulo: ' + title);
-                                    if (search[x].length >= 2) {
-                                        if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
-                                            if (one) {
-                                                tags.findTagInterest(search[x], function (tag) {
-                                                    unica = tag;
-                                                });
-                                            }
-                                            contador++;
-                                        }
-                                    }
-                                }
-                                console.log('unica= ' + unica);
-                                console.log(4);
-                                console.log(contador);
-                                console.log('Comprobando espacios title: ' + tempTitle.substr(tempTitle.indexOf(' ') + 1));
-
-                                if (contador >= 2) {
-                                    arrayCoincidencia.push({
-                                        id: misTratos[i]._id,
-                                        title: title,
-                                        price: misTratos[i].precio
-                                    });
-                                } else {
-                                    result = tempTitle.indexOf(' ');
-                                    if (result === -1 && contador === 1 && one === true) {
-                                        arrayCoincidencia.push({
-                                            id: misTratos[i]._id,
-                                            title: title,
-                                            price: misTratos[i].precio
-                                        });
-                                    } else if (result != -1 && contador === 1 && one === true && unica === true) {
-                                        arrayCoincidencia.push({
-                                            id: misTratos[i]._id,
-                                            title: title,
-                                            price: misTratos[i].precio
-                                        });
-                                    }
-                                }
-                            }
-                            newMisTratos.push({
-                                id: misTratos[i]._id,
-                                title: title,
-                                price: misTratos[i].precio
-                            });
-                        }
-                    }
-                } else {
-                    newMisTratos = [];
-                    arrayCoincidencia = [];
-
-                    for (i = 0; i < misTratos.length; i++) {
-                        title = misTratos[i].tags.join(" ");
-                        newMisTratos.push({
-                            id: misTratos[i]._id,
-                            title: title,
-                            price: misTratos[i].precio
+        var tratos = [],
+            unica = [],
+            result = '',
+            contador = 0,
+            one = false,
+            tag = [],
+            titleArray = [],
+            arrayCoincidencia = [],
+            newMisTratos = [],
+            title = '',
+            tempTitle = '',
+            search = '',
+            i = 0,
+            j = 0,
+            x = 0;
+        async.series([
+            function (callback) {
+                Anuncio.find({user: req.query.idUser}, {tags: 1, precio: 1}).sort('-created').exec(function (err, misTratos) {
+                    if (err) {
+                        res.render('error', {
+                            status: 500
                         });
-                    }
-                }
+                    } else {
+                        if (req.query.interest) {
+                            var isArray = req.query.interest instanceof Array;
 
-                if (arrayCoincidencia.length > 0) {
-                    newMisTratos = [];
-                }
-                var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
-                res.jsonp(send);
+                            if (isArray) {
+                                for (i = 0; i < misTratos.length; i++) {
+                                    title = misTratos[i].tags.join(" ");
+                                    tempTitle = title.toLowerCase();
+                                    for (j = 0; j < req.query.interest.length; j++) {
+                                        search = req.query.interest[j].split(" ");
+                                        console.log(search);
+                                        contador = 0;
+                                        one = false;
+                                        if (search.length === 1) {
+                                            one = true;
+                                        }
+                                        for (x = 0; x < search.length; x++) {
+                                            console.log('titulo: ' + title);
+                                            if (search[x].length >= 2) {
+                                                if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                                    if (one && tempTitle.indexOf(' ') === -1) {
+                                                        arrayCoincidencia.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+
+                                                    } else if (one && tempTitle.indexOf(' ') != -1) {
+                                                        tag.push(search[x].toLowerCase());
+                                                        titleArray.push(title);
+                                                        unica.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+                                                    }
+                                                    contador++;
+                                                }
+                                            }
+                                        }
+
+                                        if (contador >= 2) {
+                                            arrayCoincidencia.push({
+                                                id: misTratos[i]._id,
+                                                title: title,
+                                                price: misTratos[i].precio
+                                            });
+                                        }
+                                    }
+                                    newMisTratos.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
+                            } else {
+                                var array = [];
+                                array.push(req.query.interest);
+                                for (i = 0; i < misTratos.length; i++) {
+                                    title = misTratos[i].tags.join(" ");
+                                    tempTitle = title.toLowerCase();
+                                    for (j = 0; j < array.length; j++) {
+                                        search = array[j].split(" ");
+                                        console.log(search);
+                                        contador = 0;
+                                        one = false;
+                                        if (search.length === 1) {
+                                            one = true;
+                                        }
+                                        for (x = 0; x < search.length; x++) {
+                                            console.log('titulo: ' + title);
+                                            if (search[x].length >= 2) {
+                                                if (tempTitle.indexOf(search[x].toLowerCase()) != -1) {
+                                                    if (one && tempTitle.indexOf(' ') === -1) {
+                                                        arrayCoincidencia.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+
+                                                    } else if (one && tempTitle.indexOf(' ') != -1) {
+                                                        tag.push(search[x].toLowerCase());
+                                                        titleArray.push(title);
+                                                        unica.push({
+                                                            id: misTratos[i]._id,
+                                                            title: title,
+                                                            price: misTratos[i].precio
+                                                        });
+                                                    }
+                                                    contador++;
+                                                }
+                                            }
+                                        }
+
+                                        if (contador >= 2) {
+                                            arrayCoincidencia.push({
+                                                id: misTratos[i]._id,
+                                                title: title,
+                                                price: misTratos[i].precio
+                                            });
+                                        }
+                                    }
+                                    newMisTratos.push({
+                                        id: misTratos[i]._id,
+                                        title: title,
+                                        price: misTratos[i].precio
+                                    });
+                                }
+                            }
+                        } else {
+                            newMisTratos = [];
+                            arrayCoincidencia = [];
+
+                            for (i = 0; i < misTratos.length; i++) {
+                                title = misTratos[i].tags.join(" ");
+                                newMisTratos.push({
+                                    id: misTratos[i]._id,
+                                    title: title,
+                                    price: misTratos[i].precio
+                                });
+                            }
+                        }
+                    }
+                    callback();
+                });
+            }, function (callback) {
+                Tags.find({tag: { $in: tag}}).exec(function (err, tag) {
+                    if (tag.length > 0) {
+                        if (tag.length === 1) {
+                            arrayCoincidencia.push({
+                                id: unica[0].id,
+                                title: unica[0].title,
+                                price: unica[0].price
+                            });
+                        } else {
+                            for (i = 0; i < tag.length; i++) {
+                                for (j = 0; j < unica.length; j++) {
+                                    title = unica[j].title;
+                                    tempTitle = unica[j].title.toLowerCase();
+                                    console.log(search);
+                                    if (tempTitle.indexOf(tag[i].tag.toLowerCase()) != -1) {
+                                        arrayCoincidencia.push({
+                                            id: unica[j].id,
+                                            title: title,
+                                            price: unica[j].price
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    callback();
+                });
+
             }
+        ], function (err) {
+            if (arrayCoincidencia.length > 0) {
+                newMisTratos = [];
+            }
+
+            var send = {misTratos: newMisTratos, coincidencia: arrayCoincidencia};
+            res.jsonp(send);
         });
+
     }
 };
 
