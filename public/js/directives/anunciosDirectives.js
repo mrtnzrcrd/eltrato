@@ -36,9 +36,7 @@ angular.module('elTrato.anuncios').directive('ngFileDrop', [ '$fileUploader', fu
                 });
         }
     };
-}]);
-// It is attached to an element which will be assigned to a class "ng-file-over" or ng-file-over="className"
-angular.module('elTrato.anuncios').directive('ngFileOver', function () {
+}]).directive('ngFileOver', function () {
     'use strict';
 
     return {
@@ -51,9 +49,7 @@ angular.module('elTrato.anuncios').directive('ngFileOver', function () {
             });
         }
     };
-});
-// It is attached to <input type="file"> element like <ng-file-select="options">
-angular.module('elTrato.anuncios').directive('ngFileSelect', [ '$fileUploader', function ($fileUploader) {
+}).directive('ngFileSelect', [ '$fileUploader', function ($fileUploader) {
     'use strict';
 
     return {
@@ -68,4 +64,56 @@ angular.module('elTrato.anuncios').directive('ngFileSelect', [ '$fileUploader', 
             element.prop('value', null); // FF fix
         }
     };
+}]).directive('textcomplete', ['Textcomplete', '$http', function (Textcomplete, $http) {
+    return {
+        restrict: 'EA',
+        scope: {
+            members: '=',
+            message: '='
+        },
+        template: '<textarea ng-model=\'message\' type=\'text\' name="Descripcion" id="descripcion" ' +
+            'cols="30" rows="10" placeholder="Descripcion" class="form-control" required></textarea>',
+        link: function (scope, iElement, iAttrs) {
+            var mentions = [];
+            var ta = iElement.find('textarea');
+            var textcomplete = new Textcomplete(ta, [
+                {
+                    match: /(^|\s)#(\w*)$/,
+                    search: function (term, callback) {
+                        if (term.length >= 2) {
+                            if (mentions.indexOf(term) === -1) {
+                                $http.get('/searchTag', {params: {tag: term}}).success(function (response) {
+                                    console.log(response);
+                                    for (var i = 0; i < response.length; i++) {
+                                        mentions.push(response[i].tag);
+                                    }
+                                });
+                            }
+                        }
+                        callback($.map(mentions, function (mention) {
+                            return mention.toLowerCase().indexOf(term.toLowerCase()) === 0 ? mention : null;
+                        }));
+                    },
+                    index: 2,
+                    replace: function (mention) {
+                        return '$1#' + mention + ' ';
+                    }
+                }
+            ]);
+
+            $(textcomplete).on({
+                'textComplete:select': function (e, value) {
+                    scope.$apply(function () {
+                        scope.message = value
+                    })
+                },
+                'textComplete:show': function (e) {
+                    $(this).data('autocompleting', true);
+                },
+                'textComplete:hide': function (e) {
+                    $(this).data('autocompleting', false);
+                }
+            });
+        }
+    }
 }]);

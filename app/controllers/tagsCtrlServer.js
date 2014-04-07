@@ -52,3 +52,12 @@ exports.findTagInterest = function (interest, callback) {
         }
     });
 };
+
+exports.searchTag = function (req, res) {
+    console.log(req.query.tag);
+    Tags.find({tag: { $regex: req.query.tag}}, {_id: 0, tag : 1}).exec(function (err, tags) {
+        if (tags) {
+            res.jsonp(tags);
+        }
+    })
+};

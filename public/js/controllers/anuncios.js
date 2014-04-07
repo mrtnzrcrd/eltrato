@@ -226,13 +226,12 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
 
         // Create new trato
         $scope.create = function () {
-
             var locs = [];
             locs.push($scope.lng);
             locs.push($scope.lat);
 
             var anuncio = new Anuncios({
-                descripcion: this.descripcion,
+                descripcion: this.message,
                 precio: this.precio,
                 images: images,
                 locs: locs,
@@ -252,11 +251,11 @@ angular.module('elTrato.anuncios').controller('AnunciosController', ['$scope', '
                     ];
                     $scope.model = {precio: response.anuncio.precio};
                     //$scope.model = {descripcion: response.anuncio.descripcion};
-                    $scope.descripcion = response.anuncio.descripcion;
+                    $scope.message = response.anuncio.message;
                 }
             });
 
-            this.descripcion = '';
+            this.message = '';
             this.tags = '';
         };
         // end new trato
