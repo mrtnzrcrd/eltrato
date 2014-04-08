@@ -106,6 +106,8 @@ exports.create = function (req, res) {
 
     anuncio.tagsLower = tempArrayLower;
 
+    tags.saveTags(tempArrayLower);
+
     if (anuncio.descripcion === '' && anuncio.precio === 0 && anuncio.images.length === 0) {
         return res.jsonp({title: 'Se han producido los siguientes errores al insertar tu anuncio',
             errorTag: 'Tienes que rellenar los campos descripción, precio y añadir como minimo una imagen para poder ' +
